@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/our_menu">
+
+        <menu>
+            <group android:checkableBehavior="single">
+            <item
+                android:icon="@mipmap/ic_free_breakfast_white_24dp"
+                android:title="@string/breakfast"
+                android:id="@+id/breakfast" />
+            <item
+                android:icon="@mipmap/ic_local_pizza_white_24dp"
+                android:title="@string/sandwich" />
+            <item
+                android:icon="@mipmap/ic_local_pizza_white_24dp"
+                android:title="@string/burgers" />
+            <item
+                android:icon="@mipmap/ic_local_pizza_white_24dp"
+                android:title="@string/pizza" />
+            <item
+                android:icon="@mipmap/ic_local_pizza_white_24dp"
+                android:title="@string/salads" />
+            <item
+                android:icon="@mipmap/ic_local_drink_white_24dp"
+                android:title="@string/drinks" />
+            <item
+                android:icon="@mipmap/ic_local_pizza_white_24dp"
+                android:title="@string/sweets" />
+            </group>
+
+        </menu>
+    </item>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_attachment"
+            android:icon="@mipmap/ic_whatshot_white_24dp"
+            android:title="@string/hot_deals" />
+        <item
+            android:id="@+id/navigation_item_images"
+            android:icon="@mipmap/ic_location_on_white_24dp"
+            android:title="@string/locations" />
+
+    </group>
+
+    <item android:title="@string/my_profile">
+        <menu>
+            <group android:checkableBehavior="single">
+            <item
+                android:icon="@mipmap/ic_shopping_cart_white_24dp"
+                android:title="@string/my_order" />
+            <item
+                android:icon="@mipmap/ic_favorite_white_24dp"
+                android:title="@string/favorites" />
+            </group>
+        </menu>
+    </item>
+
+</menu>
