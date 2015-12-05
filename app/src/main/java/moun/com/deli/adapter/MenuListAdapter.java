@@ -16,15 +16,15 @@ import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/1/2015.
+ * Created by Mounzer on 12/4/2015.
  */
-public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAdapter.ViewHolder> {
-
-    private static final String LOG_TAG = HomeMenuCustomAdapter.class.getSimpleName();
+public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHolder>{
+    private static final String LOG_TAG = MenuListAdapter.class.getSimpleName();
     private LayoutInflater mLayoutInflater;
     private int mResourceId;
     private List<MenuItems> itemList;
     private Context context;
+    private ClickListener clickListener;
 
     /**
      * Create a new instance of {@link HomeMenuCustomAdapter}.
@@ -35,7 +35,7 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
      * @param resourceId The resource ID for the layout to be used. The layout should contain an
      *                   ImageView with ID of "meat_image" and a TextView with ID of "meat_title".
      */
-    public HomeMenuCustomAdapter(Context context, List<MenuItems> itemList, LayoutInflater inflater, int resourceId) {
+    public MenuListAdapter(Context context, List<MenuItems> itemList, LayoutInflater inflater, int resourceId) {
         this.itemList = itemList;
         this.context = context;
         mLayoutInflater = inflater;
@@ -45,7 +45,7 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView title;
-
+        public TextView price;
 
         public ViewHolder(View v) {
             super(v);
@@ -53,7 +53,19 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
             title = (TextView) v.findViewById(R.id.menu_title);
             this.title.setTypeface(AppUtils.getTypeface(v.getContext(), AppUtils.FONT_BOLD));
             image = (ImageView) v.findViewById(R.id.menu_image);
+            price = (TextView) v.findViewById(R.id.menu_price);
+            this.price.setTypeface(AppUtils.getTypeface(v.getContext(), AppUtils.FONT_BOLD));
 
+            v.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    if (clickListener != null) {
+                        clickListener.itemClicked(v, getAdapterPosition(), false);
+                        Log.d(LOG_TAG, "Element " + getAdapterPosition() + " clicked.");
+                    }
+
+                }
+            });
         }
 
 
@@ -70,16 +82,25 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-    //    Log.d(LOG_TAG, "Element " + position + " set.");
+        //    Log.d(LOG_TAG, "Element " + position + " set.");
 
         MenuItems menuItems = itemList.get(position);
         viewHolder.image.setImageResource(menuItems.getItemImage());
         viewHolder.title.setText(menuItems.getItemName());
-
+        viewHolder.price.setText("$" + Double.parseDouble(String.valueOf(menuItems.getItemPrice())));
     }
 
     @Override
     public int getItemCount() {
         return this.itemList.size();
+    }
+
+    public void setClickListener(ClickListener clickListener){
+        this.clickListener = clickListener;
+
+    }
+
+    public interface ClickListener{
+        public void itemClicked(View view, int position, boolean isLongClick);
     }
 }

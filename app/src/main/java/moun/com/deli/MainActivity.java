@@ -101,9 +101,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = null;
         if (mSelectedId == R.id.breakfast) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
-        //    intent = new Intent(this, MainActivity.class);
-        //    startActivity(intent);
-        //    finish();
+            intent = new Intent(this, MenuActivityWithTabs.class);
+            startActivity(intent);
+
 
 
         }
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        menuItem.setChecked(false);
+        menuItem.setChecked(true);
         mSelectedId = menuItem.getItemId();
         hideDrawer();
         navigate(mSelectedId);

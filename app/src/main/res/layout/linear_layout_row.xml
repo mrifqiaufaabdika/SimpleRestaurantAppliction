@@ -5,25 +5,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginRight="4dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginBottom="2dp"
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/meat_image"
+        android:id="@+id/menu_image"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:scaleType="centerCrop"
-        />
+        android:background="@drawable/items1"/>
 
-    <TextView
-        android:id="@+id/meat_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:background="@color/windowBackgroud"
+        android:layout_toRightOf="@+id/menu_image"
+        android:layout_toEndOf="@+id/menu_image">
 
-        android:gravity="center_vertical"
-        android:textSize="24sp"
-        tools:text="Title"
-        android:layout_alignBottom="@+id/meat_image"
-        android:layout_toRightOf="@+id/meat_image"
-        android:layout_toEndOf="@+id/meat_image" />
+        <TextView
+            android:id="@+id/menu_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_gravity="start|center"
+            android:textSize="24sp"
+            tools:text="Title"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorTextPrimaryLight" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_gravity="end|center"
+            android:background="@mipmap/ic_keyboard_arrow_right_white_24dp"/>
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>

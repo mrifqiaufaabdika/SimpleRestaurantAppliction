@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -26,9 +27,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 import moun.com.deli.R;
 import moun.com.deli.adapter.HomeMenuCustomAdapter;
 import moun.com.deli.model.MenuItems;
+import moun.com.deli.util.AppUtils;
 
 /**
  * Created by Mounzer on 12/1/2015.
@@ -39,12 +44,14 @@ public class MainFragment extends Fragment implements BaseSliderView.OnSliderCli
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
-    private static final int SPAN_COUNT = 2;
+    private static final int SPAN_COUNT = 3;
     private HomeMenuCustomAdapter homeMenuCustomAdapter;
     List<MenuItems> rowListItem;
     private boolean mLinearShown;
     LayoutInflater inflater;
     private SliderLayout mImageSlider;
+    private TextView startOrder;
+    private AlphaInAnimationAdapter alphaAdapter;
 
 
 
@@ -97,9 +104,15 @@ public class MainFragment extends Fragment implements BaseSliderView.OnSliderCli
         mImageSlider.setCustomAnimation(new DescriptionAnimation());
         mImageSlider.setDuration(4000);
         mImageSlider.addOnPageChangeListener(this);
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+    //    mRecyclerView.setItemAnimator(new SlideInLeftAnimator());
+        mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
+
+        startOrder = (TextView) rootView.findViewById(R.id.start_order_text);
+        startOrder.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
 
         if (savedInstanceState != null) {
             // Restore saved layout manager type.
@@ -109,7 +122,8 @@ public class MainFragment extends Fragment implements BaseSliderView.OnSliderCli
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
         homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), rowListItem, inflater, R.layout.grid_layout_row);
-        mRecyclerView.setAdapter(homeMenuCustomAdapter);
+        alphaAdapter = new AlphaInAnimationAdapter(homeMenuCustomAdapter);
+        mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -191,12 +205,15 @@ public class MainFragment extends Fragment implements BaseSliderView.OnSliderCli
                 if (mLinearShown) {
                     setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
                     homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), rowListItem, inflater, R.layout.linear_layout_row);
-                    mRecyclerView.setAdapter(homeMenuCustomAdapter);
+                    alphaAdapter = new AlphaInAnimationAdapter(homeMenuCustomAdapter);
+                    mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
                     item.setIcon(R.mipmap.ic_grid_on_white_24dp);
+
                 } else {
                     setRecyclerViewLayoutManager(LayoutManagerType.GRID_LAYOUT_MANAGER);
                     homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), rowListItem, inflater, R.layout.grid_layout_row);
-                    mRecyclerView.setAdapter(homeMenuCustomAdapter);
+                    alphaAdapter = new AlphaInAnimationAdapter(homeMenuCustomAdapter);
+                    mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
                     item.setIcon(R.mipmap.ic_view_list_white_24dp);
 
                 }
@@ -244,14 +261,14 @@ public class MainFragment extends Fragment implements BaseSliderView.OnSliderCli
     private List<MenuItems> getMenuList(){
 
         List<MenuItems> menuItems = new ArrayList<MenuItems>();
-        menuItems.add(new MenuItems("Taj Mahal", R.drawable.items1));
-        menuItems.add(new MenuItems("Taj Mahal", R.drawable.items2));
-        menuItems.add(new MenuItems("Taj Mahal", R.drawable.items3));
-        menuItems.add(new MenuItems("Taj Mahal", R.drawable.items4));
-        menuItems.add(new MenuItems("Taj Mahal", R.drawable.items5));
-        menuItems.add(new MenuItems("Taj Mahal", R.drawable.items6));
-        menuItems.add(new MenuItems("Taj Mahal", R.drawable.items7));
-        menuItems.add(new MenuItems("Taj Mahal", R.drawable.items8));
+        menuItems.add(new MenuItems(getString(R.string.breakfast), R.drawable.items1));
+        menuItems.add(new MenuItems(getString(R.string.sandwich), R.drawable.items2));
+        menuItems.add(new MenuItems(getString(R.string.burgers), R.drawable.items3));
+        menuItems.add(new MenuItems(getString(R.string.pizza), R.drawable.items4));
+        menuItems.add(new MenuItems(getString(R.string.salads), R.drawable.items5));
+        menuItems.add(new MenuItems(getString(R.string.drinks), R.drawable.items6));
+        menuItems.add(new MenuItems(getString(R.string.sweets), R.drawable.items7));
+        menuItems.add(new MenuItems(getString(R.string.hot_deals), R.drawable.items8));
 
         return menuItems;
     }

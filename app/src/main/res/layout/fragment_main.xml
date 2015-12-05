@@ -1,48 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        custom:pager_animation="Accordion"
         custom:auto_cycle="true"
         custom:indicator_visibility="visible"
+        custom:pager_animation="Accordion"
         custom:pager_animation_span="1100" />
 
     <com.daimajia.slider.library.Indicators.PagerIndicator
         android:id="@+id/custom_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         custom:selected_color="@color/colorAccent"
-        custom:unselected_color="#55333333"
-
-        custom:shape="oval"
+        custom:selected_drawable="@drawable/deli_logo"
+        custom:selected_height="6dp"
         custom:selected_padding_left="5dp"
         custom:selected_padding_right="5dp"
+        custom:selected_width="6dp"
+        custom:shape="oval"
+        custom:unselected_color="#55333333"
+        custom:unselected_height="6dp"
         custom:unselected_padding_left="5dp"
         custom:unselected_padding_right="5dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        custom:selected_width="6dp"
-        custom:selected_height="6dp"
-        custom:unselected_width="6dp"
-        custom:unselected_height="6dp"
-        android:layout_marginBottom="20dp"
-        />
+        custom:unselected_width="6dp" />
+
+    <TextView
+        android:id="@+id/start_order_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:text="START YOUR ORDER"
+        android:textColor="@color/colorTextPrimaryLight"
+        android:textSize="24sp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fastScrollEnabled="true"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:fastScrollEnabled="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -50,6 +59,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@android:drawable/sym_contact_card" />
+
+
 
 </LinearLayout>
