@@ -22,7 +22,7 @@ import moun.com.deli.model.MenuItems;
 /**
  * Created by Mounzer on 12/3/2015.
  */
-public class MenuDrinksFragment extends Fragment {
+public class MenuDrinksFragment extends Fragment implements MenuListAdapter.ClickListener{
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -34,7 +34,7 @@ public class MenuDrinksFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        rowListItem = getMenuList();
+        rowListItem = getDrinkMenuList();
     }
 
     @Override
@@ -48,20 +48,40 @@ public class MenuDrinksFragment extends Fragment {
         menuListAdapter = new MenuListAdapter(getActivity(), rowListItem, inflater, R.layout.menu_list_single_row);
         alphaAdapter = new AlphaInAnimationAdapter(menuListAdapter);
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
+        menuListAdapter.setClickListener(this);
 
         return rootView;
     }
 
-    private List<MenuItems> getMenuList(){
+    @Override
+    public void itemClicked(View view, int position, boolean isLongClick) {
+        if (isLongClick) {
+
+        } else {
+            MenuItems menuItems = getDrinkMenuList().get(position);
+            if (menuItems != null) {
+                Bundle arguments = new Bundle();
+                arguments.putParcelable("selectedItem", menuItems);
+                CustomDialogFragment customDialogFragment = new CustomDialogFragment();
+                customDialogFragment.setArguments(arguments);
+                customDialogFragment.show(getFragmentManager(),
+                        CustomDialogFragment.ARG_ITEM_ID);
+            }
+        }
+
+
+    }
+
+    private List<MenuItems> getDrinkMenuList(){
 
         List<MenuItems> menuItems = new ArrayList<MenuItems>();
-        menuItems.add(new MenuItems(getString(R.string.orange), R.drawable.items1, 8.25, getString(R.string.grilled_chicken)));
-        menuItems.add(new MenuItems(getString(R.string.earl), R.drawable.items2, 8.25, getString(R.string.grilled_chicken)));
-        menuItems.add(new MenuItems(getString(R.string.iced_tead), R.drawable.items3, 8.25, getString(R.string.grilled_chicken)));
-        menuItems.add(new MenuItems(getString(R.string.coffee), R.drawable.items4, 8.25, getString(R.string.grilled_chicken)));
-        menuItems.add(new MenuItems(getString(R.string.hot_tea), R.drawable.items5, 8.25, getString(R.string.grilled_chicken)));
-        menuItems.add(new MenuItems(getString(R.string.bottle), R.drawable.items6, 8.25, getString(R.string.grilled_chicken)));
-        menuItems.add(new MenuItems(getString(R.string.water), R.drawable.items7, 8.25, getString(R.string.grilled_chicken)));
+        menuItems.add(new MenuItems(getString(R.string.orange), R.drawable.items1, 2.25, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.earl), R.drawable.items2, 1.50, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.iced_tead), R.drawable.items3, 3.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.coffee), R.drawable.items4, 3.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.hot_tea), R.drawable.items5, 2.25, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.bottle), R.drawable.items6, 2.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.water), R.drawable.items7, 1.00, getString(R.string.short_lorem)));
 
 
         return menuItems;

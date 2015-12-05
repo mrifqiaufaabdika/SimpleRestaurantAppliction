@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import moun.com.deli.R;
+import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
@@ -25,6 +26,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
     private List<MenuItems> itemList;
     private Context context;
     private ClickListener clickListener;
+    private ItemsDAO itemsDAO;
 
     /**
      * Create a new instance of {@link HomeMenuCustomAdapter}.
@@ -46,6 +48,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
         public ImageView image;
         public TextView title;
         public TextView price;
+        private ImageView heart;
 
         public ViewHolder(View v) {
             super(v);
@@ -55,6 +58,9 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
             image = (ImageView) v.findViewById(R.id.menu_image);
             price = (TextView) v.findViewById(R.id.menu_price);
             this.price.setTypeface(AppUtils.getTypeface(v.getContext(), AppUtils.FONT_BOLD));
+            heart = (ImageView) v.findViewById(R.id.heart);
+            itemsDAO = new ItemsDAO(v.getContext());
+
 
             v.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -64,6 +70,18 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
                         Log.d(LOG_TAG, "Element " + getAdapterPosition() + " clicked.");
                     }
 
+                }
+            });
+
+            v.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View v) {
+                    if (clickListener != null) {
+                        clickListener.itemClicked(v, getAdapterPosition(), true);
+                        heart.setImageResource(R.mipmap.ic_grid_on_white_24dp);
+                    }
+
+                    return true;
                 }
             });
         }
@@ -88,6 +106,12 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
         viewHolder.image.setImageResource(menuItems.getItemImage());
         viewHolder.title.setText(menuItems.getItemName());
         viewHolder.price.setText("$" + Double.parseDouble(String.valueOf(menuItems.getItemPrice())));
+
+        if(itemsDAO.getItemFavorite(menuItems.getItemName()) == null){
+            viewHolder.heart.setImageResource(R.mipmap.ic_favorite_white_24dp);
+        } else {
+            viewHolder.heart.setImageResource(R.mipmap.ic_grid_on_white_24dp);
+        }
     }
 
     @Override

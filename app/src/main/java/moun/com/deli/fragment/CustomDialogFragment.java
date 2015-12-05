@@ -1,9 +1,11 @@
 package moun.com.deli.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -15,8 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.lang.ref.WeakReference;
 
 import moun.com.deli.R;
+import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
@@ -30,7 +36,17 @@ public class CustomDialogFragment extends DialogFragment {
     private TextView itemDescription;
     private TextView totalPrice;
     private MenuItems menuItems;
+    private MenuItems menuItemsCart = null;
     private Spinner qtySpinner;
+    private ItemsDAO itemDAO;
+    private AddItemTask task;
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        itemDAO = new ItemsDAO(getActivity());
+    }
 
 
     @Override
@@ -57,7 +73,7 @@ public class CustomDialogFragment extends DialogFragment {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 int qty = (int) qtySpinner.getSelectedItem();
-                totalPrice.setText(String.valueOf(qty * menuItems.getItemPrice()));
+                totalPrice.setText(String.valueOf("$" + qty * menuItems.getItemPrice()));
             }
 
             @Override
@@ -71,6 +87,9 @@ public class CustomDialogFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {
+                getItemsData();
+                task = new AddItemTask(getActivity());
+                task.execute((Void) null);
                 dismiss();
             }
 
@@ -99,11 +118,43 @@ public class CustomDialogFragment extends DialogFragment {
             ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(getActivity(),
                     android.R.layout.simple_spinner_item, quantity);
             qtySpinner.setAdapter(adapter);
+        }
+    }
+
+    private void getItemsData(){
+        menuItemsCart = new MenuItems();
+        menuItemsCart.setItemName(menuItems.getItemName());
+        menuItemsCart.setItemDescription(menuItems.getItemDescription());
+        menuItemsCart.setItemImage(menuItems.getItemImage());
+        menuItemsCart.setItemPrice(menuItems.getItemPrice());
+        menuItemsCart.setItemQuantity(Integer.parseInt(qtySpinner.getSelectedItem().toString()));
 
 
+    }
 
+    public class AddItemTask extends AsyncTask<Void, Void, Long> {
+
+        private final WeakReference<Activity> activityWeakRef;
+
+        public AddItemTask(Activity context) {
+            this.activityWeakRef = new WeakReference<Activity>(context);
         }
 
+        @Override
+        protected Long doInBackground(Void... arg0) {
+            long result = itemDAO.saveToCartTable(menuItemsCart);
+            return result;
+        }
 
+        @Override
+        protected void onPostExecute(Long result) {
+            if (activityWeakRef.get() != null
+                    && !activityWeakRef.get().isFinishing()) {
+                if (result != -1)
+                    Toast.makeText(activityWeakRef.get(), "Added to cart",
+                            Toast.LENGTH_LONG).show();
+                Log.d("READ ITEM DATA FROM DB: ", menuItemsCart.toString());
+            }
+        }
     }
 }

@@ -13,10 +13,12 @@ import moun.com.deli.R;
  */
 public class MenuItems implements Parcelable {
 
+    private int id;
     private int itemImage;
     private String itemName;
     private double itemPrice;
     private String itemDescription;
+    private int itemQuantity;
 
     public MenuItems(){
         super();
@@ -37,17 +39,27 @@ public class MenuItems implements Parcelable {
 
     public MenuItems(Parcel parcel){
         super();
+        this.id = parcel.readInt();
         this.itemName = parcel.readString();
         this.itemImage = parcel.readInt();
         this.itemPrice = parcel.readDouble();
         this.itemDescription = parcel.readString();
+        this.itemQuantity = parcel.readInt();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getItemImage() {
         return itemImage;
     }
 
-    public void setImageImage(int itemImage) {
+    public void setItemImage(int itemImage) {
         this.itemImage = itemImage;
     }
 
@@ -75,6 +87,14 @@ public class MenuItems implements Parcelable {
         this.itemDescription = itemDescription;
     }
 
+    public int getItemQuantity() {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity(int itemQuantity) {
+        this.itemQuantity = itemQuantity;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -82,10 +102,24 @@ public class MenuItems implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(getId());
         parcel.writeString(getItemName());
         parcel.writeInt(getItemImage());
         parcel.writeDouble(getItemPrice());
         parcel.writeString(getItemDescription());
+        parcel.writeInt(getItemQuantity());
+    }
+
+    @Override
+    public String toString() {
+        return "MenuItems{" +
+                "id=" + id +
+                ", itemImage=" + itemImage +
+                ", itemName='" + itemName + '\'' +
+                ", itemPrice=" + itemPrice +
+                ", itemDescription='" + itemDescription + '\'' +
+                ", itemQuantity=" + itemQuantity +
+                '}';
     }
 
     public static final Creator<MenuItems> CREATOR = new Creator<MenuItems>() {
