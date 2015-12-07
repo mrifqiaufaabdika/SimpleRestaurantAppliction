@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import moun.com.deli.fragment.EditCartCustomDialogFragment;
 import moun.com.deli.fragment.MainFragment;
 import moun.com.deli.fragment.MyCartCheckoutFragment;
 import moun.com.deli.fragment.MyCartFragment;
@@ -14,7 +15,7 @@ import moun.com.deli.fragment.MyCartFragment;
 /**
  * Created by Mounzer on 12/6/2015.
  */
-public class MyCartActivity extends AppCompatActivity {
+public class MyCartActivity extends AppCompatActivity implements EditCartCustomDialogFragment.EditCartDialogFragmentListener{
 
     private Toolbar mToolbar;
     private Fragment contentFragment;
@@ -84,5 +85,18 @@ public class MyCartActivity extends AppCompatActivity {
             transaction.commit();
             contentFragment = fragment;
         }
+    }
+
+
+    /*
+     * Callback used to communicate with MyCartFragment to notify the list adapter.
+     * Communication between fragments goes via their Activity class.
+     */
+    @Override
+    public void onFinishDialog() {
+        if (myCartFragment != null) {
+            myCartFragment.updateView();
+        }
+
     }
 }

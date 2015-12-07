@@ -71,6 +71,16 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
 
     @Override
     public void editClicked(View view, int position) {
+        MenuItems menuItems = (MenuItems) itemsCartList.get(position);
+
+        if (menuItems != null) {
+            Bundle arguments = new Bundle();
+            arguments.putParcelable("selectedItem", menuItems);
+            EditCartCustomDialogFragment editCartCustomDialogFragment = new EditCartCustomDialogFragment();
+            editCartCustomDialogFragment.setArguments(arguments);
+            editCartCustomDialogFragment.show(getFragmentManager(),
+                    editCartCustomDialogFragment.ARG_ITEM_ID);
+        }
 
     }
 
@@ -107,5 +117,15 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
 
             }
         }
+    }
+
+    /*
+ * This method is invoked from MyCartActitvity onFinishDialog() method. It is
+ * called from EditCartCustomDialogFragment when an item record is updated.
+ * This is used for communicating between fragments.
+ */
+    public void updateView() {
+        task = new GetItemsCartTask(getActivity());
+        task.execute((Void) null);
     }
 }

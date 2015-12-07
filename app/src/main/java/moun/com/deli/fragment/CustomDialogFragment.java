@@ -82,7 +82,7 @@ public class CustomDialogFragment extends DialogFragment {
             }
         });
 
-        // OK
+        // Add to cart
         dialog.findViewById(R.id.order_button).setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -94,6 +94,9 @@ public class CustomDialogFragment extends DialogFragment {
             }
 
         });
+
+        // Update
+        dialog.findViewById(R.id.update_button).setVisibility(View.GONE);
 
         // Close
         dialog.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
@@ -152,7 +155,7 @@ public class CustomDialogFragment extends DialogFragment {
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1)
                     AppUtils.CustomToast(activityWeakRef.get(), "Added to cart");
-                Log.d("READ ITEM DATA FROM DB: ", menuItemsCart.toString());
+                Log.d("ITEM: ", menuItemsCart.toString());
             }
         }
     }
