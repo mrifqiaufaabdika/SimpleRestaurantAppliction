@@ -82,6 +82,10 @@
     <string name="water">Water</string>
     <string name="quantity">Quantity</string>
     <string name="total">Total</string>
+    <string name="added_to_favorites">Added to Favorites</string>
+    <string name="already_added_to_favorites">Already Added to Favorites</string>
+    <string name="empty_cart">your cart is empty, start your order!</string>
+    <string name="cart">Cart</string>
 
 
 </resources>

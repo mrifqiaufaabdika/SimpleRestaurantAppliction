@@ -49,7 +49,8 @@
             <group android:checkableBehavior="single">
             <item
                 android:icon="@mipmap/ic_shopping_cart_white_24dp"
-                android:title="@string/my_order" />
+                android:title="@string/my_order"
+                android:id="@+id/cart"/>
             <item
                 android:icon="@mipmap/ic_favorite_white_24dp"
                 android:title="@string/favorites" />

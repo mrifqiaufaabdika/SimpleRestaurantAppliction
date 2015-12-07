@@ -61,7 +61,7 @@ public class CustomDialogFragment extends DialogFragment {
         dialog.setContentView(R.layout.custom_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
 
         itemTitle = (TextView) dialog.findViewById(R.id.item_title);
         itemDescription = (TextView) dialog.findViewById(R.id.item_description);
@@ -151,8 +151,7 @@ public class CustomDialogFragment extends DialogFragment {
             if (activityWeakRef.get() != null
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1)
-                    Toast.makeText(activityWeakRef.get(), "Added to cart",
-                            Toast.LENGTH_LONG).show();
+                    AppUtils.CustomToast(activityWeakRef.get(), "Added to cart");
                 Log.d("READ ITEM DATA FROM DB: ", menuItemsCart.toString());
             }
         }

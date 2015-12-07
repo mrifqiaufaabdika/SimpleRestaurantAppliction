@@ -1,14 +1,19 @@
 package moun.com.deli.fragment;
 
 
+import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +22,9 @@ import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 import moun.com.deli.R;
 import moun.com.deli.adapter.HomeMenuCustomAdapter;
 import moun.com.deli.adapter.MenuListAdapter;
+import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
+import moun.com.deli.util.AppUtils;
 
 /**
  * Created by Mounzer on 12/3/2015.
@@ -29,12 +36,16 @@ public class MenuBurgersFragment extends Fragment implements MenuListAdapter.Cli
     private MenuListAdapter menuListAdapter;
     List<MenuItems> rowListItem;
     private AlphaInAnimationAdapter alphaAdapter;
+    private ItemsDAO itemDAO;
+    private AddItemTask task;
+    private MenuItems menuItemsFavorite = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         rowListItem = getBurgerMenuList();
+        itemDAO = new ItemsDAO(getActivity());
     }
 
     @Override
@@ -55,10 +66,24 @@ public class MenuBurgersFragment extends Fragment implements MenuListAdapter.Cli
 
     @Override
     public void itemClicked(View view, int position, boolean isLongClick) {
+        MenuItems menuItems = getBurgerMenuList().get(position);
         if (isLongClick) {
+            if(itemDAO.getItemFavorite(menuItems.getItemName()) == null) {
+                menuItemsFavorite = new MenuItems();
+                menuItemsFavorite.setItemName(menuItems.getItemName());
+                menuItemsFavorite.setItemDescription(menuItems.getItemDescription());
+                menuItemsFavorite.setItemImage(menuItems.getItemImage());
+                menuItemsFavorite.setItemPrice(menuItems.getItemPrice());
+                task = new AddItemTask(getActivity());
+                task.execute((Void) null);
+                ImageView heart = (ImageView) view.findViewById(R.id.heart);
+                heart.setImageResource(R.mipmap.ic_favorite_red_24dp);
+            } else {
+                AppUtils.CustomToast(getActivity(), getString(R.string.already_added_to_favorites));
+            }
 
         } else {
-            MenuItems menuItems = getBurgerMenuList().get(position);
+
             if (menuItems != null) {
                 Bundle arguments = new Bundle();
                 arguments.putParcelable("selectedItem", menuItems);
@@ -69,6 +94,31 @@ public class MenuBurgersFragment extends Fragment implements MenuListAdapter.Cli
             }
         }
 
+    }
+
+    public class AddItemTask extends AsyncTask<Void, Void, Long> {
+
+        private final WeakReference<Activity> activityWeakRef;
+
+        public AddItemTask(Activity context) {
+            this.activityWeakRef = new WeakReference<Activity>(context);
+        }
+
+        @Override
+        protected Long doInBackground(Void... arg0) {
+            long result = itemDAO.saveToFavoriteTable(menuItemsFavorite);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Long result) {
+            if (activityWeakRef.get() != null
+                    && !activityWeakRef.get().isFinishing()) {
+                if (result != -1)
+                    AppUtils.CustomToast(getActivity(), getString(R.string.added_to_favorites));
+                Log.d("READ ITEM DATA FROM DB: ", menuItemsFavorite.toString());
+            }
+        }
     }
 
     private List<MenuItems> getBurgerMenuList(){

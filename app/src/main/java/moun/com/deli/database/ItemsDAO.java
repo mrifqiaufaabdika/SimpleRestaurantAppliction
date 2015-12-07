@@ -74,7 +74,14 @@ public class ItemsDAO extends ItemsDBDAO {
 
     }
 
-    public int delete(MenuItems menuItems) {
+    public int deleteFromCart(MenuItems menuItems) {
+        return database.delete(DataBaseHelper.CART_TABLE, WHERE_ID_EQUALS,
+                new String[] { menuItems.getId() + "" });
+    }
+
+
+
+    public int deleteFromFavorites(MenuItems menuItems) {
         return database.delete(DataBaseHelper.FAVORITE_TABLE, WHERE_ID_EQUALS,
                 new String[] { menuItems.getId() + "" });
     }
@@ -152,12 +159,12 @@ public class ItemsDAO extends ItemsDBDAO {
         return menuItems;
     }
 
-    //Retrieves a single cart item record with the given id
+    //Retrieves a single favorite item record with the given id
     public MenuItems getItemFavorite(String title) {
         MenuItems menuItems = null;
 
         String sql = "SELECT * FROM " + DataBaseHelper.FAVORITE_TABLE
-                + " WHERE " + DataBaseHelper.ID_COLUMN + " = ?";
+                + " WHERE " + DataBaseHelper.NAME_COLUMN + " = ?";
 
         Cursor cursor = database.rawQuery(sql, new String[] { title + "" });
 

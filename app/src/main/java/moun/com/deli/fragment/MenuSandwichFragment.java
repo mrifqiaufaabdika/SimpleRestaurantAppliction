@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -24,6 +26,7 @@ import moun.com.deli.adapter.HomeMenuCustomAdapter;
 import moun.com.deli.adapter.MenuListAdapter;
 import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
+import moun.com.deli.util.AppUtils;
 
 /**
  * Created by Mounzer on 12/3/2015.
@@ -39,12 +42,14 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
     private AddItemTask task;
     private MenuItems menuItemsFavorite = null;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         rowListItem = getSandwichMenuList();
         itemDAO = new ItemsDAO(getActivity());
+
     }
 
     @Override
@@ -60,6 +65,7 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
         menuListAdapter.setClickListener(this);
 
+
         return rootView;
     }
 
@@ -67,13 +73,19 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
     public void itemClicked(View view, int position, boolean isLongClick) {
         MenuItems menuItems = getSandwichMenuList().get(position);
         if (isLongClick) {
-            menuItemsFavorite = new MenuItems();
-            menuItemsFavorite.setItemName(menuItems.getItemName());
-            menuItemsFavorite.setItemDescription(menuItems.getItemDescription());
-            menuItemsFavorite.setItemImage(menuItems.getItemImage());
-            menuItemsFavorite.setItemPrice(menuItems.getItemPrice());
-            task = new AddItemTask(getActivity());
-            task.execute((Void) null);
+            if(itemDAO.getItemFavorite(menuItems.getItemName()) == null) {
+                menuItemsFavorite = new MenuItems();
+                menuItemsFavorite.setItemName(menuItems.getItemName());
+                menuItemsFavorite.setItemDescription(menuItems.getItemDescription());
+                menuItemsFavorite.setItemImage(menuItems.getItemImage());
+                menuItemsFavorite.setItemPrice(menuItems.getItemPrice());
+                task = new AddItemTask(getActivity());
+                task.execute((Void) null);
+                ImageView heart = (ImageView) view.findViewById(R.id.heart);
+                heart.setImageResource(R.mipmap.ic_favorite_red_24dp);
+            } else {
+                AppUtils.CustomToast(getActivity(), getString(R.string.already_added_to_favorites));
+            }
 
         } else {
             if (menuItems != null) {
@@ -110,8 +122,7 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
             if (activityWeakRef.get() != null
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1)
-                    Toast.makeText(activityWeakRef.get(), "Added to cart",
-                            Toast.LENGTH_LONG).show();
+                    AppUtils.CustomToast(getActivity(), getString(R.string.added_to_favorites));
                 Log.d("READ ITEM DATA FROM DB: ", menuItemsFavorite.toString());
             }
         }
@@ -121,7 +132,7 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
 
         List<MenuItems> menuItems = new ArrayList<MenuItems>();
         menuItems.add(new MenuItems(getString(R.string.grilled_chicken), R.drawable.items1, 8.25, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.krispy_haddock), R.drawable.items2, 9.80, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.krispy_haddock), R.drawable.items2, 7.00, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.aussie_appetite), R.drawable.items3, 10.00, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.great_barrier), R.drawable.items4, 9.25, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.whitefish), R.drawable.items5, 8.50, getString(R.string.short_lorem)));

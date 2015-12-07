@@ -78,7 +78,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
                 public boolean onLongClick(View v) {
                     if (clickListener != null) {
                         clickListener.itemClicked(v, getAdapterPosition(), true);
-                        heart.setImageResource(R.mipmap.ic_grid_on_white_24dp);
                     }
 
                     return true;
@@ -107,10 +106,11 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
         viewHolder.title.setText(menuItems.getItemName());
         viewHolder.price.setText("$" + Double.parseDouble(String.valueOf(menuItems.getItemPrice())));
 
+        // If a item exists in favorite table then set heart_red drawable
         if(itemsDAO.getItemFavorite(menuItems.getItemName()) == null){
             viewHolder.heart.setImageResource(R.mipmap.ic_favorite_white_24dp);
         } else {
-            viewHolder.heart.setImageResource(R.mipmap.ic_grid_on_white_24dp);
+            viewHolder.heart.setImageResource(R.mipmap.ic_favorite_red_24dp);
         }
     }
 

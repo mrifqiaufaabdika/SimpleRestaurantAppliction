@@ -6,5 +6,10 @@
     <color name="colorAccent">#F60A20</color>
     <color name="colorTextPrimaryLight">#F2F2F2</color>
     <color name="colorTextSecondaryLight">#F2F2F2</color>
+    <color name="colorTextPrimary">#323232</color>
+    <color name="colorTextSecondary">#727272</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="active_icons">#757575</color>
+    <color name="colorShadow">#E0E0E0</color>
 
 </resources>
