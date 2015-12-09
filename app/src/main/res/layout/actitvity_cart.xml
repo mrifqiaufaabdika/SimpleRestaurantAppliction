@@ -12,11 +12,17 @@
         <include layout="@layout/tool_bar"
             android:id="@+id/toolbar"/>
 
+        <include layout="@layout/item_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/app_bar"
+            android:id="@+id/header_card_view" />
+
 
 
         <FrameLayout
             android:id="@+id/content_fragment_cart"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/header_card_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

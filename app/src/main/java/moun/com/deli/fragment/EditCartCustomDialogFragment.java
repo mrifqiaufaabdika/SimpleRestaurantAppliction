@@ -2,7 +2,6 @@ package moun.com.deli.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -14,32 +13,43 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+import moun.com.deli.MyCartActivity;
 import moun.com.deli.R;
 import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/4/2015.
+ * Created by Mounzer on 12/7/2015.
  */
-public class CustomDialogFragment extends DialogFragment {
+public class EditCartCustomDialogFragment extends DialogFragment {
 
     public static final String ARG_ITEM_ID = "custom_dialog_fragment";
     private TextView itemTitle;
     private TextView itemDescription;
     private TextView totalPrice;
     private MenuItems menuItems;
-    private MenuItems menuItemsCart = null;
     private Spinner qtySpinner;
     private ItemsDAO itemDAO;
-    private AddItemTask task;
+    private UpdateItemTask task;
+
+
+    /*
+	 * Callback used to communicate with MyCartFragment to notify the list adapter.
+	 * MyCartActivity implements this interface and communicates with MyCartFragment.
+	 */
+    public interface EditCartDialogFragmentListener {
+        void onFinishDialog();
+    }
+
+    public EditCartCustomDialogFragment() {
+
+    }
 
 
     @Override
@@ -47,7 +57,6 @@ public class CustomDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         itemDAO = new ItemsDAO(getActivity());
     }
-
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -59,10 +68,9 @@ public class CustomDialogFragment extends DialogFragment {
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         dialog.setContentView(R.layout.custom_dialog);
-        dialog.setCancelable(true);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
+        dialog.setCancelable(true);
 
         itemTitle = (TextView) dialog.findViewById(R.id.item_title);
         itemDescription = (TextView) dialog.findViewById(R.id.item_description);
@@ -79,25 +87,27 @@ public class CustomDialogFragment extends DialogFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                qtySpinner.setSelection(0);
+
             }
         });
 
         // Add to cart
-        dialog.findViewById(R.id.order_button).setOnClickListener(new View.OnClickListener() {
+        dialog.findViewById(R.id.order_button).setVisibility(View.GONE);
+
+        // Update
+        dialog.findViewById(R.id.update_button).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 getItemsData();
-                task = new AddItemTask(getActivity());
+                task = new UpdateItemTask(getActivity());
                 task.execute((Void) null);
+                MyCartActivity myCartActivity = (MyCartActivity) getActivity();
+                myCartActivity.onFinishDialog();
                 dismiss();
             }
 
         });
-
-        // Update
-        dialog.findViewById(R.id.update_button).setVisibility(View.GONE);
 
         // Close
         dialog.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
@@ -113,40 +123,41 @@ public class CustomDialogFragment extends DialogFragment {
     }
 
     private void setItemsData(){
+        Integer[] quantity = new Integer[] { 1, 2, 3, 4, 5, 6 };
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(getActivity(),
+                android.R.layout.simple_spinner_item, quantity);
+        qtySpinner.setAdapter(adapter);
+        int position = adapter.getPosition(menuItems.getItemQuantity());
         if(menuItems != null){
             itemTitle.setText(menuItems.getItemName());
             itemTitle.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
             itemDescription.setText(menuItems.getItemDescription());
             itemDescription.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOOK));
-            Integer[] quantity = new Integer[] { 1, 2, 3, 4, 5, 6 };
-            ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(getActivity(),
-                    android.R.layout.simple_spinner_item, quantity);
-            qtySpinner.setAdapter(adapter);
+            qtySpinner.setSelection(position);
         }
     }
 
     private void getItemsData(){
-        menuItemsCart = new MenuItems();
-        menuItemsCart.setItemName(menuItems.getItemName());
-        menuItemsCart.setItemDescription(menuItems.getItemDescription());
-        menuItemsCart.setItemImage(menuItems.getItemImage());
-        menuItemsCart.setItemPrice(menuItems.getItemPrice());
-        menuItemsCart.setItemQuantity(Integer.parseInt(qtySpinner.getSelectedItem().toString()));
+        menuItems.setItemName(menuItems.getItemName());
+        menuItems.setItemDescription(menuItems.getItemDescription());
+        menuItems.setItemImage(menuItems.getItemImage());
+        menuItems.setItemPrice(menuItems.getItemPrice());
+        menuItems.setItemQuantity(Integer.parseInt(qtySpinner.getSelectedItem().toString()));
 
 
     }
 
-    public class AddItemTask extends AsyncTask<Void, Void, Long> {
+    public class UpdateItemTask extends AsyncTask<Void, Void, Long> {
 
         private final WeakReference<Activity> activityWeakRef;
 
-        public AddItemTask(Activity context) {
+        public UpdateItemTask(Activity context) {
             this.activityWeakRef = new WeakReference<Activity>(context);
         }
 
         @Override
         protected Long doInBackground(Void... arg0) {
-            long result = itemDAO.saveToCartTable(menuItemsCart);
+            long result = itemDAO.updateCartTable(menuItems);
             return result;
         }
 
@@ -154,9 +165,10 @@ public class CustomDialogFragment extends DialogFragment {
         protected void onPostExecute(Long result) {
             if (activityWeakRef.get() != null
                     && !activityWeakRef.get().isFinishing()) {
-                if (result != -1)
-                    AppUtils.CustomToast(activityWeakRef.get(), "Added to cart");
-                Log.d("ITEM: ", menuItemsCart.toString());
+                if (result != -1) {
+                    AppUtils.CustomToast(activityWeakRef.get(), "Item Updated");
+                    Log.d("ITEM: ", menuItems.toString());
+                }
             }
         }
     }

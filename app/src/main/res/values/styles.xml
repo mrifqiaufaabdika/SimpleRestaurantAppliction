@@ -53,6 +53,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+    <style name="textContentStyle">
+        <item name="android:textSize">@dimen/textContentStyle</item>
+        <item name="android:textAppearance">@style/textAppearanceContentNormal</item>
+    </style>
+    <style name="textAppearanceContentNormal">
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
 
     <!-- Card styles -->
     <style name="BaseFlatCardView">
@@ -63,7 +70,10 @@
     <style name="FlatCardView" parent="BaseFlatCardView">
         <item name="android:background">@drawable/card</item>
     </style>
-
+    <style name="FlatCardView.Header">
+        <item name="android:background">@drawable/header_card</item>
+        <item name="android:foreground">@drawable/abc_item_background_holo_light</item>
+    </style>
 
 
 

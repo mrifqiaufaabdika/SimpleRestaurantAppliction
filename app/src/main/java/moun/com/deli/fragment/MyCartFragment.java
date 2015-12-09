@@ -11,20 +11,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import moun.com.deli.MyCartActivity;
 import moun.com.deli.R;
 import moun.com.deli.adapter.MyCartListAdapter;
 import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
+import moun.com.deli.util.AppUtils;
 
 /**
  * Created by Mounzer on 12/6/2015.
  */
-public class MyCartFragment extends Fragment implements MyCartListAdapter.ButtonClickListener{
+public class MyCartFragment extends Fragment implements MyCartListAdapter.ButtonClickListener, View.OnClickListener {
 
     private static final String LOG_TAG = MyCartFragment.class.getSimpleName();
     public static final String ARG_ITEM_ID = "cart_list";
@@ -34,6 +38,31 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
     private ArrayList<MenuItems> itemsCartList;
     private ItemsDAO itemsDAO;
     private GetItemsCartTask task;
+    NumberOfItemChangedListener numberOfItemChangedListener;
+    private TextView totalPrice;
+    private Button checkoutBtn;
+    private TextView emtyCart;
+    MyCartCheckoutFragment myCartCheckoutFragment;
+
+
+
+
+    public interface NumberOfItemChangedListener{
+        void onNumberChanged();
+
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+
+            numberOfItemChangedListener = (NumberOfItemChangedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement Listeners!!");
+        }
+    }
 
 
     @Override
@@ -53,6 +82,12 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
         cartRecyclerView.setLayoutManager(mLayoutManager);
         myCartListAdapter = new MyCartListAdapter(getActivity());
         myCartListAdapter.setClickListener(this);
+        emtyCart = (TextView) rootView.findViewById(R.id.empty);
+        emtyCart.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
+        totalPrice = (TextView) rootView.findViewById(R.id.total_price);
+        totalPrice.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
+        checkoutBtn = (Button) rootView.findViewById(R.id.checkout_button);
+        checkoutBtn.setOnClickListener(this);
 
         task = new GetItemsCartTask(getActivity());
         task.execute((Void) null);
@@ -66,6 +101,13 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
         MenuItems menuItems = (MenuItems) itemsCartList.get(position);
         itemsDAO.deleteFromCart(menuItems);
         myCartListAdapter.removeAt(position);
+        numberOfItemChangedListener.onNumberChanged();
+        MyCartActivity myCartActivity = (MyCartActivity) getActivity();
+        myCartActivity.addItemsNumber();
+        if(itemsCartList.size() == 0){
+            emtyCart.setVisibility(View.VISIBLE);
+            totalPrice.setText("TOTAL PRICE: $" + Double.toString(0.0));
+        }
 
     }
 
@@ -81,6 +123,14 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
             editCartCustomDialogFragment.show(getFragmentManager(),
                     editCartCustomDialogFragment.ARG_ITEM_ID);
         }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        MyCartActivity myCartActivity = (MyCartActivity) getActivity();
+        myCartCheckoutFragment = new MyCartCheckoutFragment();
+        myCartActivity.switchContent(myCartCheckoutFragment, MyCartCheckoutFragment.ARG_ITEM_ID);
 
     }
 
@@ -106,11 +156,13 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
                 itemsCartList = cartList;
                 if (cartList != null) {
                     if (cartList.size() != 0) {
-
+                        emtyCart.setVisibility(View.GONE);
                         myCartListAdapter.setItemsList(cartList);
                         cartRecyclerView.setAdapter(myCartListAdapter);
+                        getTotalPrice();
 
                     } else {
+                        emtyCart.setVisibility(View.VISIBLE);
 
                     }
                 }
@@ -127,5 +179,17 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
     public void updateView() {
         task = new GetItemsCartTask(getActivity());
         task.execute((Void) null);
+    }
+
+    public void getTotalPrice() {
+        Double sum = 0.0;
+        for (int i = 0; i < itemsCartList.size(); i++) {
+            Double itemPrice = Double.parseDouble(String.valueOf(itemsCartList.get(i).getItemPrice()));
+            sum += itemsCartList.get(i).getItemQuantity() * itemPrice;
+        }
+        if (totalPrice != null) {
+            totalPrice.setText("TOTAL PRICE: $" + Double.toString(sum));
+        }
+
     }
 }

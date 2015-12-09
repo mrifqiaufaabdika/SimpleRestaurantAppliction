@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,6 +29,7 @@ import moun.com.deli.adapter.MenuListAdapter;
 import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
+import moun.com.deli.util.DividerItemDecoration;
 
 /**
  * Created by Mounzer on 12/3/2015.
@@ -63,8 +66,12 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
         menuListAdapter = new MenuListAdapter(getActivity(), rowListItem, inflater, R.layout.menu_list_single_row);
         alphaAdapter = new AlphaInAnimationAdapter(menuListAdapter);
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
+        /**
+        RecyclerView.ItemDecoration itemDecoration =
+                new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL);
+        mRecyclerView.addItemDecoration(itemDecoration);
+         */
         menuListAdapter.setClickListener(this);
-
 
         return rootView;
     }

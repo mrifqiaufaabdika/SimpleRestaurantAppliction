@@ -6,20 +6,32 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.fragment.EditCartCustomDialogFragment;
 import moun.com.deli.fragment.MainFragment;
 import moun.com.deli.fragment.MyCartCheckoutFragment;
 import moun.com.deli.fragment.MyCartFragment;
+import moun.com.deli.model.MenuItems;
+import moun.com.deli.util.AppUtils;
 
 /**
  * Created by Mounzer on 12/6/2015.
  */
-public class MyCartActivity extends AppCompatActivity implements EditCartCustomDialogFragment.EditCartDialogFragmentListener{
+public class MyCartActivity extends AppCompatActivity implements EditCartCustomDialogFragment.EditCartDialogFragmentListener,
+MyCartFragment.NumberOfItemChangedListener{
 
     private Toolbar mToolbar;
     private Fragment contentFragment;
     private MyCartFragment myCartFragment;
+    private View mHeaderCardView;
+    private TextView numberOfItems;
+    private ItemsDAO itemsDAO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +39,9 @@ public class MyCartActivity extends AppCompatActivity implements EditCartCustomD
         setContentView(R.layout.actitvity_cart);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        mHeaderCardView = findViewById(R.id.header_card_view);
+        numberOfItems = (TextView) findViewById(R.id.numb_of_items);
+        addItemsNumber();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
@@ -87,6 +102,15 @@ public class MyCartActivity extends AppCompatActivity implements EditCartCustomD
         }
     }
 
+    public void addItemsNumber(){
+        itemsDAO = new ItemsDAO(this);
+        ArrayList<MenuItems> itemsList = itemsDAO.getCartItems();
+        numberOfItems.setText("YOU HAVE " + itemsList.size() + " ITEMS IN YOUR CART");
+        numberOfItems.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOOK));
+
+
+    }
+
 
     /*
      * Callback used to communicate with MyCartFragment to notify the list adapter.
@@ -98,5 +122,20 @@ public class MyCartActivity extends AppCompatActivity implements EditCartCustomD
             myCartFragment.updateView();
         }
 
+    }
+
+    @Override
+    public void onNumberChanged() {
+        addItemsNumber();
+        if (myCartFragment != null) {
+            myCartFragment.updateView();
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
     }
 }

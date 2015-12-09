@@ -125,14 +125,7 @@ public class MainFragment extends Fragment implements BaseSliderView.OnSliderCli
         alphaAdapter = new AlphaInAnimationAdapter(homeMenuCustomAdapter);
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         return rootView;
 

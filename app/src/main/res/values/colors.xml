@@ -3,6 +3,8 @@
     <color name="colorPrimary">#262425</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="windowBackgroud">#404040</color>
+    <color name="windowBackgroudLight">#F2F2F2</color>
+    <color name="gray">#8C8979</color>
     <color name="colorAccent">#F60A20</color>
     <color name="colorTextPrimaryLight">#F2F2F2</color>
     <color name="colorTextSecondaryLight">#F2F2F2</color>
