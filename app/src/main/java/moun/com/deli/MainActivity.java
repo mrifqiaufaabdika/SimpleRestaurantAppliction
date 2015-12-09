@@ -109,6 +109,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent = new Intent(this, MyCartActivity.class);
             startActivity(intent);
         //  overridePendingTransition(R.anim.right_in, R.anim.left_out);
+        } else if (mSelectedId == R.id.favorites) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            intent = new Intent(this, ProfileActivityWithTabs.class);
+            startActivity(intent);
+            //  overridePendingTransition(R.anim.right_in, R.anim.left_out);
         }
 
 

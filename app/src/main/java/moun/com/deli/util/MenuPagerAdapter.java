@@ -11,10 +11,10 @@ import moun.com.deli.fragment.MenuSaladsFragment;
 import moun.com.deli.fragment.MenuSandwichFragment;
 import moun.com.deli.fragment.MenuSweetsFragment;
 
-public class PagerAdapter extends FragmentStatePagerAdapter {
+public class MenuPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 
-    public PagerAdapter(FragmentManager fm, int NumOfTabs) {
+    public MenuPagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
     }

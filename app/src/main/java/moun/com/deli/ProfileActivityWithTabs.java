@@ -1,44 +1,43 @@
 package moun.com.deli;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
+import moun.com.deli.fragment.FavoritesFragment;
 import moun.com.deli.util.MenuPagerAdapter;
+import moun.com.deli.util.ProfilePagerAdapter;
 
 /**
- * Created by Mounzer on 12/3/2015.
+ * Created by Mounzer on 12/9/2015.
  */
-public class MenuActivityWithTabs extends AppCompatActivity{
+public class ProfileActivityWithTabs extends AppCompatActivity{
 
-    FloatingActionButton fab;
+    private Toolbar mToolbar;
+    private FavoritesFragment favoritesFragment;
+    private Fragment contentFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_favorites);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.sandwich)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.burgers)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.pizza)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.salads)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.sweets)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.drinks)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final MenuPagerAdapter adapter = new MenuPagerAdapter
+        final ProfilePagerAdapter adapter = new ProfilePagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -59,16 +58,6 @@ public class MenuActivityWithTabs extends AppCompatActivity{
             }
         });
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MenuActivityWithTabs.this, MyCartActivity.class);
-                startActivity(intent);
-                finish();
-
-            }
-        });
     }
 
     @Override

@@ -38,6 +38,15 @@
                 android:value="moun.com.deli.MainActivity" />
 
         </activity>
+        <activity
+            android:name=".ProfileActivityWithTabs"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/cart">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="moun.com.deli.MainActivity" />
+
+        </activity>
     </application>
 
 </manifest>

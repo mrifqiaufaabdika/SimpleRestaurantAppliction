@@ -72,7 +72,9 @@
                 android:background="@android:color/transparent"
                 android:padding="@dimen/padding"
                 android:src="@mipmap/ic_delete_black_24dp"
-                android:tint="@color/active_icons" />
+                android:tint="@color/active_icons"
+                android:clickable="true"
+                android:focusable="true" />
 
             <ImageButton
                 android:id="@+id/cart_edit_btn"
@@ -86,7 +88,9 @@
                 android:layout_toRightOf="@+id/cart_delete_btn"
                 android:padding="@dimen/padding"
                 android:src="@mipmap/ic_mode_edit_black_24dp"
-                android:tint="@color/active_icons" />
+                android:tint="@color/active_icons"
+                android:clickable="true"
+                android:focusable="true"/>
 
         </LinearLayout>
 

@@ -20,7 +20,6 @@ import java.util.List;
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 import moun.com.deli.R;
-import moun.com.deli.adapter.HomeMenuCustomAdapter;
 import moun.com.deli.adapter.MenuListAdapter;
 import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
@@ -50,7 +49,7 @@ public class MenuPizzaFragment extends Fragment implements MenuListAdapter.Click
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.menu_sandwich, container, false);
+        View rootView = inflater.inflate(R.layout.menu_items_list, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.sandwich_recyclerView);
         mRecyclerView.setHasFixedSize(true);

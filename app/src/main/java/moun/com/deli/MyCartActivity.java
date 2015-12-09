@@ -39,6 +39,7 @@ MyCartFragment.NumberOfItemChangedListener{
         setContentView(R.layout.actitvity_cart);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mHeaderCardView = findViewById(R.id.header_card_view);
         numberOfItems = (TextView) findViewById(R.id.numb_of_items);
         addItemsNumber();
@@ -91,7 +92,7 @@ MyCartFragment.NumberOfItemChangedListener{
             FragmentTransaction transaction = fragmentManager
                     .beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
                             android.R.anim.fade_in, android.R.anim.fade_out);
-            transaction.add(R.id.content_fragment_cart, fragment, tag);
+            transaction.replace(R.id.content_fragment_cart, fragment, tag);
 
             if (!(fragment instanceof MyCartFragment)) {
                 transaction.addToBackStack(tag);

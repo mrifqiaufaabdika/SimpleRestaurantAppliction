@@ -53,7 +53,8 @@
                 android:id="@+id/cart"/>
             <item
                 android:icon="@mipmap/ic_favorite_white_24dp"
-                android:title="@string/favorites" />
+                android:title="@string/favorites"
+                android:id="@+id/favorites"/>
             </group>
         </menu>
     </item>

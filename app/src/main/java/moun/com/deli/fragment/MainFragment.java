@@ -44,12 +44,11 @@ public class MainFragment extends Fragment implements BaseSliderView.OnSliderCli
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
-    private static final int SPAN_COUNT = 3;
+    private static final int SPAN_COUNT = 2;
     private HomeMenuCustomAdapter homeMenuCustomAdapter;
     List<MenuItems> rowListItem;
     private boolean mLinearShown;
     LayoutInflater inflater;
-    private SliderLayout mImageSlider;
     private TextView startOrder;
     private AlphaInAnimationAdapter alphaAdapter;
 
@@ -75,39 +74,9 @@ public class MainFragment extends Fragment implements BaseSliderView.OnSliderCli
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         this.inflater = inflater;
 
-        // Image Slider: Initialize and set Functionality
-        mImageSlider = (SliderLayout)rootView.findViewById(R.id.slider);
-        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("Hannibal", R.drawable.items1);
-        file_maps.put("Big Bang Theory", R.drawable.items2);
-        file_maps.put("House of Cards", R.drawable.items3);
-        file_maps.put("Game of Thrones", R.drawable.items4);
-
-        for(String name : file_maps.keySet()){
-            TextSliderView textSliderView = new TextSliderView(getActivity());
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-
-            //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra",name);
-
-            mImageSlider.addSlider(textSliderView);
-        }
-        mImageSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        mImageSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mImageSlider.setCustomAnimation(new DescriptionAnimation());
-        mImageSlider.setDuration(4000);
-        mImageSlider.addOnPageChangeListener(this);
-
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
     //    mRecyclerView.setItemAnimator(new SlideInLeftAnimator());
-        mRecyclerView.setHasFixedSize(true);
+    //    mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
 
@@ -152,12 +121,7 @@ public class MainFragment extends Fragment implements BaseSliderView.OnSliderCli
 
     }
 
-    @Override
-    public void onStop() {
-        // To prevent a memory leak on rotation, we call stopAutoCycle() on the slider before activity or fragment is destroyed
-        mImageSlider.stopAutoCycle();
-        super.onStop();
-    }
+
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
