@@ -19,6 +19,7 @@ import moun.com.deli.R;
 import moun.com.deli.adapter.FavoritesListAdapter;
 import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
+import moun.com.deli.util.AppUtils;
 
 /**
  * Created by Mounzer on 12/9/2015.
@@ -48,6 +49,7 @@ public class FavoritesFragment extends Fragment implements FavoritesListAdapter.
 
         favoritesRecyclerView = (RecyclerView) rootView.findViewById(R.id.favorites_recyclerView);
         emtyFavorites = (TextView) rootView.findViewById(R.id.empty);
+        emtyFavorites.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
         favoritesRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         favoritesRecyclerView.setLayoutManager(mLayoutManager);
@@ -64,6 +66,15 @@ public class FavoritesFragment extends Fragment implements FavoritesListAdapter.
 
     @Override
     public void itemClicked(View view, int position) {
+        MenuItems menuItems = itemsFavoritesList.get(position);
+        if (menuItems != null) {
+            Bundle arguments = new Bundle();
+            arguments.putParcelable("selectedItem", menuItems);
+            CustomDialogFragment customDialogFragment = new CustomDialogFragment();
+            customDialogFragment.setArguments(arguments);
+            customDialogFragment.show(getFragmentManager(),
+                    CustomDialogFragment.ARG_ITEM_ID);
+        }
 
     }
 

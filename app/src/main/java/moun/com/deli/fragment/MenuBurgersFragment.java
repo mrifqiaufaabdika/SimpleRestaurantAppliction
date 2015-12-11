@@ -115,7 +115,7 @@ public class MenuBurgersFragment extends Fragment implements MenuListAdapter.Cli
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1)
                     AppUtils.CustomToast(getActivity(), getString(R.string.added_to_favorites));
-                Log.d("READ ITEM DATA FROM DB: ", menuItemsFavorite.toString());
+                Log.d("ITEM FAVORITE: ", menuItemsFavorite.toString());
             }
         }
     }

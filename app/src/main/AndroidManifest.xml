@@ -47,6 +47,15 @@
                 android:value="moun.com.deli.MainActivity" />
 
         </activity>
+        <activity
+            android:name=".HotDealsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/cart">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="moun.com.deli.MainActivity" />
+
+        </activity>
     </application>
 
 </manifest>

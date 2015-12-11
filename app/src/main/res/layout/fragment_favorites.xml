@@ -16,9 +16,10 @@
 
     <TextView
         android:id="@+id/empty"
-        android:text="@string/empty_cart"
+        android:text="@string/no_favorites_yet"
         android:visibility="gone"
         style="@style/textEmptyStyle"
+        android:textColor="@color/colorTextPrimaryLight"
         android:layout_gravity="center"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

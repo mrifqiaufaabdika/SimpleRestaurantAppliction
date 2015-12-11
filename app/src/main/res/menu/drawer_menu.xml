@@ -34,7 +34,7 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navigation_item_attachment"
+            android:id="@+id/hot_deals"
             android:icon="@mipmap/ic_whatshot_white_24dp"
             android:title="@string/hot_deals" />
         <item
@@ -48,7 +48,7 @@
         <menu>
             <group android:checkableBehavior="single">
             <item
-                android:icon="@mipmap/ic_shopping_cart_white_24dp"
+                android:icon="@mipmap/ic_history_white_24dp"
                 android:title="@string/my_order"
                 android:id="@+id/cart"/>
             <item

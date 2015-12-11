@@ -29,7 +29,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
     private ItemsDAO itemsDAO;
 
     /**
-     * Create a new instance of {@link HomeMenuCustomAdapter}.
+     * Create a new instance of {@link MenuListAdapter}.
      *
      * @param context    Context.
      * @param itemList   List of data.

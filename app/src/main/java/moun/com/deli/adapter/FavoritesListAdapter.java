@@ -80,7 +80,7 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesListAdap
             itemTitle = (TextView) itemView.findViewById(R.id.favorite_item_title);
             this.itemTitle.setTypeface(AppUtils.getTypeface(itemView.getContext(), AppUtils.FONT_BOLD));
             itemPrice = (TextView) itemView.findViewById(R.id.favorite_item_price);
-            this.itemPrice.setTypeface(AppUtils.getTypeface(itemView.getContext(), AppUtils.FONT_BOOK));
+            this.itemPrice.setTypeface(AppUtils.getTypeface(itemView.getContext(), AppUtils.FONT_BOLD));
             itemImage = (ImageView) itemView.findViewById(R.id.favorite_item_image);
 
             itemView.findViewById(R.id.favorite_item_detail).setOnClickListener(new View.OnClickListener(){
