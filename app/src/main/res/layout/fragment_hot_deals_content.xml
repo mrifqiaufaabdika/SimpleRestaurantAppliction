@@ -83,7 +83,8 @@
             android:layout_below="@id/hot_deal_price"
             android:background="@color/gray"
             android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp">
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp">
 
             <Button
                 android:layout_width="0dp"

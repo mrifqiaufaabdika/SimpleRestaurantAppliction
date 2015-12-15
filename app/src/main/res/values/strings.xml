@@ -109,6 +109,11 @@
     <string name="deal_6">DEAL 5:  FOR 4 PERSON</string>
     <string name="deal_description">1 Chicken pasta, 1 HOUSE SALAD, 2 BURGER (MEDIUM), 2pc garlic bread, 1 cold drink.
     </string>
+    <string name="login">Login</string>
+    <string name="sign_in">Sign in</string>
+    <string name="register">Register</string>
+    <string name="ok">Ok</string>
+    <string name="logout">Logout</string>
 
 
 </resources>

@@ -34,6 +34,7 @@ public class HotDealsListFragment extends Fragment implements HotDealsAdapter.Cl
     private static final int SPAN_COUNT = 2;
     private HotDealsAdapter hotDealsAdapter;
     ArrayList<MenuItems> hotDealsList;
+    private static final String ITEMS_STATE = "items_state";
     private TextView headerText;
 
 
@@ -48,7 +49,7 @@ public class HotDealsListFragment extends Fragment implements HotDealsAdapter.Cl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        hotDealsList = getHotDealsList();
+
 
     }
 
@@ -62,6 +63,13 @@ public class HotDealsListFragment extends Fragment implements HotDealsAdapter.Cl
         hotRecyclerView.setHasFixedSize(true);
         final GridLayoutManager manager = new GridLayoutManager(getActivity(), SPAN_COUNT);
         hotRecyclerView.setLayoutManager(manager);
+        if (savedInstanceState != null) {
+            // We will restore the state of data list when the activity is re-created
+            hotDealsList = savedInstanceState.getParcelableArrayList(ITEMS_STATE);
+        } else {
+            hotDealsList = getHotDealsList();
+
+        }
         // Inflate the layout header
         View header = LayoutInflater.from(getActivity()).inflate(R.layout.hot_deals_grid_header, hotRecyclerView, false);
         // set Custom font to header text
@@ -85,6 +93,14 @@ public class HotDealsListFragment extends Fragment implements HotDealsAdapter.Cl
         return rootView;
 
 
+    }
+
+    // Before the activity is destroyed, onSaveInstanceState() gets called.
+    // The onSaveInstanceState() method saves the list of data.
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(ITEMS_STATE, hotDealsList);
     }
 
     @Override

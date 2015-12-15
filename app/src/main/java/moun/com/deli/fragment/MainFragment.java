@@ -17,11 +17,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,8 +33,7 @@ import moun.com.deli.util.AppUtils;
 /**
  * Created by Mounzer on 12/1/2015.
  */
-public class MainFragment extends Fragment implements BaseSliderView.OnSliderClickListener,
-        ViewPagerEx.OnPageChangeListener{
+public class MainFragment extends Fragment{
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -97,27 +91,6 @@ public class MainFragment extends Fragment implements BaseSliderView.OnSliderCli
 
 
         return rootView;
-
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
-    @Override
-    public void onSliderClick(BaseSliderView slider) {
-        Toast.makeText(getActivity(),slider.getBundle().get("extra") + "", Toast.LENGTH_SHORT).show();
 
     }
 

@@ -159,7 +159,7 @@ public class ItemsDAO extends ItemsDBDAO {
         return menuItems;
     }
 
-    //Retrieves a single favorite item record with the given id
+    //Retrieves a single favorite item record with the item name
     public MenuItems getItemFavorite(String title) {
         MenuItems menuItems = null;
 

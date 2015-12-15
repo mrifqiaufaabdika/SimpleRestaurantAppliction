@@ -5,9 +5,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="colorControlNormal">@color/colorTextPrimaryLight</item>
+        <item name="colorControlActivated">@color/gray</item>
+        <item name="colorControlHighlight">@color/gray</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
     </style>
 
     <!-- Branded Lanch -->
@@ -73,6 +76,16 @@
     <style name="FlatCardView.Header">
         <item name="android:background">@drawable/header_card</item>
         <item name="android:foreground">@drawable/abc_item_background_holo_light</item>
+    </style>
+
+
+
+    <!-- Text input layout -->
+    <style name="counterText">
+        <item name="android:textColor">@color/colorTextPrimaryLight</item>
+    </style>
+    <style name="counterOverride">
+        <item name="android:textColor">@color/colorTextPrimaryLight</item>
     </style>
 
 

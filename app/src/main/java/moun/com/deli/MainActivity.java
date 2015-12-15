@@ -21,7 +21,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import moun.com.deli.database.UserDAO;
 import moun.com.deli.fragment.MainFragment;
+import moun.com.deli.util.SessionManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String FIRST_TIME = "first_time";
     private static final String SELECTED_ITEM_ID = "selected_item_id";
     private int mSelectedId;
+    private SessionManager session;
+    private UserDAO userDAO;
 
 
     @Override
@@ -71,6 +75,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.replace(R.id.content_fragment, mainFragment);
             transaction.commit();
         }
+
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+
+        userDAO = new UserDAO(this);
 
 
 
@@ -142,6 +151,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    // Before the activity is destroyed, onSaveInstanceState() gets called.
+    // The onSaveInstanceState() method saves the selected item from drawer.
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -161,6 +172,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem logintItem = menu.findItem(R.id.action_login);
+        MenuItem logoutItem = menu.findItem(R.id.action_logout);
+        // Check if user is already logged in or not
+        if (!session.isLoggedIn()) {
+            // User is already logged in, hide Login button from the menu and show up the Logout button.
+            logoutItem.setVisible(false);
+        } else {
+            logintItem.setVisible(false);
+        }
         return true;
     }
 
@@ -177,14 +197,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.action_settings:
                 return true;
+            case R.id.action_login:
+                Intent intentLogin = new Intent(this, LoginActivity.class);
+                // Closing all the Activities
+                intentLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // Add new Flag to start new Activity
+                intentLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                finish();
+                startActivity(intentLogin);
+                return true;
+            case R.id.action_logout:
+                LogoutUser();
+
+                return true;
         }
-/**
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-*/
+
         return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * Logging out the user. Will set isLoggedIn flag to false in shared
+     * preferences, Clears the user data from user table.
+     * */
+    public void LogoutUser(){
+        session.setLogin(false);
+        userDAO.deleteUser();
+        Intent intentLogout = new Intent(this, MainActivity.class);
+        // Closing all the Activities
+        intentLogout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        // Add new Flag to start new Activity
+        intentLogout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // re-create the Main Activity
+        startActivity(intentLogout);
+        finish();
+
     }
 
 

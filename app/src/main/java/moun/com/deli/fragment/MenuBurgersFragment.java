@@ -33,7 +33,8 @@ public class MenuBurgersFragment extends Fragment implements MenuListAdapter.Cli
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private MenuListAdapter menuListAdapter;
-    List<MenuItems> rowListItem;
+    ArrayList<MenuItems> listItems;
+    private static final String ITEMS_STATE = "items_state";
     private AlphaInAnimationAdapter alphaAdapter;
     private ItemsDAO itemDAO;
     private AddItemTask task;
@@ -43,7 +44,6 @@ public class MenuBurgersFragment extends Fragment implements MenuListAdapter.Cli
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        rowListItem = getBurgerMenuList();
         itemDAO = new ItemsDAO(getActivity());
     }
 
@@ -55,12 +55,27 @@ public class MenuBurgersFragment extends Fragment implements MenuListAdapter.Cli
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        menuListAdapter = new MenuListAdapter(getActivity(), rowListItem, inflater, R.layout.menu_list_single_row);
+        if (savedInstanceState != null) {
+            // We will restore the state of data list when the activity is re-created
+            listItems = savedInstanceState.getParcelableArrayList(ITEMS_STATE);
+        } else {
+            listItems = getBurgerMenuList();
+
+        }
+        menuListAdapter = new MenuListAdapter(getActivity(), listItems, inflater, R.layout.menu_list_single_row);
         alphaAdapter = new AlphaInAnimationAdapter(menuListAdapter);
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
         menuListAdapter.setClickListener(this);
 
         return rootView;
+    }
+
+    // Before the activity is destroyed, onSaveInstanceState() gets called.
+    // The onSaveInstanceState() method saves the list of data.
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(ITEMS_STATE, listItems);
     }
 
     @Override
@@ -120,9 +135,9 @@ public class MenuBurgersFragment extends Fragment implements MenuListAdapter.Cli
         }
     }
 
-    private List<MenuItems> getBurgerMenuList(){
+    private ArrayList<MenuItems> getBurgerMenuList(){
 
-        List<MenuItems> menuItems = new ArrayList<MenuItems>();
+        ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
         menuItems.add(new MenuItems(getString(R.string.major), R.drawable.items1, 6.25, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.fair), R.drawable.items2, 7.00, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.jack), R.drawable.items3, 10.50, getString(R.string.short_lorem)));
