@@ -110,6 +110,7 @@
                     android:layout_marginRight="30dp"
                     android:clickable="true"
                     android:focusable="true"
+                    android:onClick="ResetPassword"
                     android:text="Forgot Password?"
                     android:textColor="@color/selector_text" />
 

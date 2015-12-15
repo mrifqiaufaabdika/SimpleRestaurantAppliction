@@ -20,6 +20,8 @@ public class MyCartCheckoutFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_checkout, container, false);
 
+        // This information will be fetched from SQLite database and displaying it on the screen
+
         return rootView;
 
     }

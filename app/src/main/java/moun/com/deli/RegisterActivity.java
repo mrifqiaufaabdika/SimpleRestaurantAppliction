@@ -29,11 +29,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private static final String LOG_TAG = RegisterActivity.class.getSimpleName();
     private Toolbar mToolbar;
-    private TextInputLayout mUsernameLayout;
-    private TextInputLayout mEmailLayout;
-    private TextInputLayout mAddressLayout;
-    private TextInputLayout mPhoneLayout;
-    private TextInputLayout mPassswordLayout;
     private EditText mInputUsername;
     private EditText mInputEmail;
     private EditText mInputAddress;
@@ -51,11 +46,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mUsernameLayout = (TextInputLayout) findViewById(R.id.username_input_layout);
-        mEmailLayout = (TextInputLayout) findViewById(R.id.email_input_layout);
-        mAddressLayout = (TextInputLayout) findViewById(R.id.address_input_layout);
-        mPhoneLayout = (TextInputLayout) findViewById(R.id.phone_input_layout);
-        mPassswordLayout = (TextInputLayout) findViewById(R.id.password_input_layout);
+
         mInputUsername = (EditText) findViewById(R.id.name);
         mInputEmail = (EditText) findViewById(R.id.email);
         mInputAddress = (EditText) findViewById(R.id.address);
@@ -107,35 +98,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             mInputAddress.setError(null);
             mInputPhone.setError(null);
 
-        }
-        /**
-        else if(isEmptyUsername && isEmptyEmail){
-            mInputUsername.setError("Please enter a username");
-            mInputEmail.setError("Please enter an email address");
-            mInputAddress.setError(null);
-            mInputPhone.setError(null);
-            mInputPassword.setError(null);
-        } else if(isEmptyUsername && isEmptyEmail && isEmptyAddress){
-            mInputUsername.setError("Please enter a username");
-            mInputEmail.setError("Please enter an email address");
-            mInputAddress.setError("Please enter your address");
-            mInputPhone.setError(null);
-            mInputPassword.setError(null);
-        } else if(isEmptyUsername && isEmptyEmail && isEmptyAddress && isEmptyPhone){
-            mInputUsername.setError("Please enter a username");
-            mInputEmail.setError("Please enter an email address");
-            mInputAddress.setError("Please enter your address");
-            mInputPhone.setError("Please enter your phone number");
-            mInputPassword.setError(null);
-        } else if(isEmptyUsername && isEmptyEmail && isEmptyAddress && isEmptyPhone && isEmptyPassword){
-            mInputUsername.setError("Please enter a username");
-            mInputEmail.setError("Please enter an email address");
-            mInputAddress.setError("Please enter your address");
-            mInputPhone.setError("Please enter your phone number");
-            mInputPassword.setError("Please enter a password");
-        }
-         */
-         else {
+        } else {
             String username = mInputUsername.getText().toString().trim();
             String email = mInputEmail.getText().toString().trim();
             String phone = mInputPhone.getText().toString().trim();
@@ -177,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 mInputPhone.setError(null);
                 mInputEmail.setError(null);
                 mInputPassword.setError(null);
-                userRegister(username, email, phone, address);
+                userRegister(username, email, phone, address, password);
 
             }
 
@@ -185,15 +148,28 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    /**
+     * This is not a complete login and registration built system.
+     * simply we get the user data from the input form and save it in local database, in our case (sqlite).
+     * but you need to interact with database server by inserting and fetching data using (GET/POST methods) requests,
+     * and get the response back in JSON format.
+     *
+     * @param username
+     * @param email
+     * @param phone
+     * @param address
+     * @param password
+     */
     public void userRegister(final String username, final String email, final String phone,
-                             final String address){
-        // Inserting row in user table
+                             final String address, final String password){
+
         user = new User();
         user.setUserName(username);
         user.setEmail(email);
         user.setPhone(phone);
         user.setAddress(address);
 
+        // use AsyncTask to save user data in database
         task = new UserRegisterTask(this);
         task.execute((Void) null);
 
@@ -211,6 +187,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         protected Long doInBackground(Void... arg0) {
+            // Inserting row in user table
             long result = userDAO.saveUserToTable(user);
             return result;
         }
@@ -220,6 +197,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             if (activityWeakRef.get() != null
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1) {
+                    // successful registration
                     Intent intent = new Intent(context, LoginActivity.class);
                     // Closing all the Activities
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -244,6 +222,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
     }
 
+    // Method to check for empty data in the form
     private boolean isEmpty(EditText editText) {
         return editText.getText() == null
                 || editText.getText().toString() == null

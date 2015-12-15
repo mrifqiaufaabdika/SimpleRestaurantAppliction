@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     /**
      * Logging out the user. Will set isLoggedIn flag to false in shared
-     * preferences, Clears the user data from user table.
+     * preferences, Clears the user data from SQLite user table.
      * */
     public void LogoutUser(){
         session.setLogin(false);

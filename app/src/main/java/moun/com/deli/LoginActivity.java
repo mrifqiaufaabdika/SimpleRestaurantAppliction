@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 
 import moun.com.deli.database.UserDAO;
+import moun.com.deli.fragment.ResetPasswordDialogFragment;
 import moun.com.deli.util.SessionManager;
 
 /**
@@ -26,9 +27,9 @@ public class LoginActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private EditText mInputUsername;
     private EditText mInputPassword;
-    private TextView forgotPassword;
     private UserDAO userDAO;
     private SessionManager session;
+    LoginActivity loginActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,12 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         }
+
+    }
+
+    // Link to reset password dialog fragment
+    public void ResetPassword(View view){
+        ResetPasswordDialogFragment.show(loginActivity);
 
     }
 

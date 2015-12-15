@@ -114,6 +114,7 @@
     <string name="register">Register</string>
     <string name="ok">Ok</string>
     <string name="logout">Logout</string>
+    <string name="reset_password">To reset your password type your email and press the Reset password button.</string>
 
 
 </resources>

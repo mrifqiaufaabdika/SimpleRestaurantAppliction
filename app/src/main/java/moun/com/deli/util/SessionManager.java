@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 /**
- * Created by Mounzer on 12/14/2015.
+ * This class maintains session data across the app using the SharedPreferences.
+ * We store a boolean flag isLoggedIn in shared preferences to check the login status.
  */
 public class SessionManager {
     // LogCat tag
