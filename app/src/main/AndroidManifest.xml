@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="moun.com.deli">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Required OpenGL ES 2.0. for Maps V2 -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -74,6 +82,25 @@
                 android:value="moun.com.deli.MainActivity" />
 
         </activity>
+        <activity
+            android:name=".LocationActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/register">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="moun.com.deli.MainActivity" />
+
+        </activity>
+
+        <!-- this metadata informs the application that Play Services are used -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- this metadata binds the Maps API key with your application -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_api_key"/>
     </application>
 
 </manifest>
