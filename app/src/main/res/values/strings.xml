@@ -116,6 +116,8 @@
     <string name="ok">Ok</string>
     <string name="logout">Logout</string>
     <string name="reset_password">To reset your password type your email and press the Reset password button.</string>
+    <string name="orders">Orders</string>
+    <string name="my_cart">My Cart</string>
 
 
 </resources>

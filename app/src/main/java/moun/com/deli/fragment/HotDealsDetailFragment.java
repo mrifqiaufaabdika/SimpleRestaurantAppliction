@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
     private MenuItems menuItemsFavorite = null;
     private AddItemTask task;
     ImageView heart;
+    ImageButton dealFavorite;
 
     /**
      * Create a new instance of DetailFragment.
@@ -167,11 +169,11 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
         bind(scene.getSceneRoot());
         TextView dealDescription = (TextView) getView().findViewById(R.id.hot_deal_description);
         dealDescription.setText(menuHotItems.getItemDescription());
-        dealDescription.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
+        dealDescription.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOOK));
         TextView dealPrice = (TextView) getView().findViewById(R.id.hot_deal_price);
         dealPrice.setText("$" + menuHotItems.getItemPrice());
         dealPrice.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
-        Button dealOrder = (Button) getView().findViewById(R.id.hot_deal_order);
+        ImageButton dealOrder = (ImageButton) getView().findViewById(R.id.hot_deal_order);
         dealOrder.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -185,12 +187,12 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
                 }
             }
         });
-        Button dealFavorite = (Button) getView().findViewById(R.id.hot_deal_favorite);
-        heart = (ImageView) getView().findViewById(R.id.hot_deal_heart);
+        dealFavorite = (ImageButton) getView().findViewById(R.id.hot_deal_favorite);
+    //    heart = (ImageView) getView().findViewById(R.id.hot_deal_favorite);
         if(itemDAO.getItemFavorite(menuHotItems.getItemName()) == null) {
-            heart.setImageResource(R.mipmap.ic_favorite_white_24dp);
+            dealFavorite.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
         } else {
-            heart.setImageResource(R.mipmap.ic_favorite_red_24dp);
+            dealFavorite.setImageResource(R.mipmap.ic_favorite_white_24dp);
         }
         dealFavorite.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -205,7 +207,7 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
                         task = new AddItemTask(getActivity());
                         task.execute((Void) null);
 
-                        heart.setImageResource(R.mipmap.ic_favorite_red_24dp);
+                        dealFavorite.setImageResource(R.mipmap.ic_favorite_white_24dp);
                     } else {
                         AppUtils.CustomToast(getActivity(), getString(R.string.already_added_to_favorites));
                     }

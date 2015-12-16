@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(mToolbar);
 
 
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (NavigationView) findViewById(R.id.navigation_view);
         mDrawer.setNavigationItemSelectedListener(this);
@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userDAO = new UserDAO(this);
 
 
-
-
     }
 
     private boolean didUserSeeDrawer() {
@@ -110,32 +108,62 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = null;
         if (mSelectedId == R.id.breakfast) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
-            intent = new Intent(this, MenuActivityWithTabs.class);
-            startActivity(intent);
-        //  overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(MainActivity.this, MenuActivityWithTabs.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                }
+            }, 200);
+
         } else if (mSelectedId == R.id.cart) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-            intent = new Intent(this, MyCartActivity.class);
-            startActivity(intent);
-        //  overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            hideDrawer();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(MainActivity.this, MyCartActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                }
+            }, 200);
+
         } else if (mSelectedId == R.id.favorites) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-            intent = new Intent(this, ProfileActivityWithTabs.class);
-            startActivity(intent);
-            //  overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            hideDrawer();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(MainActivity.this, ProfileActivityWithTabs.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                }
+            }, 200);
+
         } else if (mSelectedId == R.id.hot_deals) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-            intent = new Intent(this, HotDealsActivity.class);
-            startActivity(intent);
-            //  overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            hideDrawer();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(MainActivity.this, HotDealsActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                }
+            }, 200);
+
         } else if (mSelectedId == R.id.location) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-            intent = new Intent(this, LocationActivity.class);
-            startActivity(intent);
+            hideDrawer();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(MainActivity.this, LocationActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                }
+            }, 200);
+
+
 
         }
-
-
 
 
     }
@@ -149,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        menuItem.setChecked(true);
+        //    menuItem.setChecked(true);
         mSelectedId = menuItem.getItemId();
         hideDrawer();
         navigate(mSelectedId);
@@ -224,8 +252,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /**
      * Logging out the user. Will set isLoggedIn flag to false in shared
      * preferences, Clears the user data from SQLite user table.
-     * */
-    public void LogoutUser(){
+     */
+    public void LogoutUser() {
         session.setLogin(false);
         userDAO.deleteUser();
         Intent intentLogout = new Intent(this, MainActivity.class);

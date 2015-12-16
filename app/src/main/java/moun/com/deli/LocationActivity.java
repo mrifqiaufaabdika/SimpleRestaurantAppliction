@@ -194,6 +194,12 @@ public class LocationActivity extends AppCompatActivity implements
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+    }
+
 
 
 
