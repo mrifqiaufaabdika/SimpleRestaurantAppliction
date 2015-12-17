@@ -1,6 +1,7 @@
 package moun.com.deli.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,6 +26,8 @@ import java.util.List;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
+import moun.com.deli.HotDealsActivity;
+import moun.com.deli.MenuActivityWithTabs;
 import moun.com.deli.R;
 import moun.com.deli.adapter.HomeMenuCustomAdapter;
 import moun.com.deli.model.MenuItems;
@@ -33,18 +36,21 @@ import moun.com.deli.util.AppUtils;
 /**
  * Created by Mounzer on 12/1/2015.
  */
-public class MainFragment extends Fragment{
+public class MainFragment extends Fragment implements HomeMenuCustomAdapter.ClickListener{
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
     private HomeMenuCustomAdapter homeMenuCustomAdapter;
-    List<MenuItems> rowListItem;
+    ArrayList<MenuItems> rowListItem;
     private boolean mLinearShown;
     LayoutInflater inflater;
     private TextView startOrder;
     private AlphaInAnimationAdapter alphaAdapter;
+    View header;
+    private TextView hotDealheaderText;
+
 
 
 
@@ -70,7 +76,7 @@ public class MainFragment extends Fragment{
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
     //    mRecyclerView.setItemAnimator(new SlideInLeftAnimator());
-    //    mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
 
@@ -83,14 +89,43 @@ public class MainFragment extends Fragment{
                     .getSerializable(KEY_LAYOUT_MANAGER);
         }
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
+        // Inflate the layout header
+        header = LayoutInflater.from(getActivity()).inflate(R.layout.home_menu_header, mRecyclerView, false);
+        hotDealheaderText = (TextView) header.findViewById(R.id.hot_deal_header_title);
+        hotDealheaderText.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
+        header.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), HotDealsActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), rowListItem, inflater, R.layout.grid_layout_row);
+        homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), header, rowListItem, inflater, R.layout.grid_layout_row);
         alphaAdapter = new AlphaInAnimationAdapter(homeMenuCustomAdapter);
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
+
+        homeMenuCustomAdapter.setClickListener(this);
+
 
 
 
         return rootView;
+
+    }
+
+    @Override
+    public void itemClicked(View view, int position) {
+
+    //    int currentPosition = position - 1;
+        if(position == 0){
+            Intent intent = new Intent(getActivity(), HotDealsActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getActivity(), MenuActivityWithTabs.class);
+            intent.putExtra("currentItem", position);
+            startActivity(intent);
+        }
 
     }
 
@@ -134,16 +169,18 @@ public class MainFragment extends Fragment{
                 mLinearShown = !mLinearShown;
                 if (mLinearShown) {
                     setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
-                    homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), rowListItem, inflater, R.layout.linear_layout_row);
+                    homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), header, rowListItem, inflater, R.layout.linear_layout_row);
                     alphaAdapter = new AlphaInAnimationAdapter(homeMenuCustomAdapter);
                     mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
+                    homeMenuCustomAdapter.setClickListener(this);
                     item.setIcon(R.mipmap.ic_grid_on_white_24dp);
 
                 } else {
                     setRecyclerViewLayoutManager(LayoutManagerType.GRID_LAYOUT_MANAGER);
-                    homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), rowListItem, inflater, R.layout.grid_layout_row);
+                    homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), header, rowListItem, inflater, R.layout.grid_layout_row);
                     alphaAdapter = new AlphaInAnimationAdapter(homeMenuCustomAdapter);
                     mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
+                    homeMenuCustomAdapter.setClickListener(this);
                     item.setIcon(R.mipmap.ic_view_list_white_24dp);
 
                 }
@@ -172,8 +209,16 @@ public class MainFragment extends Fragment{
 
         switch (layoutManagerType) {
             case GRID_LAYOUT_MANAGER:
-                mLayoutManager = new GridLayoutManager(getActivity(), SPAN_COUNT);
+                final GridLayoutManager gridManager = new GridLayoutManager(getActivity(), SPAN_COUNT);
+                mLayoutManager = gridManager;
                 mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
+                // Override setSpanSizeLookup in GridLayoutManager to return the span count as the span size for the header
+                gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        return homeMenuCustomAdapter.isHeader(position) ? gridManager.getSpanCount() : 1;
+                    }
+                });
                 break;
             case LINEAR_LAYOUT_MANAGER:
                 mLayoutManager = new LinearLayoutManager(getActivity());
@@ -188,17 +233,16 @@ public class MainFragment extends Fragment{
         mRecyclerView.scrollToPosition(scrollPosition);
     }
 
-    private List<MenuItems> getMenuList(){
+    private ArrayList<MenuItems> getMenuList(){
 
-        List<MenuItems> menuItems = new ArrayList<MenuItems>();
-        menuItems.add(new MenuItems(getString(R.string.breakfast), R.drawable.items1));
+        ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
         menuItems.add(new MenuItems(getString(R.string.sandwich), R.drawable.items2));
         menuItems.add(new MenuItems(getString(R.string.burgers), R.drawable.items3));
         menuItems.add(new MenuItems(getString(R.string.pizza), R.drawable.items4));
         menuItems.add(new MenuItems(getString(R.string.salads), R.drawable.items5));
-        menuItems.add(new MenuItems(getString(R.string.drinks), R.drawable.items6));
         menuItems.add(new MenuItems(getString(R.string.sweets), R.drawable.items7));
-        menuItems.add(new MenuItems(getString(R.string.hot_deals), R.drawable.items8));
+        menuItems.add(new MenuItems(getString(R.string.drinks), R.drawable.items6));
+
 
         return menuItems;
     }

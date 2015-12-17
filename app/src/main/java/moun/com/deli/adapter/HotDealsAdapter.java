@@ -33,8 +33,6 @@ public class HotDealsAdapter extends RecyclerView.Adapter<HotDealsAdapter.ViewHo
         }
         this.header = header;
         this.itemsList = itemsList;
-    //    mLayoutInflater = LayoutInflater.from(context);
-
     }
 
     public void setItemsList(ArrayList<MenuItems> itemsList) {

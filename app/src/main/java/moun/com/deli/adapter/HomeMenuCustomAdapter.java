@@ -1,6 +1,7 @@
 package moun.com.deli.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import moun.com.deli.HotDealsActivity;
 import moun.com.deli.R;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
@@ -23,8 +26,12 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
     private static final String LOG_TAG = HomeMenuCustomAdapter.class.getSimpleName();
     private LayoutInflater mLayoutInflater;
     private int mResourceId;
-    private List<MenuItems> itemList;
+    private ArrayList<MenuItems> itemList;
     private Context context;
+    private static final int ITEM_VIEW_TYPE_HEADER = 0;
+    private static final int ITEM_VIEW_TYPE_ITEM = 1;
+    private final View header;
+    private ClickListener clickListener;
 
     /**
      * Create a new instance of {@link HomeMenuCustomAdapter}.
@@ -35,11 +42,19 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
      * @param resourceId The resource ID for the layout to be used. The layout should contain an
      *                   ImageView with ID of "meat_image" and a TextView with ID of "meat_title".
      */
-    public HomeMenuCustomAdapter(Context context, List<MenuItems> itemList, LayoutInflater inflater, int resourceId) {
+    public HomeMenuCustomAdapter(Context context, View header, ArrayList<MenuItems> itemList, LayoutInflater inflater, int resourceId) {
+        if (header == null) {
+            throw new IllegalArgumentException("header may not be null");
+        }
+        this.header = header;
         this.itemList = itemList;
         this.context = context;
         mLayoutInflater = inflater;
         mResourceId = resourceId;
+    }
+
+    public boolean isHeader(int position) {
+        return position == 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,12 +62,27 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
         public TextView title;
 
 
-        public ViewHolder(View v) {
-            super(v);
+        public ViewHolder(final View itemView) {
+            super(itemView);
 
-            title = (TextView) v.findViewById(R.id.menu_title);
-            this.title.setTypeface(AppUtils.getTypeface(v.getContext(), AppUtils.FONT_BOLD));
-            image = (ImageView) v.findViewById(R.id.menu_image);
+            title = (TextView) itemView.findViewById(R.id.menu_title);
+            try {
+                this.title.setTypeface(AppUtils.getTypeface(itemView.getContext(), AppUtils.FONT_BOLD));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            image = (ImageView) itemView.findViewById(R.id.menu_image);
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    if (clickListener != null) {
+                        clickListener.itemClicked(itemView, getAdapterPosition());
+                        Log.d(LOG_TAG, "Position " + getAdapterPosition() + " clicked.");
+
+                    }
+
+                }
+            });
 
         }
 
@@ -62,6 +92,9 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        if (viewType == ITEM_VIEW_TYPE_HEADER) {
+            return new ViewHolder(header);
+        }
         // Create a new view.
         View view = mLayoutInflater.inflate(mResourceId, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
@@ -69,17 +102,37 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
     //    Log.d(LOG_TAG, "Element " + position + " set.");
-
-        MenuItems menuItems = itemList.get(position);
+        if (isHeader(position)) {
+            return;
+        }
+        // Subtract 1 for header
+        MenuItems menuItems = itemList.get(position - 1);
         viewHolder.image.setImageResource(menuItems.getItemImage());
         viewHolder.title.setText(menuItems.getItemName());
 
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return isHeader(position) ? ITEM_VIEW_TYPE_HEADER : ITEM_VIEW_TYPE_ITEM;
+    }
+
+    @Override
     public int getItemCount() {
-        return this.itemList.size();
+        return this.itemList.size() + 1;
+    }
+
+
+
+    public void setClickListener(ClickListener clickListener){
+        this.clickListener = clickListener;
+
+    }
+
+    public interface ClickListener{
+        public void itemClicked(View view, int position);
+
     }
 }
