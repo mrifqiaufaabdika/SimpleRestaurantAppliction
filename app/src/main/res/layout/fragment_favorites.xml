@@ -10,8 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:choiceMode="singleChoice"
-        android:drawSelectorOnTop="true"
-        android:listSelector="@drawable/selector_default"
         android:fastScrollEnabled="true" />
 
     <TextView

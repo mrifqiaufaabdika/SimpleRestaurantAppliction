@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -89,6 +90,7 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
                     .getSerializable(KEY_LAYOUT_MANAGER);
         }
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
+
         // Inflate the layout header
         header = LayoutInflater.from(getActivity()).inflate(R.layout.home_menu_header, mRecyclerView, false);
         hotDealheaderText = (TextView) header.findViewById(R.id.hot_deal_header_title);

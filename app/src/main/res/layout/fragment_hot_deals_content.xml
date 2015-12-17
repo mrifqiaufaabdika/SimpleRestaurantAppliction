@@ -28,25 +28,26 @@
             android:id="@+id/linear_bottom"
             android:background="@color/colorAccent"
             android:layout_below="@id/hot_deaL_image"
-            android:padding="4dp"
+
             android:gravity="right">
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/hot_deal_order"
-                android:layout_margin="@dimen/padding"
-                android:background="@mipmap/ic_shopping_cart_white_24dp"
+                android:padding="10dp"
+                android:src="@mipmap/ic_shopping_cart_white_24dp"
+                android:background="@color/selector_icons_hot"
                 android:contentDescription="Favorites"
-                android:clickable="true"
-                android:focusable="true"/>
+                android:clickable="true" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/hot_deal_favorite"
-                android:layout_margin="@dimen/padding"
-                android:background="@null"
+                android:padding="10dp"
+                android:src="@null"
+                android:background="@color/selector_icons_hot"
                 android:contentDescription="Favorites"
                 android:clickable="true"
                 android:focusable="true" />
