@@ -99,19 +99,24 @@ public class ItemsDAO extends ItemsDBDAO {
                         DataBaseHelper.QUANTITY_COLOMN }, null, null, null,
                 null, null);
 
-        while (cursor.moveToNext()) {
-            MenuItems menuItems = new MenuItems();
-            menuItems.setId(cursor.getInt(0));
-            menuItems.setItemName(cursor.getString(1));
-            menuItems.setItemDescription(cursor.getString(2));
-            menuItems.setItemImage(cursor.getInt(3));
-            menuItems.setItemPrice(cursor.getDouble(4));
-            menuItems.setItemQuantity(cursor.getInt(5));
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                MenuItems menuItems = new MenuItems();
+                menuItems.setId(cursor.getInt(0));
+                menuItems.setItemName(cursor.getString(1));
+                menuItems.setItemDescription(cursor.getString(2));
+                menuItems.setItemImage(cursor.getInt(3));
+                menuItems.setItemPrice(cursor.getDouble(4));
+                menuItems.setItemQuantity(cursor.getInt(5));
 
-            cartItems.add(menuItems);
+                cartItems.add(menuItems);
+            }
         }
+
         return cartItems;
     }
+
+
 
     //USING query() method
     public ArrayList<MenuItems> getFavoriteItems() {

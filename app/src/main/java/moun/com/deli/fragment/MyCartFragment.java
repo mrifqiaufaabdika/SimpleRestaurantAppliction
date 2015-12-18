@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avast.android.dialogs.fragment.SimpleDialogFragment;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -24,6 +26,7 @@ import moun.com.deli.adapter.MyCartListAdapter;
 import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
+import moun.com.deli.util.SessionManager;
 
 /**
  * Created by Mounzer on 12/6/2015.
@@ -43,6 +46,7 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
     private Button checkoutBtn;
     private TextView emtyCart;
     MyCartCheckoutFragment myCartCheckoutFragment;
+    private SessionManager session;
 
 
 
@@ -89,8 +93,11 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
         checkoutBtn = (Button) rootView.findViewById(R.id.checkout_button);
         checkoutBtn.setOnClickListener(this);
 
+        // Use AsyncTask to get cart items from database
         task = new GetItemsCartTask(getActivity());
         task.execute((Void) null);
+
+        session = new SessionManager(getActivity());
 
         return rootView;
 
@@ -106,7 +113,7 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
         myCartActivity.addItemsNumber();
         if(itemsCartList.size() == 0){
             emtyCart.setVisibility(View.VISIBLE);
-            totalPrice.setText("TOTAL PRICE: $" + Double.toString(0.0));
+            totalPrice.setText("ORDER TOTAL: $" + Double.toString(0.0));
         }
 
     }
@@ -128,9 +135,22 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
 
     @Override
     public void onClick(View v) {
-        MyCartActivity myCartActivity = (MyCartActivity) getActivity();
-        myCartCheckoutFragment = new MyCartCheckoutFragment();
-        myCartActivity.switchContent(myCartCheckoutFragment, MyCartCheckoutFragment.ARG_ITEM_ID);
+
+        // Check if cart is empty
+        if(itemsCartList.size() == 0){
+            dialogMessage("Oops!", "Your cart is empty, Start your order now.");
+
+        } else {
+            // Check if user is already logged in or not
+            if (session.isLoggedIn()) {
+                MyCartActivity myCartActivity = (MyCartActivity) getActivity();
+                myCartCheckoutFragment = new MyCartCheckoutFragment();
+                myCartActivity.switchContent(myCartCheckoutFragment, MyCartCheckoutFragment.ARG_ITEM_ID);
+            } else {
+                dialogMessage("Oops!", "You must to sign in to your account before making orders.");
+
+            }
+        }
 
     }
 
@@ -191,5 +211,15 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
             totalPrice.setText("TOTAL PRICE: $" + Double.toString(sum));
         }
 
+    }
+
+    // Custom dialog fragment using SimpleDialogFragment library
+    private void dialogMessage(String title, String message){
+        SimpleDialogFragment.createBuilder(getActivity(), getFragmentManager())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButtonText(getString(R.string.ok))
+                .setCancelable(false)
+                .show();
     }
 }

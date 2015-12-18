@@ -63,8 +63,7 @@ public class MenuBurgersFragment extends Fragment implements MenuListAdapter.Cli
 
         }
         menuListAdapter = new MenuListAdapter(getActivity(), listItems, inflater, R.layout.menu_list_single_row);
-        alphaAdapter = new AlphaInAnimationAdapter(menuListAdapter);
-        mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
+        mRecyclerView.setAdapter(menuListAdapter);
         menuListAdapter.setClickListener(this);
 
         return rootView;

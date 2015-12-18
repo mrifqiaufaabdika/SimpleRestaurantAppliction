@@ -31,7 +31,28 @@ public class UserDAO extends ItemsDBDAO{
     }
 
     // Getting user data from User table
-    public User getUserDetails(String name) {
+    public User getUserDetails() {
+        User user = null;
+        String sql = "SELECT * FROM " + DataBaseHelper.USER_TABLE;
+        Cursor cursor = database.rawQuery(sql, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            user = new User();
+            user.setId(cursor.getInt(0));
+            user.setUserName(cursor.getString(1));
+            user.setEmail(cursor.getString(2));
+            user.setAddress(cursor.getString(3));
+            user.setPhone(cursor.getString(4));
+        }
+
+        // return user
+        Log.d(LOG_TAG, "Fetching user from Sqlite: " + user.toString());
+        return user;
+    }
+
+
+    public User searchForUser(String name) {
         User user = null;
 
         String sql = "SELECT * FROM " + DataBaseHelper.USER_TABLE
@@ -46,9 +67,8 @@ public class UserDAO extends ItemsDBDAO{
             user.setEmail(cursor.getString(2));
             user.setAddress(cursor.getString(3));
             user.setPhone(cursor.getString(4));
-
-
         }
+
         return user;
     }
 

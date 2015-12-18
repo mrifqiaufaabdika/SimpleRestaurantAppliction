@@ -118,8 +118,6 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
 
     @Override
     public void itemClicked(View view, int position) {
-
-    //    int currentPosition = position - 1;
         if(position == 0){
             Intent intent = new Intent(getActivity(), HotDealsActivity.class);
             startActivity(intent);
@@ -127,6 +125,7 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
             Intent intent = new Intent(getActivity(), MenuActivityWithTabs.class);
             intent.putExtra("currentItem", position);
             startActivity(intent);
+
         }
 
     }

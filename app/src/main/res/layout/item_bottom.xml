@@ -12,7 +12,7 @@
         android:id="@+id/total_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="TOTAL PRICE:"
+        android:text="ORDER TOTAL:"
         android:layout_weight="2"
         android:textColor="@color/colorTextPrimaryLight"
         style="@style/textTitleStyle"

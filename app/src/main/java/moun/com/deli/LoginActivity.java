@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             mInputPassword.setError(null);
             final String username = mInputUsername.getText().toString().trim();
             final String password = mInputPassword.getText().toString().trim();
-            if(userDAO.getUserDetails(username) == null){
+            if(userDAO.searchForUser(username) == null){
                 dialogMessage("Couldn't Sign In!", "Please check your username and password and try again.");
             } else {
                 // user successfully logged in

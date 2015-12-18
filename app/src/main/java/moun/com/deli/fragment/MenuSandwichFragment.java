@@ -2,6 +2,7 @@ package moun.com.deli.fragment;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
     private MenuItems menuItemsFavorite = null;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +57,7 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
         View rootView = inflater.inflate(R.layout.menu_items_list, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.sandwich_recyclerView);
-        mRecyclerView.setHasFixedSize(true);
+    //    mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         if (savedInstanceState != null) {
@@ -62,17 +65,9 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
             listItems = savedInstanceState.getParcelableArrayList(ITEMS_STATE);
         } else {
             listItems = getSandwichMenuList();
-
         }
         menuListAdapter = new MenuListAdapter(getActivity(), listItems, inflater, R.layout.menu_list_single_row);
-        alphaAdapter = new AlphaInAnimationAdapter(menuListAdapter);
-        mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
-
-        /**
-        RecyclerView.ItemDecoration itemDecoration =
-                new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL);
-        mRecyclerView.addItemDecoration(itemDecoration);
-         */
+        mRecyclerView.setAdapter(menuListAdapter);
         menuListAdapter.setClickListener(this);
 
         return rootView;

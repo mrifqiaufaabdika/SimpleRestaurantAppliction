@@ -128,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 mInputPhone.setError(null);
                 mInputEmail.setError(null);
                 mInputPassword.setError(null);
-            } else if(userDAO.getUserDetails(username) != null) {
+            } else if(userDAO.searchForUser(username) != null) {
                 mInputUsername.setError("Choose a unique name");
                 mInputAddress.setError(null);
                 mInputPhone.setError(null);
