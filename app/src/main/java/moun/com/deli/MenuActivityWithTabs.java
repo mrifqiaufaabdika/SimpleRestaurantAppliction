@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.MenuPagerAdapter;
 
 /**
@@ -19,6 +21,7 @@ import moun.com.deli.util.MenuPagerAdapter;
 public class MenuActivityWithTabs extends AppCompatActivity{
 
     FloatingActionButton fab;
+    private TextView mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,10 @@ public class MenuActivityWithTabs extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(getString(R.string.our_menu));
+        mTitle.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOLD));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.sandwich)));

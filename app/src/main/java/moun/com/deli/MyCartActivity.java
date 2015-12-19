@@ -26,6 +26,7 @@ public class MyCartActivity extends AppCompatActivity implements EditCartCustomD
 MyCartFragment.NumberOfItemChangedListener{
 
     private Toolbar mToolbar;
+    private TextView mTitle;
     private Fragment contentFragment;
     private MyCartFragment myCartFragment;
     private View mHeaderCardView;
@@ -40,6 +41,10 @@ MyCartFragment.NumberOfItemChangedListener{
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(getString(R.string.my_cart));
+        mTitle.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOLD));
         mHeaderCardView = findViewById(R.id.header_card_view);
         numberOfItems = (TextView) findViewById(R.id.numb_of_items);
         addItemsNumber();

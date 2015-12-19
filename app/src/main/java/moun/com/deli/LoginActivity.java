@@ -16,6 +16,7 @@ import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 
 import moun.com.deli.database.UserDAO;
 import moun.com.deli.fragment.ResetPasswordDialogFragment;
+import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.SessionManager;
 
 /**
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = LoginActivity.class.getSimpleName();
     private Toolbar mToolbar;
+    private TextView mTitle;
     private EditText mInputUsername;
     private EditText mInputPassword;
     private UserDAO userDAO;
@@ -38,6 +40,10 @@ public class LoginActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(getString(R.string.login));
+        mTitle.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOLD));
         mInputUsername = (EditText) findViewById(R.id.username);
         mInputPassword = (EditText) findViewById(R.id.password);
         userDAO = new UserDAO(this);

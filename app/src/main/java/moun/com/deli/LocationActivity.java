@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import moun.com.deli.util.AppUtils;
+
 /**
  * Created by Mounzer on 12/16/2015.
  */
@@ -40,6 +42,7 @@ public class LocationActivity extends AppCompatActivity implements
 
     private static final String LOG_TAG = LocationActivity.class.getSimpleName();
     private Toolbar mToolbar;
+    private TextView mTitle;
 
     private static final LatLng MAIN_BRANCH = new LatLng(47.840769, -3.510437);
     private static final LatLng BRANCH_TWO = new LatLng(47.969653, -1.813049);
@@ -75,6 +78,10 @@ public class LocationActivity extends AppCompatActivity implements
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(getString(R.string.locations));
+        mTitle.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOLD));
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);

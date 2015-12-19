@@ -13,6 +13,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 
@@ -29,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private static final String LOG_TAG = RegisterActivity.class.getSimpleName();
     private Toolbar mToolbar;
+    private TextView mTitle;
     private EditText mInputUsername;
     private EditText mInputEmail;
     private EditText mInputAddress;
@@ -46,6 +48,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(getString(R.string.register));
+        mTitle.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOLD));
 
         mInputUsername = (EditText) findViewById(R.id.name);
         mInputEmail = (EditText) findViewById(R.id.email);

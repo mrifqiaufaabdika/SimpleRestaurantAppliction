@@ -146,20 +146,7 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        // We change the look of the icon every time the user toggles between list and grid.
-        MenuItem item = menu.findItem(R.id.action_toggle);
-    //    item.setIcon(mLogShown ? R.mipmap.ic_grid_on_white_24dp : R.mipmap.ic_view_list_white_24dp);
-        /**
-        if (null != item) {
-            if (LayoutManagerType.GRID_LAYOUT_MANAGER != null) {
-                item.setIcon(R.mipmap.ic_grid_on_white_24dp);
-                item.setTitle(R.string.show_as_grid);
-            } else if (LayoutManagerType.LINEAR_LAYOUT_MANAGER != null){
-                item.setIcon(R.mipmap.ic_view_list_white_24dp);
-                item.setTitle(R.string.show_as_list);
-            }
-        }
-         */
+
     }
 
     @Override

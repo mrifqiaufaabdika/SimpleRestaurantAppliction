@@ -3,14 +3,20 @@ package moun.com.deli.fragment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.transition.Scene;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -36,8 +42,6 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
     private static final String LOG_TAG = HotDealsDetailFragment.class.getSimpleName();
     public static final String ARG_ITEM_ID = "hot_deals_detail";
 
-  //  private static final String ARG_RESOURCE_ID = "resource_id";
-  //  private static final String ARG_TITLE = "title";
     private static final String ARG_X = "x";
     private static final String ARG_Y = "y";
     private static final String ARG_WIDTH = "width";
@@ -48,6 +52,7 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
     private AddItemTask task;
     ImageView heart;
     ImageButton dealFavorite;
+    private ShareActionProvider mShareActionProvider;
 
     /**
      * Create a new instance of DetailFragment.
@@ -214,12 +219,30 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
                 }
             }
         });
+
+        ImageButton dealShare = (ImageButton) getView().findViewById(R.id.hot_deal_share);
+        dealShare.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = getString(R.string.share_format,
+                        menuHotItems.getItemName(),
+                        menuHotItems.getItemDescription());
+            //    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
+            }
+        });
     }
 
     @Override
     public void onAnimationRepeat(Animation animation) {
         // This method is never called in this sample because the animation doesn't repeat.
     }
+
+
 
     public class AddItemTask extends AsyncTask<Void, Void, Long> {
 

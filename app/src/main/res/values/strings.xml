@@ -26,6 +26,7 @@
     <string name="already_added_to_favorites">You have Already Added this item to your Favorites</string>
     <string name="empty_cart">your cart is empty, start your order now!</string>
     <string name="no_favorites_yet">You have no Favorites yet! long click on items in menu list to add your favorites.</string>
+    <string name="share_format" formatted="false">%s - %s BY DELI APP</string>
 
     <!-- MENU -->
     <string name="breakfast">Breakfast</string>
@@ -110,6 +111,7 @@
     <string name="reset_password">To reset your password type your email and press the Reset password button.</string>
     <string name="orders">Orders</string>
     <string name="my_cart">My Cart</string>
+    <string name="share_this_deal">Share this deal</string>
 
 
 </resources>

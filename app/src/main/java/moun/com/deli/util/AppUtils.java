@@ -2,6 +2,7 @@ package moun.com.deli.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,13 @@ public class AppUtils {
         mytoast.setView(layouttoast);
         mytoast.setDuration(Toast.LENGTH_LONG);
         mytoast.show();
+    }
+
+    public static Intent makeShareIntent(String text) {
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        return intent;
     }
 
 

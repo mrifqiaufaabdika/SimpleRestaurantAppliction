@@ -20,7 +20,6 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/app_name"
             android:theme="@style/AppTheme.BrandedLaunch">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,8 +29,7 @@
         </activity>
         <activity
             android:name=".MenuActivityWithTabs"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/our_menu">
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="moun.com.deli.MainActivity" />
@@ -39,8 +37,7 @@
         </activity>
         <activity
             android:name=".MyCartActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/cart">
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="moun.com.deli.MainActivity" />
@@ -57,8 +54,7 @@
         </activity>
         <activity
             android:name=".HotDealsActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/hot_deals">
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="moun.com.deli.MainActivity" />
@@ -66,8 +62,7 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/sign_in">
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="moun.com.deli.MainActivity" />
@@ -75,8 +70,7 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/register">
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="moun.com.deli.MainActivity" />
@@ -84,8 +78,7 @@
         </activity>
         <activity
             android:name=".LocationActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/register">
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="moun.com.deli.MainActivity" />

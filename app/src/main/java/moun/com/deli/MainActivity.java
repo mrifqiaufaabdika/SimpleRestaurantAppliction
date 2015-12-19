@@ -24,11 +24,13 @@ import android.widget.Toast;
 
 import moun.com.deli.database.UserDAO;
 import moun.com.deli.fragment.MainFragment;
+import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.SessionManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar mToolbar;
+    private TextView mTitle;
     private DrawerLayout mDrawerLayout;
     private NavigationView mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -47,7 +49,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(getString(R.string.app_name));
+        mTitle.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOLD));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (NavigationView) findViewById(R.id.navigation_view);
@@ -242,6 +247,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.action_logout:
                 LogoutUser();
 
+                return true;
+            case R.id.menu_cart:
+                Intent intent = new Intent(this, MyCartActivity.class);
+                startActivity(intent);
                 return true;
         }
 

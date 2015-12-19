@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import moun.com.deli.fragment.FavoritesFragment;
+import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.MenuPagerAdapter;
 import moun.com.deli.util.ProfilePagerAdapter;
 
@@ -21,6 +22,7 @@ import moun.com.deli.util.ProfilePagerAdapter;
 public class ProfileActivityWithTabs extends AppCompatActivity{
 
     private Toolbar mToolbar;
+    private TextView mTitle;
     private FavoritesFragment favoritesFragment;
     private Fragment contentFragment;
 
@@ -32,6 +34,10 @@ public class ProfileActivityWithTabs extends AppCompatActivity{
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(getString(R.string.my_profile));
+        mTitle.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOLD));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
