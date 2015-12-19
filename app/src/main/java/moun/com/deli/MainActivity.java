@@ -10,6 +10,8 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,15 +21,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import moun.com.deli.database.UserDAO;
 import moun.com.deli.fragment.MainFragment;
+import moun.com.deli.fragment.MenuBurgersFragment;
+import moun.com.deli.fragment.MenuDrinksFragment;
+import moun.com.deli.fragment.MenuPizzaFragment;
+import moun.com.deli.fragment.MenuSaladsFragment;
+import moun.com.deli.fragment.MenuSandwichFragment;
+import moun.com.deli.fragment.MenuSweetsFragment;
+import moun.com.deli.fragment.MyCartFragment;
 import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.SessionManager;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+    MainFragment.OnItemSelectedListener{
 
     private Toolbar mToolbar;
     private TextView mTitle;
@@ -40,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int mSelectedId;
     private SessionManager session;
     private UserDAO userDAO;
+    private boolean isTwoPane = false;
 
 
     @Override
@@ -74,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         navigate(mSelectedId);
 
+        FrameLayout fragmentItemDetail = (FrameLayout) findViewById(R.id.content_detail_fragment);
+        if (fragmentItemDetail != null) {
+            isTwoPane = true;
+        }
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             MainFragment mainFragment = new MainFragment();
@@ -299,4 +315,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    @Override
+    public void onItemSelected(int position) {
+        if (isTwoPane) {
+            if(position == 1){
+                MenuSandwichFragment menuSandwichFragment = new MenuSandwichFragment();
+                switchContent(menuSandwichFragment);
+            } else if (position == 2){
+                MenuBurgersFragment menuBurgersFragment = new MenuBurgersFragment();
+                switchContent(menuBurgersFragment);
+            } else if (position == 3){
+                MenuPizzaFragment menuPizzaFragment = new MenuPizzaFragment();
+                switchContent(menuPizzaFragment);
+            } else if(position == 4){
+                MenuSaladsFragment menuSaladsFragment = new MenuSaladsFragment();
+                switchContent(menuSaladsFragment);
+            } else if (position == 5){
+                MenuSweetsFragment menuSweetsFragment = new MenuSweetsFragment();
+                switchContent(menuSweetsFragment);
+            } else {
+                MenuDrinksFragment menuDrinksFragment = new MenuDrinksFragment();
+                switchContent(menuDrinksFragment);
+            }
+
+        } else {
+            Intent intent = new Intent(MainActivity.this, MenuActivityWithTabs.class);
+            intent.putExtra("currentItem", position);
+            startActivity(intent);
+        }
+
+    }
+
+    public void switchContent(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if (fragment != null) {
+            FragmentTransaction transaction = fragmentManager
+                    .beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
+                            android.R.anim.fade_in, android.R.anim.fade_out);
+            transaction.replace(R.id.content_detail_fragment, fragment);
+
+            transaction.commit();
+
+        }
+    }
 }

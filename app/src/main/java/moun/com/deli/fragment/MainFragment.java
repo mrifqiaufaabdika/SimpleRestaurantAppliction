@@ -1,6 +1,7 @@
 package moun.com.deli.fragment;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -51,8 +52,24 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
     private AlphaInAnimationAdapter alphaAdapter;
     View header;
     private TextView hotDealheaderText;
+    private OnItemSelectedListener listener;
 
 
+
+    public interface OnItemSelectedListener {
+        public void onItemSelected(int position);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnItemSelectedListener) {
+            listener = (OnItemSelectedListener) activity;
+        } else {
+            throw new ClassCastException(activity.toString()
+                    + " must implement MainFragment.OnItemSelectedListener");
+        }
+    }
 
 
     private enum LayoutManagerType {
@@ -122,9 +139,8 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
             Intent intent = new Intent(getActivity(), HotDealsActivity.class);
             startActivity(intent);
         } else {
-            Intent intent = new Intent(getActivity(), MenuActivityWithTabs.class);
-            intent.putExtra("currentItem", position);
-            startActivity(intent);
+            listener.onItemSelected(position);
+
 
         }
 

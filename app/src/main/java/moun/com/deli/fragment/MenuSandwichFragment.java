@@ -32,6 +32,7 @@ import moun.com.deli.util.AppUtils;
  */
 public class MenuSandwichFragment extends Fragment implements MenuListAdapter.ClickListener{
 
+    public static final String ARG_ITEM_ID = "menu_sandwich";
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private MenuListAdapter menuListAdapter;
