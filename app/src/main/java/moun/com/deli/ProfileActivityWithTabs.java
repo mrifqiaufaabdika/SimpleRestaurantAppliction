@@ -1,5 +1,6 @@
 package moun.com.deli;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -81,14 +82,17 @@ public class ProfileActivityWithTabs extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_cart) {
+            Intent intent = new Intent(this, MyCartActivity.class);
+            startActivity(intent);
+            finish();
             return true;
         }
 

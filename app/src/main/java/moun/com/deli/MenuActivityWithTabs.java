@@ -99,14 +99,17 @@ public class MenuActivityWithTabs extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_our_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_hot) {
+            Intent intent = new Intent(this, HotDealsActivity.class);
+            startActivity(intent);
+            finish();
             return true;
         }
 

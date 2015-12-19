@@ -228,12 +228,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Intent intent = null;
 
         switch (id) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.action_settings:
+            case R.id.our_menu:
+                intent = new Intent(this, MenuActivityWithTabs.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                return true;
+            case R.id.hot_deals:
+                intent = new Intent(this, HotDealsActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                return true;
+            case R.id.location:
+                intent = new Intent(this, LocationActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                return true;
+            case R.id.favorites:
+                intent = new Intent(this, ProfileActivityWithTabs.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                return true;
+            case R.id.my_cart:
+                intent = new Intent(this, MyCartActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 return true;
             case R.id.action_login:
                 Intent intentLogin = new Intent(this, LoginActivity.class);
@@ -243,15 +267,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intentLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 finish();
                 startActivity(intentLogin);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 return true;
             case R.id.action_logout:
                 LogoutUser();
 
                 return true;
-            case R.id.menu_cart:
-                Intent intent = new Intent(this, MyCartActivity.class);
-                startActivity(intent);
-                return true;
+
         }
 
         return super.onOptionsItemSelected(item);
