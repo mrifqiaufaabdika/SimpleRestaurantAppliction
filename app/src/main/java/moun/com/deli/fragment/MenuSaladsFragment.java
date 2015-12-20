@@ -137,12 +137,12 @@ public class MenuSaladsFragment extends Fragment implements MenuListAdapter.Clic
     private ArrayList<MenuItems> getSaladMenuList(){
 
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
-        menuItems.add(new MenuItems(getString(R.string.uptown), R.drawable.items1, 9.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.mediterranean), R.drawable.items2, 11.25, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.farmhouse), R.drawable.items3, 10.50, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.chicken), R.drawable.items4, 13.75, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.wreck), R.drawable.items5, 8.25, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.chickpea), R.drawable.items6, 11.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.uptown), R.drawable.salad1, 9.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.mediterranean), R.drawable.salad2, 11.25, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.farmhouse), R.drawable.salad3, 10.50, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.chicken), R.drawable.salad4, 13.75, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.wreck), R.drawable.salad5, 8.25, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.chickpea), R.drawable.salad6, 11.00, getString(R.string.short_lorem)));
 
 
         return menuItems;

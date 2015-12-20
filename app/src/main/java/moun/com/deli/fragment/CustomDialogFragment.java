@@ -33,6 +33,7 @@ public class CustomDialogFragment extends DialogFragment {
 
     public static final String ARG_ITEM_ID = "custom_dialog_fragment";
     private TextView itemTitle;
+    private TextView description;
     private TextView itemDescription;
     private TextView totalPrice;
     private MenuItems menuItems;
@@ -65,6 +66,7 @@ public class CustomDialogFragment extends DialogFragment {
 
 
         itemTitle = (TextView) dialog.findViewById(R.id.item_title);
+        description = (TextView) dialog.findViewById(R.id.description_title);
         itemDescription = (TextView) dialog.findViewById(R.id.item_description);
         qtySpinner = (Spinner) dialog.findViewById(R.id.spinner_qty);
         totalPrice = (TextView) dialog.findViewById(R.id.total_price);
@@ -116,6 +118,8 @@ public class CustomDialogFragment extends DialogFragment {
         if(menuItems != null){
             itemTitle.setText(menuItems.getItemName());
             itemTitle.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
+            description.setText(getString(R.string.description));
+            description.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
             itemDescription.setText(menuItems.getItemDescription());
             itemDescription.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOOK));
             Integer[] quantity = new Integer[] { 1, 2, 3, 4, 5, 6 };

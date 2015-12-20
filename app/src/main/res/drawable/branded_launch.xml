@@ -6,7 +6,7 @@
     </item>
     <item>
         <bitmap
-            android:src="@drawable/deli_logo"
+            android:src="@mipmap/deli_branded_launch"
             android:tileMode="disabled"
             android:gravity="center"/>
     </item>

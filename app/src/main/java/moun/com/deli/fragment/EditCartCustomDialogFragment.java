@@ -31,6 +31,7 @@ public class EditCartCustomDialogFragment extends DialogFragment {
 
     public static final String ARG_ITEM_ID = "custom_dialog_fragment";
     private TextView itemTitle;
+    private TextView description;
     private TextView itemDescription;
     private TextView totalPrice;
     private MenuItems menuItems;
@@ -70,9 +71,10 @@ public class EditCartCustomDialogFragment extends DialogFragment {
         dialog.setContentView(R.layout.custom_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
 
         itemTitle = (TextView) dialog.findViewById(R.id.item_title);
+        description = (TextView) dialog.findViewById(R.id.description_title);
         itemDescription = (TextView) dialog.findViewById(R.id.item_description);
         qtySpinner = (Spinner) dialog.findViewById(R.id.spinner_qty);
         totalPrice = (TextView) dialog.findViewById(R.id.total_price);
@@ -131,6 +133,8 @@ public class EditCartCustomDialogFragment extends DialogFragment {
         if(menuItems != null){
             itemTitle.setText(menuItems.getItemName());
             itemTitle.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
+            description.setText(getString(R.string.description));
+            description.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
             itemDescription.setText(menuItems.getItemDescription());
             itemDescription.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOOK));
             qtySpinner.setSelection(position);

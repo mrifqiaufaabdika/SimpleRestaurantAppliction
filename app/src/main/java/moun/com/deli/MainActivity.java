@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FrameLayout fragmentItemDetail = (FrameLayout) findViewById(R.id.content_detail_fragment);
         if (fragmentItemDetail != null) {
             isTwoPane = true;
+            MenuSandwichFragment menuSandwichFragment = new MenuSandwichFragment();
+            switchContent(menuSandwichFragment);
         }
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -354,9 +356,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
                             android.R.anim.fade_in, android.R.anim.fade_out);
             transaction.replace(R.id.content_detail_fragment, fragment);
-
             transaction.commit();
-
         }
     }
 }

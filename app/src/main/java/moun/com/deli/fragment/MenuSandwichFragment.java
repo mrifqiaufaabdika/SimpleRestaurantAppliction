@@ -144,12 +144,12 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
     private ArrayList<MenuItems> getSandwichMenuList(){
 
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
-        menuItems.add(new MenuItems(getString(R.string.grilled_chicken), R.drawable.items1, 8.25, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.krispy_haddock), R.drawable.items2, 7.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.aussie_appetite), R.drawable.items3, 10.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.great_barrier), R.drawable.items4, 9.25, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.grilled_chicken), R.drawable.sandwich1, 8.25, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.krispy_haddock), R.drawable.sandwich2, 7.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.aussie_appetite), R.drawable.sandwich3, 10.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.great_barrier), R.drawable.sandwich4, 9.25, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.whitefish), R.drawable.items5, 8.50, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.shrimp), R.drawable.items6, 7.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.shrimp), R.drawable.items2, 7.00, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.breaded_chicken), R.drawable.items7, 10.25, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.french_dip), R.drawable.items8, 9.50, getString(R.string.short_lorem)));
 

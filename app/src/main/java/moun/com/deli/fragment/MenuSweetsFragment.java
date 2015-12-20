@@ -138,12 +138,12 @@ public class MenuSweetsFragment extends Fragment implements MenuListAdapter.Clic
     private ArrayList<MenuItems> getDessertMenuList(){
 
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
-        menuItems.add(new MenuItems(getString(R.string.cookie), R.drawable.items1, 3.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.brownies), R.drawable.items2, 4.50, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.fresh_baked), R.drawable.items3, 6.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.raspberry), R.drawable.items4, 5.30, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.chocolate), R.drawable.items5, 3.50, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.fudgie), R.drawable.items6, 4.75, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.cookie), R.drawable.dessert1, 3.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.brownies), R.drawable.dessert2, 4.50, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.fresh_baked), R.drawable.dessert3, 6.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.raspberry), R.drawable.dessert4, 5.30, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.chocolate), R.drawable.dessert5, 3.50, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.fudgie), R.drawable.dessert6, 4.75, getString(R.string.short_lorem)));
 
 
         return menuItems;

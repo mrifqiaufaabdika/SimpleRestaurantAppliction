@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/numb_of_items"
-        android:padding="@dimen/padding"
+        android:paddingBottom="8dp"
         android:gravity="center"
         android:text="YOU HAVE 3 ITEMS IN YOUR CART"
         style="@style/textContentStyle"

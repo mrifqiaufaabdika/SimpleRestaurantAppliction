@@ -28,6 +28,17 @@
             android:textColor="@android:color/white"
             android:textSize="24sp" />
 
+        <TextView
+            android:id="@+id/description_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="..."
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_gravity="left" />
+
 
         <TextView
             android:id="@+id/item_description"
@@ -35,7 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:lineSpacingExtra="6dp"
-            android:text="@string/short_lorem"
+            android:text="..."
+            android:layout_gravity="left"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp" />
 
@@ -96,7 +108,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/custom_dialog_btn_positive"
+            android:background="@color/selector_button"
             android:text="ADD TO CART"
             android:textColor="@android:color/white" />
 
@@ -107,7 +119,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/custom_dialog_btn_positive"
+            android:background="@color/selector_button"
             android:text="UPDATE"
             android:textColor="@android:color/white" />
 
@@ -123,7 +135,7 @@
         android:layout_alignParentTop="true"
         android:background="@drawable/custom_dialog_btn_close"
         android:text="×"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorPrimary" />
 
 
 
