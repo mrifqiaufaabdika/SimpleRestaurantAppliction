@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 
+import moun.com.deli.MyCartActivity;
 import moun.com.deli.R;
 import moun.com.deli.database.OrdersDAO;
 import moun.com.deli.database.UserDAO;
@@ -39,6 +40,7 @@ public class MyCartCheckoutFragment extends Fragment implements View.OnClickList
     private OrdersDAO ordersDAO;
     private User user;
     private Orders orders;
+    MyCartFragment myCartFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,6 +86,10 @@ public class MyCartCheckoutFragment extends Fragment implements View.OnClickList
         long result = ordersDAO.updateOrder(orders);
         if (result > 0) {
             dialogMessage("Congrats!", "We'll send you an email just your order will be shipped." );
+            MyCartActivity myCartActivity = (MyCartActivity) getActivity();
+            myCartFragment = new MyCartFragment();
+            myCartActivity.switchContent(myCartFragment, MyCartCheckoutFragment.ARG_ITEM_ID);
+            myCartActivity.addItemsNumber();
             Log.d("UPDATE RESULT ", ordersDAO.getOrders().toString());
 
         } else {
