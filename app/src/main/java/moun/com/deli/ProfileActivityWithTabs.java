@@ -60,6 +60,10 @@ public class ProfileActivityWithTabs extends AppCompatActivity{
         final ProfilePagerAdapter adapter = new ProfilePagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
+        int i = getIntent().getIntExtra("historyTab", 0);
+        if(i == 1){
+            viewPager.setCurrentItem(1);
+        }
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

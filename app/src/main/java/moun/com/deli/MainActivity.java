@@ -38,7 +38,7 @@ import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.SessionManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-    MainFragment.OnItemSelectedListener{
+        MainFragment.OnItemSelectedListener {
 
     private Toolbar mToolbar;
     private TextView mTitle;
@@ -59,24 +59,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //  Initialize the Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // Initialize the title of Toolbar
         mTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(getString(R.string.app_name));
+        // Add a custom font to the title
         mTitle.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOLD));
 
+        //  Initialize the navigation drawer's list of items
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (NavigationView) findViewById(R.id.navigation_view);
+        // // Set the list's click listener
         mDrawer.setNavigationItemSelectedListener(this);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this,
-                mDrawerLayout,
-                mToolbar,
-                R.string.drawer_open,
-                R.string.drawer_close);
+        mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
+                mDrawerLayout, /* DrawerLayout object */
+                mToolbar, /* toolbar */
+                R.string.drawer_open, /* "open drawer" description */
+                R.string.drawer_close); /* "close drawer" description */
 
+        // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
         if (!didUserSeeDrawer()) {
             showDrawer();
@@ -86,16 +93,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         navigate(mSelectedId);
 
+        // Determine the Current Layout
         FrameLayout fragmentItemDetail = (FrameLayout) findViewById(R.id.content_detail_fragment);
+        // Check that the activity is using the layout version with
+        // the content_detail_fragment FrameLayout
         if (fragmentItemDetail != null) {
+            /* The application is in the dual-pane mode, clicking on an item on the left pane will simply display the content on the right pane. */
             isTwoPane = true;
+            // Create a new Fragment to be placed on the right pane.
             MenuSandwichFragment menuSandwichFragment = new MenuSandwichFragment();
             switchContent(menuSandwichFragment);
         }
         if (savedInstanceState == null) {
+            // Add the main fragment (whatever current layout) to the 'content_fragment' FrameLayout.
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            // Create a new Fragment to be placed in the activity layout
             MainFragment mainFragment = new MainFragment();
             transaction.replace(R.id.content_fragment, mainFragment);
+            // Commit the transaction
             transaction.commit();
         }
 
@@ -119,21 +134,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sharedPreferences.edit().putBoolean(FIRST_TIME, mUserSawDrawer).apply();
     }
 
+    /**
+     * This method provides callbacks for drawer events such as openDrawer(int gravity).
+     */
     private void showDrawer() {
         mDrawerLayout.openDrawer(GravityCompat.START);
     }
 
+    /**
+     * This method provides callbacks for drawer events such as closeDrawer(int gravity).
+     */
     private void hideDrawer() {
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
+    /**
+     * Handle Navigation Click Events
+     *
+     * @param mSelectedId the drawer list item id's
+     */
     private void navigate(int mSelectedId) {
-        Intent intent = null;
         if (mSelectedId == R.id.breakfast) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+            // Close the drawer.
+            hideDrawer();
+            // A Handler allows you to schedule messages and runnables to be executed as some point in the future,
+            // and in our situation we use it to Start a new activity after 200ms when a drawer has settled in a completely closed state.
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    // Start an new activity.
                     Intent intent = new Intent(MainActivity.this, MenuActivityWithTabs.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.right_in, R.anim.left_out);
@@ -185,6 +214,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }, 200);
 
 
+        } else if (mSelectedId == R.id.orders) {
+            hideDrawer();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(MainActivity.this, ProfileActivityWithTabs.class);
+                    intent.putExtra("historyTab", 1);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                }
+            }, 200);
 
         }
 
@@ -250,7 +290,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (id) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                //  open the navigation drawer with a swipe gesture from or towards the left edge of the screen.
+                showDrawer();
                 return true;
             case R.id.our_menu:
                 intent = new Intent(this, MenuActivityWithTabs.class);
@@ -291,9 +332,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 LogoutUser();
 
                 return true;
-
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -320,19 +359,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onItemSelected(int position) {
         if (isTwoPane) {
-            if(position == 1){
+            /* display article on the right pane */
+            if (position == 1) {
                 MenuSandwichFragment menuSandwichFragment = new MenuSandwichFragment();
                 switchContent(menuSandwichFragment);
-            } else if (position == 2){
+            } else if (position == 2) {
                 MenuBurgersFragment menuBurgersFragment = new MenuBurgersFragment();
                 switchContent(menuBurgersFragment);
-            } else if (position == 3){
+            } else if (position == 3) {
                 MenuPizzaFragment menuPizzaFragment = new MenuPizzaFragment();
                 switchContent(menuPizzaFragment);
-            } else if(position == 4){
+            } else if (position == 4) {
                 MenuSaladsFragment menuSaladsFragment = new MenuSaladsFragment();
                 switchContent(menuSaladsFragment);
-            } else if (position == 5){
+            } else if (position == 5) {
                 MenuSweetsFragment menuSweetsFragment = new MenuSweetsFragment();
                 switchContent(menuSweetsFragment);
             } else {
@@ -341,6 +381,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
         } else {
+            /* The application is in single-pane mode, the content should be displayed on its own (in a different activity). */
             Intent intent = new Intent(MainActivity.this, MenuActivityWithTabs.class);
             intent.putExtra("currentItem", position);
             startActivity(intent);
@@ -348,6 +389,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     * Using This method to replace One Fragment with Another.
+     * @param fragment the fragment.
+     */
     public void switchContent(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -355,7 +400,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction transaction = fragmentManager
                     .beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
                             android.R.anim.fade_in, android.R.anim.fade_out);
+            // Replace whatever is in the content_detail_fragment view with this fragment.
             transaction.replace(R.id.content_detail_fragment, fragment);
+            // Commit the transaction
             transaction.commit();
         }
     }

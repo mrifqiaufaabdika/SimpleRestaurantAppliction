@@ -4,7 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import moun.com.deli.adapter.OrdersHistoryAdapter;
 import moun.com.deli.fragment.FavoritesFragment;
+import moun.com.deli.fragment.OrdersHistoryFragment;
 
 /**
  * Created by Mounzer on 12/9/2015.
@@ -25,7 +27,7 @@ public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
                 FavoritesFragment tab1 = new FavoritesFragment();
                 return tab1;
             case 1:
-                FavoritesFragment tab2 = new FavoritesFragment();
+                OrdersHistoryFragment tab2 = new OrdersHistoryFragment();
                 return tab2;
 
             default:

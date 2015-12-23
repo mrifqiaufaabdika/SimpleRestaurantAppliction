@@ -63,11 +63,13 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
         if (activity instanceof OnItemSelectedListener) {
             listener = (OnItemSelectedListener) activity;
         } else {
             throw new ClassCastException(activity.toString()
-                    + " must implement MainFragment.OnItemSelectedListener");
+                    + " must implement OnItemSelectedListener");
         }
     }
 
@@ -89,6 +91,7 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         this.inflater = inflater;
 

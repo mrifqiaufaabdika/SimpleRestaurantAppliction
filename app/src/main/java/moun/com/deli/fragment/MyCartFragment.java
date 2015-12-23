@@ -24,6 +24,7 @@ import moun.com.deli.MyCartActivity;
 import moun.com.deli.R;
 import moun.com.deli.adapter.MyCartListAdapter;
 import moun.com.deli.database.ItemsDAO;
+import moun.com.deli.model.Cart;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.SessionManager;
@@ -38,7 +39,7 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
     private RecyclerView cartRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private MyCartListAdapter myCartListAdapter;
-    private ArrayList<MenuItems> itemsCartList;
+    private ArrayList<Cart> itemsCartList;
     private ItemsDAO itemsDAO;
     private GetItemsCartTask task;
     NumberOfItemChangedListener numberOfItemChangedListener;
@@ -105,8 +106,8 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
 
     @Override
     public void deleteClicked(View view, int position) {
-        MenuItems menuItems = (MenuItems) itemsCartList.get(position);
-        itemsDAO.deleteFromCart(menuItems);
+        Cart cartItems = (Cart) itemsCartList.get(position);
+        itemsDAO.deleteFromCart(cartItems);
         myCartListAdapter.removeAt(position);
         numberOfItemChangedListener.onNumberChanged();
         MyCartActivity myCartActivity = (MyCartActivity) getActivity();
@@ -120,11 +121,11 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
 
     @Override
     public void editClicked(View view, int position) {
-        MenuItems menuItems = (MenuItems) itemsCartList.get(position);
+        Cart cartItems = (Cart) itemsCartList.get(position);
 
-        if (menuItems != null) {
+        if (cartItems != null) {
             Bundle arguments = new Bundle();
-            arguments.putParcelable("selectedItem", menuItems);
+            arguments.putParcelable("selectedItem", cartItems);
             EditCartCustomDialogFragment editCartCustomDialogFragment = new EditCartCustomDialogFragment();
             editCartCustomDialogFragment.setArguments(arguments);
             editCartCustomDialogFragment.show(getFragmentManager(),
@@ -154,7 +155,7 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
 
     }
 
-    public class GetItemsCartTask extends AsyncTask<Void, Void, ArrayList<MenuItems>> {
+    public class GetItemsCartTask extends AsyncTask<Void, Void, ArrayList<Cart>> {
 
         private final WeakReference<Activity> activityWeakRef;
 
@@ -163,13 +164,13 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
         }
 
         @Override
-        protected ArrayList<MenuItems> doInBackground(Void... arg0) {
-            ArrayList<MenuItems> itemsList = itemsDAO.getCartItems();
+        protected ArrayList<Cart> doInBackground(Void... arg0) {
+            ArrayList<Cart> itemsList = itemsDAO.getCartItemsss();
             return itemsList;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<MenuItems> cartList) {
+        protected void onPostExecute(ArrayList<Cart> cartList) {
             if (activityWeakRef.get() != null
                     && !activityWeakRef.get().isFinishing()) {
                 Log.d("items", cartList.toString());

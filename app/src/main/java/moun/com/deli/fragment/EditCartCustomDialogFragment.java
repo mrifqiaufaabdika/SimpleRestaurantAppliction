@@ -21,6 +21,7 @@ import java.lang.ref.WeakReference;
 import moun.com.deli.MyCartActivity;
 import moun.com.deli.R;
 import moun.com.deli.database.ItemsDAO;
+import moun.com.deli.model.Cart;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
@@ -34,7 +35,7 @@ public class EditCartCustomDialogFragment extends DialogFragment {
     private TextView description;
     private TextView itemDescription;
     private TextView totalPrice;
-    private MenuItems menuItems;
+    private Cart cartItems;
     private Spinner qtySpinner;
     private ItemsDAO itemDAO;
     private UpdateItemTask task;
@@ -63,7 +64,7 @@ public class EditCartCustomDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         Bundle bundle = this.getArguments();
-        menuItems = bundle.getParcelable("selectedItem");
+        cartItems = bundle.getParcelable("selectedItem");
 
         Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -84,7 +85,7 @@ public class EditCartCustomDialogFragment extends DialogFragment {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 int qty = (int) qtySpinner.getSelectedItem();
-                totalPrice.setText(String.valueOf("$" + qty * menuItems.getItemPrice()));
+                totalPrice.setText(String.valueOf("$" + qty * cartItems.getItemPrice()));
             }
 
             @Override
@@ -129,24 +130,24 @@ public class EditCartCustomDialogFragment extends DialogFragment {
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(getActivity(),
                 android.R.layout.simple_spinner_item, quantity);
         qtySpinner.setAdapter(adapter);
-        int position = adapter.getPosition(menuItems.getItemQuantity());
-        if(menuItems != null){
-            itemTitle.setText(menuItems.getItemName());
+        int position = adapter.getPosition(cartItems.getItemQuantity());
+        if(cartItems != null){
+            itemTitle.setText(cartItems.getItemName());
             itemTitle.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
             description.setText(getString(R.string.description));
             description.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
-            itemDescription.setText(menuItems.getItemDescription());
+            itemDescription.setText(cartItems.getItemDescription());
             itemDescription.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOOK));
             qtySpinner.setSelection(position);
         }
     }
 
     private void getItemsData(){
-        menuItems.setItemName(menuItems.getItemName());
-        menuItems.setItemDescription(menuItems.getItemDescription());
-        menuItems.setItemImage(menuItems.getItemImage());
-        menuItems.setItemPrice(menuItems.getItemPrice());
-        menuItems.setItemQuantity(Integer.parseInt(qtySpinner.getSelectedItem().toString()));
+        cartItems.setItemName(cartItems.getItemName());
+        cartItems.setItemDescription(cartItems.getItemDescription());
+        cartItems.setItemImage(cartItems.getItemImage());
+        cartItems.setItemPrice(cartItems.getItemPrice());
+        cartItems.setItemQuantity(Integer.parseInt(qtySpinner.getSelectedItem().toString()));
 
 
     }
@@ -161,7 +162,7 @@ public class EditCartCustomDialogFragment extends DialogFragment {
 
         @Override
         protected Long doInBackground(Void... arg0) {
-            long result = itemDAO.updateCartTable(menuItems);
+            long result = itemDAO.updateCartTable(cartItems);
             return result;
         }
 
@@ -171,7 +172,7 @@ public class EditCartCustomDialogFragment extends DialogFragment {
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1) {
                     AppUtils.CustomToast(activityWeakRef.get(), "Item Updated");
-                    Log.d("ITEM: ", menuItems.toString());
+                    Log.d("ITEM: ", cartItems.toString());
                 }
             }
         }

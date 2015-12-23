@@ -23,7 +23,10 @@ import java.lang.ref.WeakReference;
 
 import moun.com.deli.R;
 import moun.com.deli.database.ItemsDAO;
+import moun.com.deli.database.OrdersDAO;
+import moun.com.deli.model.Cart;
 import moun.com.deli.model.MenuItems;
+import moun.com.deli.model.Orders;
 import moun.com.deli.util.AppUtils;
 
 /**
@@ -37,16 +40,20 @@ public class CustomDialogFragment extends DialogFragment {
     private TextView itemDescription;
     private TextView totalPrice;
     private MenuItems menuItems;
-    private MenuItems menuItemsCart = null;
+    private Cart menuItemsCart;
     private Spinner qtySpinner;
     private ItemsDAO itemDAO;
+    private OrdersDAO ordersDAO;
+    private Orders orders;
     private AddItemTask task;
+    private AddOrderTask orderTask;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         itemDAO = new ItemsDAO(getActivity());
+        ordersDAO = new OrdersDAO(getActivity());
     }
 
 
@@ -84,6 +91,16 @@ public class CustomDialogFragment extends DialogFragment {
                 qtySpinner.setSelection(0);
             }
         });
+        if(ordersDAO.getOrder(0) == null) {
+            orders = new Orders();
+            orders.setOrdered(false);
+            orders.setDate_created(System.currentTimeMillis());
+            orderTask = new AddOrderTask(getActivity());
+            orderTask.execute((Void) null);
+        }
+
+
+
 
         // Add to cart
         dialog.findViewById(R.id.order_button).setOnClickListener(new View.OnClickListener() {
@@ -130,12 +147,22 @@ public class CustomDialogFragment extends DialogFragment {
     }
 
     private void getItemsData(){
-        menuItemsCart = new MenuItems();
+        menuItemsCart = new Cart();
         menuItemsCart.setItemName(menuItems.getItemName());
         menuItemsCart.setItemDescription(menuItems.getItemDescription());
         menuItemsCart.setItemImage(menuItems.getItemImage());
         menuItemsCart.setItemPrice(menuItems.getItemPrice());
         menuItemsCart.setItemQuantity(Integer.parseInt(qtySpinner.getSelectedItem().toString()));
+
+
+
+            Orders orders = (Orders) ordersDAO.getOrder(0);
+            menuItemsCart.setOrders(orders);
+            Log.d("Already order Added: ", orders.toString());
+            Log.d("THE ORDERS: ", ordersDAO.getOrders().toString());
+
+
+
 
 
     }
@@ -160,7 +187,32 @@ public class CustomDialogFragment extends DialogFragment {
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1)
                     AppUtils.CustomToast(activityWeakRef.get(), "Added to cart");
-                Log.d("ITEM: ", menuItemsCart.toString());
+                Log.d("ITEMS Cart: ", menuItemsCart.toString());
+            }
+        }
+    }
+
+    public class AddOrderTask extends AsyncTask<Void, Void, Long> {
+
+        private final WeakReference<Activity> activityWeakRef;
+
+        public AddOrderTask(Activity context) {
+            this.activityWeakRef = new WeakReference<Activity>(context);
+        }
+
+        @Override
+        protected Long doInBackground(Void... arg0) {
+            long result = ordersDAO.saveOrder(orders);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Long result) {
+            if (activityWeakRef.get() != null
+                    && !activityWeakRef.get().isFinishing()) {
+                if (result != -1)
+                    AppUtils.CustomToast(activityWeakRef.get(), "Added to order");
+                Log.d("ORDERS: ", ordersDAO.getOrders().toString());
             }
         }
     }

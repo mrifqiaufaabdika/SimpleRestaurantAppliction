@@ -24,6 +24,7 @@ public class MenuPagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
+                // Create a new fragment
                 MenuSandwichFragment tab1 = new MenuSandwichFragment();
                 return tab1;
             case 1:

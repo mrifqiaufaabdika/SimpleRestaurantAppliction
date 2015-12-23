@@ -14,7 +14,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public static final String USER_TABLE = "user";
     public static final String CART_TABLE = "cart";
-    public static final String ORDERS_TABLE = "cart";
+    public static final String ORDERS_TABLE = "orders";
     public static final String FAVORITE_TABLE = "favorite";
 
     public static final String ID_COLUMN = "id";
@@ -26,7 +26,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String EMAIL_COLOMN = "email";
     public static final String ADDRESS_COLOMN = "address";
     public static final String PHONE_COLOMN = "phone";
-    public static final String NUMB_OF_ORDER_COLOMN = "orders";
+    public static final String ORDER_ID = "order_id";
+    public static final String ORDERED = "ordered";
+    public static final String CREATED_AT = "created_at";
 
     public static final String CREATE_USER_TABLE = "CREATE TABLE "
             + USER_TABLE + "(" + ID_COLUMN + " INTEGER PRIMARY KEY, "
@@ -38,13 +40,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             + CART_TABLE + "(" + ID_COLUMN + " INTEGER PRIMARY KEY, "
             + NAME_COLUMN + " TEXT, " + DESCRIPTION_COLOMN + " TEXT, "
             + IMAGE_COLOMN + " INTEGER, " + PRICE_COLOMN + " DOUBLE, "
-            + QUANTITY_COLOMN + " INTEGER" + ")";
+            + QUANTITY_COLOMN + " INTEGER, " + ORDER_ID + " INTEGER, "
+            + "FOREIGN KEY(" + ORDER_ID + ") REFERENCES "
+            + ORDERS_TABLE + "(id) " + ")";
+
+    public static final String CREATE_ORDERS_TABLE = "CREATE TABLE "
+            + ORDERS_TABLE + "(" + ID_COLUMN + " INTEGER PRIMARY KEY,"
+            + ORDERED + " INTEGER," + CREATED_AT + " TEXT" + ")";
 
     public static final String CREATE_FAVORITE_TABLE = "CREATE TABLE "
             + FAVORITE_TABLE + "(" + ID_COLUMN + " INTEGER PRIMARY KEY, "
             + NAME_COLUMN + " TEXT, " + DESCRIPTION_COLOMN + " TEXT, "
             + IMAGE_COLOMN + " INTEGER, " + PRICE_COLOMN + " DOUBLE"
-             + ")";
+            + ")";
 
     private static DataBaseHelper instance;
 
@@ -71,6 +79,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_CART_TABLE);
+        db.execSQL(CREATE_ORDERS_TABLE);
         db.execSQL(CREATE_FAVORITE_TABLE);
 
     }
@@ -79,6 +88,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + CART_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + ORDERS_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + FAVORITE_TABLE);
 
     }

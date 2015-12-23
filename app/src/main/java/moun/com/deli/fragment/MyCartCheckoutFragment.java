@@ -2,17 +2,21 @@ package moun.com.deli.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 
 import moun.com.deli.R;
+import moun.com.deli.database.OrdersDAO;
 import moun.com.deli.database.UserDAO;
+import moun.com.deli.model.Orders;
 import moun.com.deli.model.User;
 import moun.com.deli.util.AppUtils;
 
@@ -32,7 +36,9 @@ public class MyCartCheckoutFragment extends Fragment implements View.OnClickList
     private TextView info;
     private Button orderNowBtn;
     private UserDAO userDAO;
+    private OrdersDAO ordersDAO;
     private User user;
+    private Orders orders;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +67,8 @@ public class MyCartCheckoutFragment extends Fragment implements View.OnClickList
 
         orderNowBtn.setOnClickListener(this);
 
+        ordersDAO = new OrdersDAO(getActivity());
+
 
 
         return rootView;
@@ -70,7 +78,21 @@ public class MyCartCheckoutFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        dialogMessage("Congrats!", "We'll send you an email just your order will be shipped." );
+        orders = new Orders();
+        orders.setOrdered(true);
+        orders.setDate_created(System.currentTimeMillis());
+        long result = ordersDAO.updateOrder(orders);
+        if (result > 0) {
+            dialogMessage("Congrats!", "We'll send you an email just your order will be shipped." );
+            Log.d("UPDATE RESULT ", ordersDAO.getOrders().toString());
+
+        } else {
+            Toast.makeText(getActivity(),
+                    "Unable to update",
+                    Toast.LENGTH_SHORT).show();
+
+        }
+
 
     }
 

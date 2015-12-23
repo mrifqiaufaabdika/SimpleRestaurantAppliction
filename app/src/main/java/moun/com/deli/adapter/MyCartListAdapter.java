@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import moun.com.deli.R;
+import moun.com.deli.model.Cart;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
@@ -23,7 +24,7 @@ import moun.com.deli.util.AppUtils;
 public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.ViewHolder>{
     private static final String LOG_TAG = MyCartListAdapter.class.getSimpleName();
     private LayoutInflater mLayoutInflater;
-    ArrayList<MenuItems> itemsList;
+    ArrayList<Cart> itemsList;
     private ButtonClickListener clickListener;
 
     public MyCartListAdapter(Context context) {
@@ -31,7 +32,7 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
 
     }
 
-    public void setItemsList(ArrayList<MenuItems> itemsList) {
+    public void setItemsList(ArrayList<Cart> itemsList) {
         this.itemsList = itemsList;
         //    notifyDataSetChanged();
         notifyItemInserted(itemsList.size());
@@ -56,13 +57,11 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
-        MenuItems menuItems = itemsList.get(position);
-        viewHolder.itemTitle.setText(menuItems.getItemName());
-        viewHolder.itemQuantity.setText("Quantity: " + menuItems.getItemQuantity());
-        viewHolder.itemTotal.setText("Total: $" + menuItems.getItemPrice() * menuItems.getItemQuantity());
-        viewHolder.itemImage.setImageResource(menuItems.getItemImage());
-
-
+        Cart cartItems = itemsList.get(position);
+        viewHolder.itemTitle.setText(cartItems.getItemName());
+        viewHolder.itemQuantity.setText("Quantity: " + cartItems.getItemQuantity());
+        viewHolder.itemTotal.setText("Total: $" + cartItems.getItemPrice() * cartItems.getItemQuantity());
+        viewHolder.itemImage.setImageResource(cartItems.getItemImage());
 
     }
 

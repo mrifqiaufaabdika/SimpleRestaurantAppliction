@@ -19,6 +19,7 @@ import moun.com.deli.fragment.EditCartCustomDialogFragment;
 import moun.com.deli.fragment.MainFragment;
 import moun.com.deli.fragment.MyCartCheckoutFragment;
 import moun.com.deli.fragment.MyCartFragment;
+import moun.com.deli.model.Cart;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
@@ -100,12 +101,15 @@ MyCartFragment.NumberOfItemChangedListener{
             FragmentTransaction transaction = fragmentManager
                     .beginTransaction().setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
                             android.R.anim.fade_in, android.R.anim.fade_out);
+            // Replace whatever is in the content_fragment_cart view with this fragment
             transaction.replace(R.id.content_fragment_cart, fragment, tag);
 
             if (!(fragment instanceof MyCartFragment)) {
+                // add the transaction to the back stack so the user can navigate back
                 transaction.addToBackStack(tag);
             }
 
+            // Commit the transaction
             transaction.commit();
             contentFragment = fragment;
         }
@@ -113,7 +117,7 @@ MyCartFragment.NumberOfItemChangedListener{
 
     public void addItemsNumber(){
         itemsDAO = new ItemsDAO(this);
-        ArrayList<MenuItems> itemsList = itemsDAO.getCartItems();
+        ArrayList<Cart> itemsList = itemsDAO.getCartItemsss();
         numberOfItems.setText("YOU HAVE " + itemsList.size() + " ITEMS IN YOUR CART");
         numberOfItems.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOOK));
 
