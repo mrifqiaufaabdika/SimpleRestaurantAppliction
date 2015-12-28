@@ -26,24 +26,19 @@
 
     <!-- Text styles -->
     <style name="textTitleStyle">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">@dimen/textTitleStyle</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
-        <item name="android:gravity">center_vertical</item>
         <item name="android:maxLines">3</item>
         <item name="android:paddingLeft">@dimen/padding</item>
         <item name="android:paddingRight">@dimen/padding</item>
-        <item name="android:paddingTop">2dp</item>
     </style>
 
     <style name="textSubtitleStyle">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/textSubtitleStyle</item>
         <item name="android:textColor">@color/colorTextSecondary</item>
-        <item name="android:gravity">center_vertical</item>
         <item name="android:paddingLeft">@dimen/padding</item>
         <item name="android:paddingRight">@dimen/padding</item>
-        <item name="android:paddingTop">2dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/textPaddingTop</item>
     </style>
 
     <style name="textEmptyStyle">

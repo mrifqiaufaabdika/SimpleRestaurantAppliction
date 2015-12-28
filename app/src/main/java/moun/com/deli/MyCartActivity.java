@@ -118,9 +118,14 @@ MyCartFragment.NumberOfItemChangedListener{
     public void addItemsNumber(){
         itemsDAO = new ItemsDAO(this);
         ArrayList<Cart> itemsList = itemsDAO.getCartItemsss();
-        numberOfItems.setText("YOU HAVE " + itemsList.size() + " ITEMS IN YOUR CART");
+        String item = null;
+        if(itemsList.size() == 0 || itemsList.size() == 1){
+            item = "item";
+        } else if(itemsList.size() > 1){
+            item = "items";
+        }
+        numberOfItems.setText("YOU HAVE " + itemsList.size() + " " + item + " IN YOUR CART");
         numberOfItems.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOOK));
-
 
     }
 

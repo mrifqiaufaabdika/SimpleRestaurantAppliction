@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/meat_container"
-    android:layout_width="150dp"
-    android:layout_height="150dp"
-    android:layout_margin="4dp"
+    android:layout_width="@dimen/gridWidth"
+    android:layout_height="@dimen/gridHeight"
+    android:layout_margin="@dimen/layoutMargin"
     android:foreground="?android:attr/selectableItemBackground">
 
     <ImageView
@@ -22,7 +21,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_gravity="right|bottom"
+        android:layout_gravity="center_vertical|bottom"
         android:alpha="0.8"
         android:background="@color/windowBackgroud"
         android:orientation="horizontal"
@@ -31,28 +30,25 @@
 
         <TextView
             android:id="@+id/menu_title"
+            style="@style/textSubtitleStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom|left"
-            android:layout_marginLeft="8dp"
+            android:layout_gravity="start|center"
             android:layout_marginRight="16dp"
             android:layout_weight="5"
-            android:padding="4dp"
+            android:padding="@dimen/titlePadding"
             android:singleLine="true"
-            android:text="Hello"
-            android:textColor="@color/colorTextPrimaryLight"
-            android:textSize="18sp" />
+            android:text="Title"
+            android:textColor="@color/colorTextPrimaryLight" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="right|bottom"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
+            android:layout_gravity="end|center"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_keyboard_arrow_right_white_24dp" />
 

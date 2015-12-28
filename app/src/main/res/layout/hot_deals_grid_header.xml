@@ -4,9 +4,9 @@
     android:id="@+id/header_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="24sp"
     android:text="Delivery and takeaway only"
     android:textColor="@color/colorTextPrimaryLight"
     android:background="@color/colorPrimary"
-    android:padding="8dp"
-    android:gravity="center_horizontal" />
+    android:padding="@dimen/padding"
+    android:gravity="center_horizontal"
+    style="@style/textTitleStyle"/>

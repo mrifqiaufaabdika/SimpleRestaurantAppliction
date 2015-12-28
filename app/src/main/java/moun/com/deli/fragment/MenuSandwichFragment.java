@@ -6,12 +6,14 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -34,7 +36,7 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
 
     public static final String ARG_ITEM_ID = "menu_sandwich";
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private GridLayoutManager mLayoutManager;
     private MenuListAdapter menuListAdapter;
     ArrayList<MenuItems> listItems;
     private static final String ITEMS_STATE = "items_state";
@@ -42,7 +44,6 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
     private ItemsDAO itemDAO;
     private AddItemTask task;
     private MenuItems menuItemsFavorite = null;
-
 
 
     @Override
@@ -59,7 +60,9 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.sandwich_recyclerView);
     //    mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity());
+
+        mLayoutManager = new GridLayoutManager(getActivity(), 1);
+
         mRecyclerView.setLayoutManager(mLayoutManager);
         if (savedInstanceState != null) {
             // We will restore the state of data list when the activity is re-created
@@ -148,10 +151,10 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
         menuItems.add(new MenuItems(getString(R.string.krispy_haddock), R.drawable.sandwich2, 7.00, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.aussie_appetite), R.drawable.sandwich3, 10.00, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.great_barrier), R.drawable.sandwich4, 9.25, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.whitefish), R.drawable.items5, 8.50, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.shrimp), R.drawable.items2, 7.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.breaded_chicken), R.drawable.items7, 10.25, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.french_dip), R.drawable.items8, 9.50, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.whitefish), R.drawable.sandwich5, 8.50, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.shrimp), R.drawable.sandwich6, 7.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.breaded_chicken), R.drawable.sandwich7, 10.25, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.french_dip), R.drawable.sandwich8, 9.50, getString(R.string.short_lorem)));
 
         return menuItems;
     }

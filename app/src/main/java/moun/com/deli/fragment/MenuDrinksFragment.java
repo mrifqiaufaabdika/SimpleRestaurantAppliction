@@ -138,13 +138,13 @@ public class MenuDrinksFragment extends Fragment implements MenuListAdapter.Clic
     private ArrayList<MenuItems> getDrinkMenuList(){
 
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
-        menuItems.add(new MenuItems(getString(R.string.orange), R.drawable.items1, 2.25, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.earl), R.drawable.items2, 1.50, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.iced_tead), R.drawable.items3, 3.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.coffee), R.drawable.items4, 3.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.hot_tea), R.drawable.items5, 2.25, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.bottle), R.drawable.items6, 2.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.water), R.drawable.items7, 1.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.orange), R.drawable.drink1, 2.25, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.earl), R.drawable.drink2, 1.50, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.iced_tead), R.drawable.drink3, 3.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.coffee), R.drawable.drink4, 3.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.hot_tea), R.drawable.drink5, 2.25, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.bottle), R.drawable.drink6, 2.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.water), R.drawable.drink7, 1.00, getString(R.string.short_lorem)));
 
 
         return menuItems;

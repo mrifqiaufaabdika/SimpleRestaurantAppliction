@@ -145,7 +145,7 @@ public class MenuPizzaFragment extends Fragment implements MenuListAdapter.Click
         menuItems.add(new MenuItems(getString(R.string.pepperoni), R.drawable.pizza5, 13.20, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.bbq), R.drawable.pizza6, 16.75, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.hot), R.drawable.pizza7, 14.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.greek), R.drawable.items4, 18.50, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.greek), R.drawable.pizza8, 18.50, getString(R.string.short_lorem)));
 
         return menuItems;
     }

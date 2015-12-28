@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:textSize="22sp"
+            android:textSize="@dimen/textTitleStyle"
             android:layout_gravity="center"
             android:textColor="@color/colorTextPrimaryLight"
             android:text="ORDER" />
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:textSize="28sp"
+            android:textSize="@dimen/bigTextTitle"
             android:layout_gravity="center"
             android:textColor="@color/colorTextPrimaryLight"
             android:text="10" />
@@ -50,9 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:textSize="24sp"
+            style="@style/textTitleStyle"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="@dimen/margin"
             android:textColor="@color/colorTextPrimaryLight"
             android:text="12 DECEMBRE 2015" />
 
@@ -67,9 +66,5 @@
             android:text="A MINUTE AGO" />
 
     </LinearLayout>
-
-
-
-
 
 </LinearLayout>

@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/hot_deaL_image"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="@dimen/hotImageContentHeight"
             android:scaleType="centerCrop"
             tools:src="@drawable/items3" />
 
@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/hot_deaL_image"
             android:background="@color/colorAccent"
-
             android:gravity="right">
 
             <ImageButton
@@ -37,7 +36,7 @@
                 android:clickable="true"
                 android:contentDescription="Favorites"
                 android:focusable="true"
-                android:padding="10dp"
+                android:padding="@dimen/imageButtonPadding"
                 android:src="@mipmap/ic_share_white_24dp" />
 
             <ImageButton
@@ -47,7 +46,7 @@
                 android:background="@color/selector_icons_hot"
                 android:clickable="true"
                 android:contentDescription="Favorites"
-                android:padding="10dp"
+                android:padding="@dimen/imageButtonPadding"
                 android:src="@mipmap/ic_shopping_cart_white_24dp" />
 
             <ImageButton
@@ -58,7 +57,7 @@
                 android:clickable="true"
                 android:contentDescription="Favorites"
                 android:focusable="true"
-                android:padding="10dp"
+                android:padding="@dimen/imageButtonPadding"
                 android:src="@null" />
 
 
@@ -68,41 +67,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/linear_bottom"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/hot_deal_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:textColor="@color/colorTextPrimary"
-                android:textSize="30sp"
+                android:textSize="@dimen/bigTextTitle"
                 tools:text="HOT DEALS 1" />
 
             <TextView
                 android:id="@+id/hot_deal_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/textPaddingTop"
                 android:text="DESCRIPTION"
                 android:textColor="@color/colorTextPrimary"
-                android:textSize="24sp" />
+                android:textSize="@dimen/textTitleStyle" />
 
             <TextView
                 android:id="@+id/hot_deal_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                android:paddingBottom="2dp"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
-                android:paddingTop="2dp"
+                android:paddingBottom="@dimen/textPaddingTop"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="@dimen/textPaddingTop"
                 android:text="000"
                 android:textColor="@color/colorTextPrimaryLight"
-                android:textSize="28sp" />
+                android:textSize="@dimen/bigTextTitle" />
 
 
         </LinearLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frame"
     android:layout_width="match_parent"
@@ -10,8 +9,8 @@
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_margin="4dp"
+        android:layout_height="@dimen/gridHeight"
+        android:layout_margin="@dimen/layoutMargin"
         tools:ignore="UselessParent">
 
         <ImageView
@@ -26,21 +25,20 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:alpha="0.8"
-            android:background="@color/colorAccent"
-            android:padding="2dp">
+            android:background="@color/colorAccent">
 
             <TextView
                 android:id="@+id/hot_deal_title"
+                style="@style/textSubtitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_gravity="bottom|start"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:gravity="center_horizontal"
-                android:textColor="@color/colorTextPrimaryLight"
-                android:textSize="18sp"
-                tools:text="HOT DEALS 1" />
+                android:layout_gravity="center|start"
+                android:layout_marginLeft="2dp"
+                android:singleLine="true"
+                android:padding="@dimen/titlePadding"
+                android:text="HOT DEALS Title"
+                android:textColor="@color/colorTextPrimaryLight" />
 
         </LinearLayout>
 

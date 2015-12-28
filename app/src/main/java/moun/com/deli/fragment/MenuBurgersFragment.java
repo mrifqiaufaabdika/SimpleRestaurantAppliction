@@ -137,14 +137,14 @@ public class MenuBurgersFragment extends Fragment implements MenuListAdapter.Cli
     private ArrayList<MenuItems> getBurgerMenuList(){
 
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
-        menuItems.add(new MenuItems(getString(R.string.major), R.drawable.items1, 6.25, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.fair), R.drawable.items2, 7.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.jack), R.drawable.items3, 10.50, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.black), R.drawable.items4, 8.50, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.endeavor), R.drawable.items5, 9.30, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.mexican), R.drawable.items6, 11.00, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.pepperjack), R.drawable.items7, 9.50, getString(R.string.short_lorem)));
-        menuItems.add(new MenuItems(getString(R.string.texas), R.drawable.items8, 8.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.major), R.drawable.burger1, 6.25, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.fair), R.drawable.burger2, 7.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.jack), R.drawable.burger3, 10.50, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.black), R.drawable.burger4, 8.50, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.endeavor), R.drawable.burger5, 9.30, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.mexican), R.drawable.burger6, 11.00, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.pepperjack), R.drawable.burger7, 9.50, getString(R.string.short_lorem)));
+        menuItems.add(new MenuItems(getString(R.string.texas), R.drawable.burger8, 8.00, getString(R.string.short_lorem)));
 
         return menuItems;
     }

@@ -131,12 +131,12 @@ public class HotDealsListFragment extends Fragment implements HotDealsAdapter.Cl
     private ArrayList<MenuItems> getHotDealsList(){
 
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
-        menuItems.add(new MenuItems(getString(R.string.deal_1), R.drawable.items1, 9.50, getString(R.string.deal_description)));
-        menuItems.add(new MenuItems(getString(R.string.deal_2), R.drawable.items2, 18.00, getString(R.string.deal_description)));
-        menuItems.add(new MenuItems(getString(R.string.deal_3), R.drawable.items3, 10.50, getString(R.string.deal_description)));
-        menuItems.add(new MenuItems(getString(R.string.deal_4), R.drawable.items4, 25.00, getString(R.string.deal_description)));
-        menuItems.add(new MenuItems(getString(R.string.deal_5), R.drawable.items5, 8.25, getString(R.string.deal_description)));
-        menuItems.add(new MenuItems(getString(R.string.deal_6), R.drawable.items6, 30.50, getString(R.string.deal_description)));
+        menuItems.add(new MenuItems(getString(R.string.deal_1), R.drawable.deal1, 9.50, getString(R.string.deal_description)));
+        menuItems.add(new MenuItems(getString(R.string.deal_2), R.drawable.deal2, 18.00, getString(R.string.deal_description)));
+        menuItems.add(new MenuItems(getString(R.string.deal_3), R.drawable.deal3, 10.50, getString(R.string.deal_description)));
+        menuItems.add(new MenuItems(getString(R.string.deal_4), R.drawable.deal4, 25.00, getString(R.string.deal_description)));
+        menuItems.add(new MenuItems(getString(R.string.deal_5), R.drawable.deal5, 8.25, getString(R.string.deal_description)));
+        menuItems.add(new MenuItems(getString(R.string.deal_6), R.drawable.deal6, 30.50, getString(R.string.deal_description)));
 
 
         return menuItems;

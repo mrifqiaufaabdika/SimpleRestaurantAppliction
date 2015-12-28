@@ -113,6 +113,8 @@
     <string name="my_cart">My Cart</string>
     <string name="share_this_deal">Share this deal</string>
     <string name="description">Description:</string>
+    <string name="update">UPDATE</string>
+    <string name="add_to_cart">ADD TO CART</string>
 
 
 </resources>
