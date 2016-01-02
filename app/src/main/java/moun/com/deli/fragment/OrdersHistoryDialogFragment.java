@@ -31,7 +31,7 @@ import moun.com.deli.model.Orders;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/23/2015.
+ * Custom dialog fragment
  */
 public class OrdersHistoryDialogFragment extends DialogFragment {
     public static final String ARG_ITEM_ID = "custom_dialog_fragment";

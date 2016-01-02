@@ -2,7 +2,6 @@ package moun.com.deli.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -14,10 +13,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
@@ -30,7 +27,7 @@ import moun.com.deli.model.Orders;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/4/2015.
+ * Custom Dialog Fragment that prompts the user to add items to his cart
  */
 public class CustomDialogFragment extends DialogFragment {
 
@@ -57,16 +54,22 @@ public class CustomDialogFragment extends DialogFragment {
     }
 
 
+    /** The system calls this only when creating the layout in a dialog. */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         Bundle bundle = this.getArguments();
         menuItems = bundle.getParcelable("selectedItem");
 
+        // The only reason you might override this method is
+        // to modify any dialog characteristics. For example, the dialog includes a
+        // title by default, but your custom layout might not need it. So here you can
+        // remove the dialog title, but you must call the superclass to get the Dialog.
         Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.setContentView(R.layout.custom_dialog);
+        // set the layout for the dialog
+        dialog.setContentView(R.layout.fragment_custom_dialog);
         dialog.setCancelable(true);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
@@ -123,6 +126,7 @@ public class CustomDialogFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {
+                // User cancelled the dialog
                 dismiss();
             }
 
@@ -154,16 +158,10 @@ public class CustomDialogFragment extends DialogFragment {
         menuItemsCart.setItemPrice(menuItems.getItemPrice());
         menuItemsCart.setItemQuantity(Integer.parseInt(qtySpinner.getSelectedItem().toString()));
 
-
-
-            Orders orders = (Orders) ordersDAO.getOrder(0);
-            menuItemsCart.setOrders(orders);
-            Log.d("Already order Added: ", orders.toString());
-            Log.d("THE ORDERS: ", ordersDAO.getOrders().toString());
-
-
-
-
+        Orders orders = (Orders) ordersDAO.getOrder(0);
+        menuItemsCart.setOrders(orders);
+        Log.d("Already order Added: ", orders.toString());
+        Log.d("THE ORDERS: ", ordersDAO.getOrders().toString());
 
     }
 
@@ -186,7 +184,7 @@ public class CustomDialogFragment extends DialogFragment {
             if (activityWeakRef.get() != null
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1)
-                    AppUtils.CustomToast(activityWeakRef.get(), "Added to cart");
+                    AppUtils.CustomToast(activityWeakRef.get(), "Oh yeah! we have added this item to your cart");
                 Log.d("ITEMS Cart: ", menuItemsCart.toString());
             }
         }
@@ -211,8 +209,7 @@ public class CustomDialogFragment extends DialogFragment {
             if (activityWeakRef.get() != null
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1)
-                    AppUtils.CustomToast(activityWeakRef.get(), "Added to order");
-                Log.d("ORDERS: ", ordersDAO.getOrders().toString());
+                    Log.d("ORDERS: ", ordersDAO.getOrders().toString());
             }
         }
     }

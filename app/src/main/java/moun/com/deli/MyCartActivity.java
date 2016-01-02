@@ -117,7 +117,7 @@ MyCartFragment.NumberOfItemChangedListener{
 
     public void addItemsNumber(){
         itemsDAO = new ItemsDAO(this);
-        ArrayList<Cart> itemsList = itemsDAO.getCartItemsss();
+        ArrayList<Cart> itemsList = itemsDAO.getCartItemsNotOrdered();
         String item = null;
         if(itemsList.size() == 0 || itemsList.size() == 1){
             item = "item";

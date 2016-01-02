@@ -23,7 +23,7 @@ import moun.com.deli.model.Orders;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/23/2015.
+ * Provide view to Order history RecyclerView with data from MenuItems object.
  */
 public class OrdersHistoryAdapter extends RecyclerView.Adapter<OrdersHistoryAdapter.ViewHolder> {
     private static final String LOG_TAG = OrdersHistoryAdapter.class.getSimpleName();
@@ -36,15 +36,18 @@ public class OrdersHistoryAdapter extends RecyclerView.Adapter<OrdersHistoryAdap
     private ClickListener clickListener;
     private Context context;
 
+    /**
+     * Create a new instance of {@link OrdersHistoryAdapter}.
+     * @param context host Activity.
+     */
     public OrdersHistoryAdapter(Context context) {
         mLayoutInflater = LayoutInflater.from(context);
-
-
     }
 
     public void setOrdersList(ArrayList<Orders> ordersList, int orderNumbers) {
         this.ordersList = ordersList;
         this.numbersList = new ArrayList<String>(orderNumbers);
+        // Generates numbers for RecyclerView's adapter
         for (int i = 0; i < orderNumbers; ++i) {
             numbersList.add(String.valueOf(i));
         }
@@ -53,6 +56,7 @@ public class OrdersHistoryAdapter extends RecyclerView.Adapter<OrdersHistoryAdap
 
     }
 
+    // Create new view (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.single_row_orders_history, parent, false);
@@ -60,22 +64,29 @@ public class OrdersHistoryAdapter extends RecyclerView.Adapter<OrdersHistoryAdap
         return viewHolder;
     }
 
+    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
         final String numbers = numbersList.get(position);
         viewHolder.orderNumber.setText(numbers);
+        // Get element from Orders object at this position and replace the contents of the view
+        // with that element
         Orders orders = ordersList.get(position);
         viewHolder.orderFullDate.setText(fullDateFormat.format(orders.getDate_created()));
         viewHolder.orderPrettyDate.setText(DateHelper.getGridDate(context, orders.getDate_created()));
 
     }
 
+    // Return the size of ordersList (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return ordersList.size();
     }
 
+    /**
+     * Provide a reference to the type of views that you are using (custom ViewHolder)
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView order;
@@ -99,17 +110,11 @@ public class OrdersHistoryAdapter extends RecyclerView.Adapter<OrdersHistoryAdap
                     if (clickListener != null) {
                         clickListener.itemClicked(itemView, getAdapterPosition());
                         Log.d(LOG_TAG, "Position " + getAdapterPosition() + " clicked.");
-
                     }
 
                 }
             });
-
-
-
-
         }
-
     }
 
     public void setClickListener(ClickListener clickListener){
@@ -117,6 +122,7 @@ public class OrdersHistoryAdapter extends RecyclerView.Adapter<OrdersHistoryAdap
 
     }
 
+    // An interface to Define click listener for the ViewHolder's View from any where.
     public interface ClickListener{
         public void itemClicked(View view, int position);
 

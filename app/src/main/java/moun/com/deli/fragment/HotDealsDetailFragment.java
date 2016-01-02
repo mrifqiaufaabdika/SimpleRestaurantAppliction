@@ -8,20 +8,15 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.transition.Scene;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -102,7 +97,7 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
         assert context != null;
         // This is how the fragment looks at first. Since the transition is one-way, we don't need to make
         // this a Scene.
-        View item = LayoutInflater.from(context).inflate(R.layout.hot_grid_single_row, root, false);
+        View item = LayoutInflater.from(context).inflate(R.layout.single_row_hot_grid, root, false);
         assert item != null;
         bind(item);
         // We adjust the position of the initial image with LayoutParams using the values supplied

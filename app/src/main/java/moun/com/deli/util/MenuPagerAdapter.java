@@ -11,6 +11,10 @@ import moun.com.deli.fragment.MenuSaladsFragment;
 import moun.com.deli.fragment.MenuSandwichFragment;
 import moun.com.deli.fragment.MenuSweetsFragment;
 
+/**
+ * Class define a view pager adapter for the swipe tabs feature.
+ */
+
 public class MenuPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 

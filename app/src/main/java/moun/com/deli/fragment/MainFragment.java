@@ -4,8 +4,6 @@ package moun.com.deli.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,31 +12,25 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 import moun.com.deli.HotDealsActivity;
-import moun.com.deli.MenuActivityWithTabs;
 import moun.com.deli.R;
 import moun.com.deli.adapter.HomeMenuCustomAdapter;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/1/2015.
+ * This class used to handle the list of items with header on the top.
  */
-public class MainFragment extends Fragment implements HomeMenuCustomAdapter.ClickListener{
+public class MainFragment extends Fragment implements HomeMenuCustomAdapter.ClickListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -55,7 +47,10 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
     private OnItemSelectedListener listener;
 
 
-
+    /**
+     * Callback used to communicate with MainFragment to Determine the Current Layout.
+     * MainActivity implements this interface and communicates with MainFragment.
+     */
     public interface OnItemSelectedListener {
         public void onItemSelected(int position);
     }
@@ -92,12 +87,17 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        // The layout file is defined in the project res/layout/fragment_main.xml file
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         this.inflater = inflater;
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
-    //    mRecyclerView.setItemAnimator(new SlideInLeftAnimator());
+
         mRecyclerView.setHasFixedSize(true);
+
+        // LinearLayoutManager is used here, this will layout the elements in a similar fashion
+        // to the way ListView would layout elements. The RecyclerView.LayoutManager defines how
+        // elements are laid out.
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
 
@@ -115,21 +115,13 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
         header = LayoutInflater.from(getActivity()).inflate(R.layout.home_menu_header, mRecyclerView, false);
         hotDealheaderText = (TextView) header.findViewById(R.id.hot_deal_header_title);
         hotDealheaderText.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
-        header.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HotDealsActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), header, rowListItem, inflater, R.layout.grid_layout_row);
+        homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), header, rowListItem, inflater, R.layout.single_row_grid_layout);
         alphaAdapter = new AlphaInAnimationAdapter(homeMenuCustomAdapter);
+        // Set HomeMenuCustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
 
         homeMenuCustomAdapter.setClickListener(this);
-
-
 
 
         return rootView;
@@ -138,18 +130,18 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
 
     @Override
     public void itemClicked(View view, int position) {
-        if(position == 0){
+        if (position == 0) {
+            // user click on the header(hot deals section), start the HotDealsActivity.
             Intent intent = new Intent(getActivity(), HotDealsActivity.class);
             startActivity(intent);
         } else {
+            // Send the event to the main activity
             listener.onItemSelected(position);
 
 
         }
 
     }
-
-
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -163,20 +155,16 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
         inflater.inflate(R.menu.fragment_menu_transition, menu);
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // We change the look of the icon every time the user toggles between list and grid.
+        // We change the look of the icon every time the user toggles between list and grid layout.
         switch (item.getItemId()) {
             case R.id.action_toggle: {
                 mLinearShown = !mLinearShown;
                 if (mLinearShown) {
                     setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
-                    homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), header, rowListItem, inflater, R.layout.linear_layout_row);
+                    homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), header, rowListItem, inflater, R.layout.single_row_linear_layout);
                     alphaAdapter = new AlphaInAnimationAdapter(homeMenuCustomAdapter);
                     mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
                     homeMenuCustomAdapter.setClickListener(this);
@@ -184,7 +172,7 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
 
                 } else {
                     setRecyclerViewLayoutManager(LayoutManagerType.GRID_LAYOUT_MANAGER);
-                    homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), header, rowListItem, inflater, R.layout.grid_layout_row);
+                    homeMenuCustomAdapter = new HomeMenuCustomAdapter(getActivity(), header, rowListItem, inflater, R.layout.single_row_grid_layout);
                     alphaAdapter = new AlphaInAnimationAdapter(homeMenuCustomAdapter);
                     mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
                     homeMenuCustomAdapter.setClickListener(this);
@@ -197,7 +185,6 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
         }
         return false;
     }
-
 
 
     /**
@@ -240,7 +227,9 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
         mRecyclerView.scrollToPosition(scrollPosition);
     }
 
-    private ArrayList<MenuItems> getMenuList(){
+    // Generates data for RecyclerView's adapter, this data would usually come from a local content provider or
+    // remote server.
+    private ArrayList<MenuItems> getMenuList() {
 
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
         menuItems.add(new MenuItems(getString(R.string.sandwich), R.drawable.items2));

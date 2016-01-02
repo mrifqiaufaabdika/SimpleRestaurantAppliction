@@ -37,6 +37,10 @@ import moun.com.deli.fragment.MyCartFragment;
 import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.SessionManager;
 
+/**
+ * This is the activity that serves as the main entry point to your app's user interface.
+ */
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         MainFragment.OnItemSelectedListener {
 
@@ -58,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
+        // Set the user interface layout for this Activity
+        // The layout file is defined in the project res/layout/activity_main.xml file
         setContentView(R.layout.activity_main);
         //  Initialize the Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -93,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         navigate(mSelectedId);
 
+
         // Determine the Current Layout
         FrameLayout fragmentItemDetail = (FrameLayout) findViewById(R.id.content_detail_fragment);
         // Check that the activity is using the layout version with
@@ -101,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             /* The application is in the dual-pane mode, clicking on an item on the left pane will simply display the content on the right pane. */
             isTwoPane = true;
             // Create a new Fragment to be placed on the right pane.
+            // and create MenuSandwichFragment and place it by default.
             MenuSandwichFragment menuSandwichFragment = new MenuSandwichFragment();
             switchContent(menuSandwichFragment);
         }
@@ -122,12 +130,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     *  retrieve the value from shared preferences file to define if the user
+     *  saw the drawer open for the first time or not.
+     */
     private boolean didUserSeeDrawer() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mUserSawDrawer = sharedPreferences.getBoolean(FIRST_TIME, false);
         return mUserSawDrawer;
     }
 
+
+    /**
+     * Mark the drawer as true when the user see the drawer for the first time.
+     */
     private void markDrawerSeen() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mUserSawDrawer = true;
@@ -146,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private void hideDrawer() {
         mDrawerLayout.closeDrawer(GravityCompat.START);
+
     }
 
     /**
@@ -154,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @param mSelectedId the drawer list item id's
      */
     private void navigate(int mSelectedId) {
+    //    mDrawer.getMenu().getItem(mSelectedId).setCheckable(false);
+
         if (mSelectedId == R.id.breakfast) {
             // Close the drawer.
             hideDrawer();
@@ -240,10 +259,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        //    menuItem.setChecked(true);
+
         mSelectedId = menuItem.getItemId();
         hideDrawer();
         navigate(mSelectedId);
+        menuItem.setCheckable(false);
+        menuItem.setChecked(false);
         return true;
     }
 
@@ -358,6 +379,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onItemSelected(int position) {
+        // The user selected an item from the MainFragment.
         if (isTwoPane) {
             /* display article on the right pane */
             if (position == 1) {

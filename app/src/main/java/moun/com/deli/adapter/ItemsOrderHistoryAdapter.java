@@ -16,13 +16,17 @@ import moun.com.deli.model.Cart;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/23/2015.
+ * Provide view to Items RecyclerView with data from Cart object.
  */
 public class ItemsOrderHistoryAdapter extends RecyclerView.Adapter<ItemsOrderHistoryAdapter.ViewHolder> {
     private static final String LOG_TAG = ItemsOrderHistoryAdapter.class.getSimpleName();
     private LayoutInflater mLayoutInflater;
     ArrayList<Cart> itemsList;
 
+    /**
+     * Create a new instance of {@link ItemsOrderHistoryAdapter}.
+     * @param context host Activity.
+     */
     public ItemsOrderHistoryAdapter(Context context) {
         mLayoutInflater = LayoutInflater.from(context);
 
@@ -35,6 +39,7 @@ public class ItemsOrderHistoryAdapter extends RecyclerView.Adapter<ItemsOrderHis
 
     }
 
+    // Create new view (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.single_row_items_order_history, parent, false);
@@ -42,10 +47,13 @@ public class ItemsOrderHistoryAdapter extends RecyclerView.Adapter<ItemsOrderHis
         return viewHolder;
     }
 
+    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
         Cart cartItems = itemsList.get(position);
+        // Get element from Cart object at this position and replace the contents of the view
+        // with that element
         viewHolder.itemTitle.setText(cartItems.getItemName());
         viewHolder.itemQuantity.setText("Quantity: " + cartItems.getItemQuantity());
         viewHolder.itemTotal.setText("Total: $" + cartItems.getItemPrice() * cartItems.getItemQuantity());
@@ -53,12 +61,16 @@ public class ItemsOrderHistoryAdapter extends RecyclerView.Adapter<ItemsOrderHis
 
     }
 
+    // Return the size of itemsList (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return itemsList.size();
     }
 
 
+    /**
+     * Provide a reference to the type of views that you are using (custom ViewHolder)
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView itemTitle;

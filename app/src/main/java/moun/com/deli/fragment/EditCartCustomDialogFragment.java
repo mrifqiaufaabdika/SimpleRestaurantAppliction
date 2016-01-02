@@ -22,11 +22,10 @@ import moun.com.deli.MyCartActivity;
 import moun.com.deli.R;
 import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.Cart;
-import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/7/2015.
+ * Custom Dialog Fragment that prompts the user to update the quantity for items.
  */
 public class EditCartCustomDialogFragment extends DialogFragment {
 
@@ -60,16 +59,22 @@ public class EditCartCustomDialogFragment extends DialogFragment {
         itemDAO = new ItemsDAO(getActivity());
     }
 
+    /** The system calls this only when creating the layout in a dialog. */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         Bundle bundle = this.getArguments();
         cartItems = bundle.getParcelable("selectedItem");
 
+        // The only reason you might override this method is
+        // to modify any dialog characteristics. For example, the dialog includes a
+        // title by default, but your custom layout might not need it. So here you can
+        // remove the dialog title, but you must call the superclass to get the Dialog.
         Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        dialog.setContentView(R.layout.custom_dialog);
+        // set the layout for the dialog
+        dialog.setContentView(R.layout.fragment_custom_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.setCancelable(false);
@@ -117,6 +122,7 @@ public class EditCartCustomDialogFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {
+                // User cancelled the dialog
                 dismiss();
             }
 

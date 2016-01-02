@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlNormal">@color/colorTextPrimaryLight</item>
+        <item name="android:textColorHint">@color/colorTextPrimaryLight</item>
         <item name="colorControlActivated">@color/gray</item>
         <item name="colorControlHighlight">@color/gray</item>
         <item name="windowActionBar">false</item>

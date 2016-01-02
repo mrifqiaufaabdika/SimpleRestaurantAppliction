@@ -34,7 +34,7 @@ public class AppUtils {
         ((TextView) layouttoast.findViewById(R.id.text_toast)).setText(text);
         Toast mytoast = new Toast(context.getBaseContext());
         mytoast.setView(layouttoast);
-        mytoast.setDuration(Toast.LENGTH_LONG);
+        mytoast.setDuration(Toast.LENGTH_SHORT);
         mytoast.show();
     }
 

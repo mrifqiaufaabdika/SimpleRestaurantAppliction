@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom|left"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp"
             android:gravity="center_horizontal"
             android:maxLines="2"
@@ -57,7 +57,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|center_vertical"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="40dp"
         android:background="@color/colorAccent"
         android:padding="4dp">
 
@@ -65,9 +66,10 @@
             android:id="@+id/menu_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:text="$15.00"
             android:textColor="@color/colorTextPrimaryLight"
-            android:textSize="18sp" />
+            android:textSize="24sp" />
     </LinearLayout>
 
 </FrameLayout>

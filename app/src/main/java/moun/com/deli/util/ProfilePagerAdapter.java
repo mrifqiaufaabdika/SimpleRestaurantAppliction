@@ -9,8 +9,9 @@ import moun.com.deli.fragment.FavoritesFragment;
 import moun.com.deli.fragment.OrdersHistoryFragment;
 
 /**
- * Created by Mounzer on 12/9/2015.
+ * Class define a view pager adapter for the swipe tabs feature.
  */
+
 public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 

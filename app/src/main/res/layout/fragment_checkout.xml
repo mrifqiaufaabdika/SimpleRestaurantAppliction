@@ -35,7 +35,7 @@
             android:focusableInTouchMode="false"
             android:padding="@dimen/padding"
             android:singleLine="true"
-            android:text="mounzer.orabi@gmail.com"
+            android:text="..."
             android:textColor="@color/colorTextSecondary" />
 
         <TextView
@@ -59,7 +59,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:padding="@dimen/padding"
-            android:text="+961 70 122018"
+            android:text="..."
             android:textColor="@color/colorTextSecondary" />
 
         <TextView
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="Sgipping Address"
+            android:text="Shipping Address"
             android:textColor="@color/colorTextPrimary"
             android:textSize="24sp" />
 
@@ -83,7 +83,7 @@
             android:focusableInTouchMode="false"
             style="@style/FlatCardView"
             android:padding="@dimen/padding"
-            android:text="Tripoli Lebanon, Jemmayzat street, Attiyeh building, first floor"
+            android:text="..."
             android:textColor="@color/colorTextSecondary" />
 
 
@@ -105,7 +105,7 @@
             android:layout_marginTop="5dp"
             style="@style/FlatCardView"
             android:padding="@dimen/padding"
-            android:hint="Enter some Extar Info"
+            android:hint="Enter some notes"
             android:textColor="@color/colorTextSecondary" />
 
         <Button

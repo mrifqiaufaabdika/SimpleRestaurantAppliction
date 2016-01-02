@@ -15,7 +15,8 @@ import moun.com.deli.R;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/15/2015.
+ * Custom Dialog Fragment using SimpleDialogFragment class
+ * that prompts the user to add his email to reset his password.
  */
 public class ResetPasswordDialogFragment extends SimpleDialogFragment {
 

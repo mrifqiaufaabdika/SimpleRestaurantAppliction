@@ -2,27 +2,21 @@ package moun.com.deli.fragment;
 
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
-import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 import moun.com.deli.R;
 import moun.com.deli.adapter.MenuListAdapter;
 import moun.com.deli.database.ItemsDAO;
@@ -36,11 +30,10 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
 
     public static final String ARG_ITEM_ID = "menu_sandwich";
     private RecyclerView mRecyclerView;
-    private GridLayoutManager mLayoutManager;
+    private RecyclerView.LayoutManager mLayoutManager;
     private MenuListAdapter menuListAdapter;
     ArrayList<MenuItems> listItems;
     private static final String ITEMS_STATE = "items_state";
-    private AlphaInAnimationAdapter alphaAdapter;
     private ItemsDAO itemDAO;
     private AddItemTask task;
     private MenuItems menuItemsFavorite = null;
@@ -56,21 +49,22 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.menu_items_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_menu_list_items, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.sandwich_recyclerView);
     //    mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new GridLayoutManager(getActivity(), 1);
+        mLayoutManager = new LinearLayoutManager(getActivity());
 
         mRecyclerView.setLayoutManager(mLayoutManager);
+        // Used for orientation change
         if (savedInstanceState != null) {
             // We will restore the state of data list when the activity is re-created
             listItems = savedInstanceState.getParcelableArrayList(ITEMS_STATE);
         } else {
             listItems = getSandwichMenuList();
         }
-        menuListAdapter = new MenuListAdapter(getActivity(), listItems, inflater, R.layout.menu_list_single_row);
+        menuListAdapter = new MenuListAdapter(getActivity(), listItems, inflater, R.layout.single_row_menu_list);
         mRecyclerView.setAdapter(menuListAdapter);
         menuListAdapter.setClickListener(this);
 
@@ -107,6 +101,8 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
             if (menuItems != null) {
                 Bundle arguments = new Bundle();
                 arguments.putParcelable("selectedItem", menuItems);
+                // Create an instance of the dialog fragment and give it an argument for the selected article
+                // and show it
                 CustomDialogFragment customDialogFragment = new CustomDialogFragment();
                 customDialogFragment.setArguments(arguments);
                 customDialogFragment.show(getFragmentManager(),
@@ -117,8 +113,9 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
 
     }
 
-
-
+    /**
+     * Save the item to Favorite table asynchronously.
+     */
     public class AddItemTask extends AsyncTask<Void, Void, Long> {
 
         private final WeakReference<Activity> activityWeakRef;
@@ -139,13 +136,14 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1)
                     AppUtils.CustomToast(getActivity(), getString(R.string.added_to_favorites));
-                Log.d("READ ITEM DATA FROM DB: ", menuItemsFavorite.toString());
+                Log.d("ITEM: ", menuItemsFavorite.toString());
             }
         }
     }
 
+    // Generates data for RecyclerView's adapter, this data would usually come from a local content provider or
+    // remote server.
     private ArrayList<MenuItems> getSandwichMenuList(){
-
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
         menuItems.add(new MenuItems(getString(R.string.grilled_chicken), R.drawable.sandwich1, 8.25, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.krispy_haddock), R.drawable.sandwich2, 7.00, getString(R.string.short_lorem)));

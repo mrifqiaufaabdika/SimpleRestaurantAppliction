@@ -19,7 +19,8 @@ import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/1/2015.
+ * Provide views to RecyclerView with data from MenuItems object.
+ *
  */
 public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAdapter.ViewHolder> {
 
@@ -36,7 +37,8 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
     /**
      * Create a new instance of {@link HomeMenuCustomAdapter}.
      *
-     * @param context    Context.
+     * @param context    host Activity.
+     * @param header     The view of header
      * @param itemList   List of data.
      * @param inflater   The layout inflater.
      * @param resourceId The resource ID for the layout to be used. The layout should contain an
@@ -57,10 +59,13 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
         return position == 0;
     }
 
+    /**
+     * Provide a reference to the type of views that you are using (custom ViewHolder)
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         public ImageView image;
         public TextView title;
-
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -72,6 +77,7 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
                 e.printStackTrace();
             }
             image = (ImageView) itemView.findViewById(R.id.menu_image);
+            // Define click listener for the ViewHolder's View.
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -89,7 +95,7 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
 
     }
 
-
+    // Create new views (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         if (viewType == ITEM_VIEW_TYPE_HEADER) {
@@ -101,6 +107,7 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
         return viewHolder;
     }
 
+    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
     //    Log.d(LOG_TAG, "Element " + position + " set.");
@@ -109,6 +116,8 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
         }
         // Subtract 1 for header
         MenuItems menuItems = itemList.get(position - 1);
+        // Get element from MenuItems object at this position and replace the contents of the view
+        // with that element
         viewHolder.image.setImageResource(menuItems.getItemImage());
         viewHolder.title.setText(menuItems.getItemName());
 
@@ -119,6 +128,7 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
         return isHeader(position) ? ITEM_VIEW_TYPE_HEADER : ITEM_VIEW_TYPE_ITEM;
     }
 
+    // Return the size of menuItems (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return this.itemList.size() + 1;
@@ -131,6 +141,7 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
 
     }
 
+    // An interface to Define click listener for the ViewHolder's View from any where.
     public interface ClickListener{
         public void itemClicked(View view, int position);
 

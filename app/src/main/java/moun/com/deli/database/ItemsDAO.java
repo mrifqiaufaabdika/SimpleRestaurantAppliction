@@ -26,11 +26,6 @@ public class ItemsDAO extends ItemsDBDAO {
 
     private static final String WHERE_ID_EQUALS = DataBaseHelper.ID_COLUMN
             + " =?";
-    private static final String WHERE_ORDER_EQUALS = DataBaseHelper.ORDERED
-            + " =?";
-
-    private static final SimpleDateFormat formatter = new SimpleDateFormat(
-            "yyyy-MM-dd", Locale.ENGLISH);
 
     public ItemsDAO(Context context) {
         super(context);
@@ -103,7 +98,7 @@ public class ItemsDAO extends ItemsDBDAO {
     }
 
     //USING query() method
-    public ArrayList<Cart> getCartItems() {
+    public ArrayList<Cart> getAllCartItems() {
         ArrayList<Cart> cartItems = new ArrayList<Cart>();
 
         Cursor cursor = database.query(DataBaseHelper.CART_TABLE,
@@ -139,13 +134,11 @@ public class ItemsDAO extends ItemsDBDAO {
         return cartItems;
     }
 
-    //USING query() method
-    public ArrayList<Cart> getItemsOrderHistory(int id) {
+    // Uses rawQuery() to query multiple tables
+    public ArrayList<Cart> getCartItemsNotOrdered() {
         ArrayList<Cart> cartItems = new ArrayList<Cart>();
 
-        String sql = "SELECT * FROM " + DataBaseHelper.CART_TABLE
-                + " WHERE " + DataBaseHelper.ORDER_ID + " = ?";
-
+        // Building query using INNER JOIN keyword
         String query = "SELECT " + ITEM_ID_WITH_PREFIX + ","
                 + ITEM_NAME_WITH_PREFIX + "," + DataBaseHelper.DESCRIPTION_COLOMN
                 + "," + DataBaseHelper.IMAGE_COLOMN + ","
@@ -157,72 +150,7 @@ public class ItemsDAO extends ItemsDBDAO {
                 + DataBaseHelper.ORDERS_TABLE + " orders ON cart."
                 + DataBaseHelper.ORDER_ID + " = orders."
                 + DataBaseHelper.ID_COLUMN
-                + " WHERE " + "cart." + DataBaseHelper.ORDER_ID + " = ?";
-
-        Cursor cursor = database.rawQuery(sql, new String[] { id + "" });
-
-        Cursor cursorr = database.query(DataBaseHelper.CART_TABLE,
-                new String[] { DataBaseHelper.ID_COLUMN,
-                        DataBaseHelper.NAME_COLUMN,
-                        DataBaseHelper.DESCRIPTION_COLOMN,
-                        DataBaseHelper.IMAGE_COLOMN,
-                        DataBaseHelper.PRICE_COLOMN,
-                        DataBaseHelper.QUANTITY_COLOMN,
-                        DataBaseHelper.ORDER_ID}, null, null, null,
-                null, null);
-
-        while (cursor.moveToNext()) {
-            Cart cart = new Cart();
-            cart.setId(cursor.getInt(0));
-            cart.setItemName(cursor.getString(1));
-            cart.setItemDescription(cursor.getString(2));
-            cart.setItemImage(cursor.getInt(3));
-            cart.setItemPrice(cursor.getDouble(4));
-            cart.setItemQuantity(cursor.getInt(5));
-
-            Orders orders = new Orders();
-            orders.setId(cursor.getInt(6));
-        //    orders.setOrdered(cursor.getInt(7)>0);
-
-            cart.setOrders(orders);
-
-            cartItems.add(cart);
-
-        }
-        Log.d("GET CART ITEMS:", "=" + cartItems.toString());
-
-        return cartItems;
-    }
-
-
-    // Uses rawQuery() to query multiple tables
-    public ArrayList<Cart> getCartItemsss() {
-        ArrayList<Cart> cartItems = new ArrayList<Cart>();
-        String queryy = "SELECT " + ITEM_ID_WITH_PREFIX + ","
-                + ITEM_NAME_WITH_PREFIX + "," + DataBaseHelper.DESCRIPTION_COLOMN
-                + "," + DataBaseHelper.IMAGE_COLOMN + ","
-                + DataBaseHelper.PRICE_COLOMN + ","
-                + DataBaseHelper.QUANTITY_COLOMN + ","
-                + DataBaseHelper.ORDER_ID + ","
-                + ORDER_NAME_WITH_PREFIX + " FROM "
-                + DataBaseHelper.CART_TABLE + " cart, "
-                + DataBaseHelper.ORDERS_TABLE + " orders WHERE cart."
-                + DataBaseHelper.ORDER_ID + " = orders."
-                + DataBaseHelper.ID_COLUMN;
-
-        // Building query using INNER JOIN keyword
-		String query = "SELECT " + ITEM_ID_WITH_PREFIX + ","
-		+ ITEM_NAME_WITH_PREFIX + "," + DataBaseHelper.DESCRIPTION_COLOMN
-                + "," + DataBaseHelper.IMAGE_COLOMN + ","
-                + DataBaseHelper.PRICE_COLOMN + ","
-                + DataBaseHelper.QUANTITY_COLOMN + ","
-                + DataBaseHelper.ORDER_ID + ","
-		+ ORDER_NAME_WITH_PREFIX + " FROM "
-		+ DataBaseHelper.CART_TABLE + " cart INNER JOIN "
-		+ DataBaseHelper.ORDERS_TABLE + " orders ON cart."
-		+ DataBaseHelper.ORDER_ID + " = orders."
-		+ DataBaseHelper.ID_COLUMN
-        + " WHERE " + "orders." + DataBaseHelper.ORDERED + " = ?";
+                + " WHERE " + "orders." + DataBaseHelper.ORDERED + " = ?";
 
 
         Log.d("query", query);
@@ -249,35 +177,14 @@ public class ItemsDAO extends ItemsDBDAO {
         return cartItems;
     }
 
-
-    // METHOD 2
-    // Uses SQLiteQueryBuilder to query multiple tables
-	public ArrayList<Cart> getCartItemss() {
+    //USING query() method
+    public ArrayList<Cart> getItemsOrderHistory(int id) {
         ArrayList<Cart> cartItems = new ArrayList<Cart>();
-		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-		// Sets the list of tables to query. Multiple tables can be specified to perform a join.
-        queryBuilder
-				.setTables(DataBaseHelper.CART_TABLE
-						+ " INNER JOIN "
-						+ DataBaseHelper.ORDERS_TABLE
-						+ " ON "
-						+ DataBaseHelper.ORDER_ID
-						+ " = "
-						+ (DataBaseHelper.ORDERS_TABLE + "." + DataBaseHelper.ID_COLUMN));
 
-		// Get cursor
-		Cursor cursor = queryBuilder.query(database, new String[] {
-				ITEM_ID_WITH_PREFIX,
-				DataBaseHelper.CART_TABLE + "."
-						+ DataBaseHelper.NAME_COLUMN,
-				DataBaseHelper.DESCRIPTION_COLOMN,
-				DataBaseHelper.IMAGE_COLOMN,
-				DataBaseHelper.PRICE_COLOMN,
-                DataBaseHelper.QUANTITY_COLOMN,
-                DataBaseHelper.ORDER_ID,
-				DataBaseHelper.ORDERS_TABLE + "."
-						+ DataBaseHelper.NAME_COLUMN }, null, null, null, null,
-				null);
+        String sql = "SELECT * FROM " + DataBaseHelper.CART_TABLE
+                + " WHERE " + DataBaseHelper.ORDER_ID + " = ?";
+
+        Cursor cursor = database.rawQuery(sql, new String[] { id + "" });
 
         while (cursor.moveToNext()) {
             Cart cart = new Cart();
@@ -290,8 +197,6 @@ public class ItemsDAO extends ItemsDBDAO {
 
             Orders orders = new Orders();
             orders.setId(cursor.getInt(6));
-            orders.setOrdered(cursor.getInt(7)>0);
-            orders.setDate_created(cursor.getLong(8));
 
             cart.setOrders(orders);
 
@@ -299,8 +204,11 @@ public class ItemsDAO extends ItemsDBDAO {
 
         }
         Log.d("GET CART ITEMS:", "=" + cartItems.toString());
+
         return cartItems;
-	}
+    }
+
+
 
 
 

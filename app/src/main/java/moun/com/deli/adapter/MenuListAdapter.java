@@ -17,7 +17,7 @@ import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/4/2015.
+ * Provide view to Menu list RecyclerView with data from MenuItems object.
  */
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHolder>{
     private static final String LOG_TAG = MenuListAdapter.class.getSimpleName();
@@ -31,7 +31,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
     /**
      * Create a new instance of {@link MenuListAdapter}.
      *
-     * @param context    Context.
+     * @param context    host Activity.
      * @param itemList   List of data.
      * @param inflater   The layout inflater.
      * @param resourceId The resource ID for the layout to be used. The layout should contain an
@@ -44,6 +44,9 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
         mResourceId = resourceId;
     }
 
+    /**
+     * Provide a reference to the type of views that you are using (custom ViewHolder)
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView title;
@@ -88,25 +91,27 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
 
     }
 
-
+    // Create new view (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        // Create a new view.
         View view = mLayoutInflater.inflate(mResourceId, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
+    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         //    Log.d(LOG_TAG, "Element " + position + " set.");
 
         MenuItems menuItems = itemList.get(position);
+        // Get element from MenuItems object at this position and replace the contents of the view
+        // with that element
         viewHolder.image.setImageResource(menuItems.getItemImage());
         viewHolder.title.setText(menuItems.getItemName());
         viewHolder.price.setText("$" + Double.parseDouble(String.valueOf(menuItems.getItemPrice())));
 
-        // If a item exists in favorite table then set heart_red drawable
+        // If an item exists in favorite table then set heart_red drawable
         if(itemsDAO.getItemFavorite(menuItems.getItemName()) == null){
             viewHolder.heart.setImageResource(R.mipmap.ic_favorite_white_24dp);
         } else {
@@ -124,6 +129,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
 
     }
 
+    // An interface to Define click listener for the ViewHolder's View from any where.
     public interface ClickListener{
         public void itemClicked(View view, int position, boolean isLongClick);
     }

@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import moun.com.deli.fragment.FavoritesFragment;
 import moun.com.deli.util.AppUtils;
-import moun.com.deli.util.MenuPagerAdapter;
 import moun.com.deli.util.ProfilePagerAdapter;
 
 /**
@@ -31,7 +30,7 @@ public class ProfileActivityWithTabs extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorites);
+        setContentView(R.layout.activity_profile);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

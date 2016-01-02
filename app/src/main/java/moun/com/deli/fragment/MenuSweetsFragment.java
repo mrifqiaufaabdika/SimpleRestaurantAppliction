@@ -15,10 +15,8 @@ import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
-import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 import moun.com.deli.R;
 import moun.com.deli.adapter.MenuListAdapter;
 import moun.com.deli.database.ItemsDAO;
@@ -49,7 +47,7 @@ public class MenuSweetsFragment extends Fragment implements MenuListAdapter.Clic
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.menu_items_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_menu_list_items, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.sandwich_recyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -62,7 +60,7 @@ public class MenuSweetsFragment extends Fragment implements MenuListAdapter.Clic
             listItems = getDessertMenuList();
 
         }
-        menuListAdapter = new MenuListAdapter(getActivity(), listItems, inflater, R.layout.menu_list_single_row);
+        menuListAdapter = new MenuListAdapter(getActivity(), listItems, inflater, R.layout.single_row_menu_list);
         mRecyclerView.setAdapter(menuListAdapter);
         menuListAdapter.setClickListener(this);
 

@@ -165,7 +165,7 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
 
         @Override
         protected ArrayList<Cart> doInBackground(Void... arg0) {
-            ArrayList<Cart> itemsList = itemsDAO.getCartItemsss();
+            ArrayList<Cart> itemsList = itemsDAO.getCartItemsNotOrdered();
             return itemsList;
         }
 

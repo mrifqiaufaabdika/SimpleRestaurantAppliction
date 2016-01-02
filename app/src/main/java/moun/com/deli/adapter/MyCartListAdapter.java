@@ -1,9 +1,7 @@
 package moun.com.deli.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +13,10 @@ import java.util.ArrayList;
 
 import moun.com.deli.R;
 import moun.com.deli.model.Cart;
-import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/6/2015.
+ * Provide view to Cart RecyclerView with data from Cart object.
  */
 public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.ViewHolder>{
     private static final String LOG_TAG = MyCartListAdapter.class.getSimpleName();
@@ -27,6 +24,10 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
     ArrayList<Cart> itemsList;
     private ButtonClickListener clickListener;
 
+    /**
+     * Create a new instance of {@link MyCartListAdapter}.
+     * @param context host Activity.
+     */
     public MyCartListAdapter(Context context) {
         mLayoutInflater = LayoutInflater.from(context);
 
@@ -39,6 +40,10 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
 
     }
 
+    /**
+     * Remove items from the list adapter and notify changes.
+     * @param position the position of item removed.
+     */
     public void removeAt(int position) {
         itemsList.remove(position);
         notifyItemRemoved(position);
@@ -46,14 +51,15 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
     }
 
 
-
+    // Create new view (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.cart_single_row, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.single_row_cart, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
+    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
@@ -65,12 +71,16 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
 
     }
 
+    // Return the size of itemsList (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return itemsList.size();
     }
 
 
+    /**
+     * Provide a reference to the type of views that you are using (custom ViewHolder)
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView itemTitle;
@@ -125,6 +135,7 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
 
     }
 
+    // An interface to Define click listener for the ViewHolder's View from any where.
     public interface ButtonClickListener{
         public void deleteClicked(View view, int position);
         public void editClicked(View view, int position);

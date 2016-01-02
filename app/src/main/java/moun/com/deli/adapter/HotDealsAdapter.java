@@ -1,6 +1,5 @@
 package moun.com.deli.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,7 @@ import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/9/2015.
+ * Provide view to Hot Deals RecyclerView with data from MenuItems object.
  */
 public class HotDealsAdapter extends RecyclerView.Adapter<HotDealsAdapter.ViewHolder> {
     private static final String LOG_TAG = HotDealsAdapter.class.getSimpleName();
@@ -51,11 +50,9 @@ public class HotDealsAdapter extends RecyclerView.Adapter<HotDealsAdapter.ViewHo
             return new ViewHolder(header);
         }
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hot_grid_single_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_row_hot_grid, parent, false);
             ViewHolder viewHolder = new ViewHolder(view);
             return viewHolder;
-
-
     }
 
 
@@ -68,10 +65,6 @@ public class HotDealsAdapter extends RecyclerView.Adapter<HotDealsAdapter.ViewHo
         MenuItems menuItems = itemsList.get(position - 1);
         viewHolder.itemTitle.setText(menuItems.getItemName());
         viewHolder.itemImage.setImageResource(menuItems.getItemImage());
-
-
-
-
     }
 
     @Override
@@ -83,7 +76,6 @@ public class HotDealsAdapter extends RecyclerView.Adapter<HotDealsAdapter.ViewHo
     public int getItemCount() {
         return itemsList.size() + 1;
     }
-
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -112,8 +104,6 @@ public class HotDealsAdapter extends RecyclerView.Adapter<HotDealsAdapter.ViewHo
 
                 }
             });
-
-
 
         }
 
