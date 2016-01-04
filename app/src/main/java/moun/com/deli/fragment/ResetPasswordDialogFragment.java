@@ -43,11 +43,11 @@ public class ResetPasswordDialogFragment extends SimpleDialogFragment {
                 mInputEmail = (EditText) getView().findViewById(R.id.your_email);
                 textMsg = (TextView) getView().findViewById(R.id.text_msg);
                 boolean isEmptyEmail = isEmpty(mInputEmail);
-                if (isEmptyEmail){
+                if (isEmptyEmail) {
                     textMsg.setText("Please add your email address");
                 } else {
                     String email = mInputEmail.getText().toString().trim();
-                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                         textMsg.setText("Not valid");
                     } else {
                         AppUtils.CustomToast(getActivity(), "Please check your email address");

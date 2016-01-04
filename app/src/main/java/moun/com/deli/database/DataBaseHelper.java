@@ -4,16 +4,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by Mounzer on 12/5/2015.
- */
+
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "restaurantdb";
     private static final int DATABASE_VERSION = 1;
 
     public static final String USER_TABLE = "user";
-    public static final String CART_TABLE = "cart";
+    public static final String ITEMS_TABLE = "items";
     public static final String ORDERS_TABLE = "orders";
     public static final String FAVORITE_TABLE = "favorite";
 
@@ -36,8 +34,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             + ADDRESS_COLOMN + " TEXT, " + PHONE_COLOMN + " TEXT"
              + ")";
 
-    public static final String CREATE_CART_TABLE = "CREATE TABLE "
-            + CART_TABLE + "(" + ID_COLUMN + " INTEGER PRIMARY KEY, "
+    public static final String CREATE_ITEMS_TABLE = "CREATE TABLE "
+            + ITEMS_TABLE + "(" + ID_COLUMN + " INTEGER PRIMARY KEY, "
             + NAME_COLUMN + " TEXT, " + DESCRIPTION_COLOMN + " TEXT, "
             + IMAGE_COLOMN + " INTEGER, " + PRICE_COLOMN + " DOUBLE, "
             + QUANTITY_COLOMN + " INTEGER, " + ORDER_ID + " INTEGER, "
@@ -78,7 +76,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USER_TABLE);
-        db.execSQL(CREATE_CART_TABLE);
+        db.execSQL(CREATE_ITEMS_TABLE);
         db.execSQL(CREATE_ORDERS_TABLE);
         db.execSQL(CREATE_FAVORITE_TABLE);
 
@@ -87,7 +85,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + CART_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + ITEMS_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ORDERS_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + FAVORITE_TABLE);
 

@@ -16,9 +16,10 @@ import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.MenuPagerAdapter;
 
 /**
- * Created by Mounzer on 12/3/2015.
+ * An Activity handling two custom {@link android.support.v4.app.Fragment}s,
+ * with {@link TabLayout} and {@link ViewPager}.
  */
-public class MenuActivityWithTabs extends AppCompatActivity{
+public class MenuActivityWithTabs extends AppCompatActivity {
 
     FloatingActionButton fab;
     private TextView mTitle;
@@ -49,22 +50,22 @@ public class MenuActivityWithTabs extends AppCompatActivity{
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         int i = getIntent().getIntExtra("currentItem", 0);
-        if(i == 1){
+        if (i == 1) {
             viewPager.setCurrentItem(0);
         }
-        if(i == 2){
+        if (i == 2) {
             viewPager.setCurrentItem(1);
         }
-        if(i == 3){
+        if (i == 3) {
             viewPager.setCurrentItem(2);
         }
-        if(i == 4){
+        if (i == 4) {
             viewPager.setCurrentItem(3);
         }
-        if(i == 5){
+        if (i == 5) {
             viewPager.setCurrentItem(4);
         }
-        if(i == 6){
+        if (i == 6) {
             viewPager.setCurrentItem(5);
         }
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

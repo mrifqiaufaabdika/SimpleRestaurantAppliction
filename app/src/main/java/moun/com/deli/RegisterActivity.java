@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 
 import java.lang.ref.WeakReference;
 
@@ -23,9 +21,7 @@ import moun.com.deli.database.UserDAO;
 import moun.com.deli.model.User;
 import moun.com.deli.util.AppUtils;
 
-/**
- * Created by Mounzer on 12/11/2015.
- */
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String LOG_TAG = RegisterActivity.class.getSimpleName();
@@ -65,7 +61,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-
     @Override
     public void onClick(View v) {
         boolean isEmptyUsername = isEmpty(mInputUsername);
@@ -73,31 +68,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         boolean isEmptyAddress = isEmpty(mInputAddress);
         boolean isEmptyPhone = isEmpty(mInputPhone);
         boolean isEmptyPassword = isEmpty(mInputPassword);
-        if(isEmptyUsername){
+        if (isEmptyUsername) {
             mInputUsername.setError("Please enter a username");
             mInputEmail.setError(null);
             mInputAddress.setError(null);
             mInputPhone.setError(null);
             mInputPassword.setError(null);
-        } else if(isEmptyEmail){
+        } else if (isEmptyEmail) {
             mInputEmail.setError("Please enter an email address");
             mInputUsername.setError(null);
             mInputAddress.setError(null);
             mInputPhone.setError(null);
             mInputPassword.setError(null);
-        } else if(isEmptyAddress){
+        } else if (isEmptyAddress) {
             mInputAddress.setError("Please enter your address");
             mInputUsername.setError(null);
             mInputEmail.setError(null);
             mInputPhone.setError(null);
             mInputPassword.setError(null);
-        } else if(isEmptyPhone){
+        } else if (isEmptyPhone) {
             mInputPhone.setError("Please enter your phone number");
             mInputUsername.setError(null);
             mInputEmail.setError(null);
             mInputAddress.setError(null);
             mInputPassword.setError(null);
-        } else if(isEmptyPassword){
+        } else if (isEmptyPassword) {
             mInputPassword.setError("Please enter a password");
             mInputUsername.setError(null);
             mInputEmail.setError(null);
@@ -110,31 +105,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             String phone = mInputPhone.getText().toString().trim();
             String address = mInputAddress.getText().toString().trim();
             String password = mInputPassword.getText().toString().trim();
-            if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 mInputEmail.setError("Not valid");
                 mInputUsername.setError(null);
                 mInputAddress.setError(null);
                 mInputPhone.setError(null);
                 mInputPassword.setError(null);
-            } else if(!isValidPassword(password)) {
+            } else if (!isValidPassword(password)) {
                 mInputPassword.setError("Must be at least 6 characters");
                 mInputUsername.setError(null);
                 mInputAddress.setError(null);
                 mInputPhone.setError(null);
                 mInputEmail.setError(null);
-            } else if(username.length() < 3) {
+            } else if (username.length() < 3) {
                 mInputUsername.setError("Username is too short");
                 mInputAddress.setError(null);
                 mInputPhone.setError(null);
                 mInputEmail.setError(null);
                 mInputPassword.setError(null);
-            } else if(username.length() > 15) {
+            } else if (username.length() > 15) {
                 mInputUsername.setError("Username is too long");
                 mInputAddress.setError(null);
                 mInputPhone.setError(null);
                 mInputEmail.setError(null);
                 mInputPassword.setError(null);
-            } else if(userDAO.searchForUser(username) != null) {
+            } else if (userDAO.searchForUser(username) != null) {
                 mInputUsername.setError("Choose a unique name");
                 mInputAddress.setError(null);
                 mInputPhone.setError(null);
@@ -167,7 +162,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * @param password
      */
     public void userRegister(final String username, final String email, final String phone,
-                             final String address, final String password){
+                             final String address, final String password) {
 
         user = new User();
         user.setUserName(username);
@@ -243,12 +238,5 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         return false;
     }
 
-    private void dialogMessage(String title, String message){
-        SimpleDialogFragment.createBuilder(this, getSupportFragmentManager())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButtonText(getString(R.string.ok))
-                .setCancelable(false)
-                .show();
-    }
+
 }

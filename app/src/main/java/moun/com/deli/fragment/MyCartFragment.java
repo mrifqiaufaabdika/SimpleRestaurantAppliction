@@ -1,9 +1,9 @@
 package moun.com.deli.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 
@@ -24,13 +23,13 @@ import moun.com.deli.MyCartActivity;
 import moun.com.deli.R;
 import moun.com.deli.adapter.MyCartListAdapter;
 import moun.com.deli.database.ItemsDAO;
-import moun.com.deli.model.Cart;
-import moun.com.deli.model.MenuItems;
+import moun.com.deli.model.Items;
 import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.SessionManager;
 
 /**
- * Created by Mounzer on 12/6/2015.
+ * This Fragment used to handle the list of items cart from items table using
+ * {@link RecyclerView} with a {@link LinearLayoutManager}.
  */
 public class MyCartFragment extends Fragment implements MyCartListAdapter.ButtonClickListener, View.OnClickListener {
 
@@ -39,7 +38,7 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
     private RecyclerView cartRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private MyCartListAdapter myCartListAdapter;
-    private ArrayList<Cart> itemsCartList;
+    private ArrayList<Items> itemsCartList;
     private ItemsDAO itemsDAO;
     private GetItemsCartTask task;
     NumberOfItemChangedListener numberOfItemChangedListener;
@@ -50,25 +49,28 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
     private SessionManager session;
 
 
-
-
-    public interface NumberOfItemChangedListener{
+    /**
+     * Callback used to communicate with MyCartFragment to display the number of items in cart.
+     * MyCartActivity implements this interface and communicates with MyCartFragment.
+     */
+    public interface NumberOfItemChangedListener {
         void onNumberChanged();
 
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
 
-            numberOfItemChangedListener = (NumberOfItemChangedListener) activity;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            numberOfItemChangedListener = (NumberOfItemChangedListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement Listeners!!");
         }
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,13 +108,13 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
 
     @Override
     public void deleteClicked(View view, int position) {
-        Cart cartItems = (Cart) itemsCartList.get(position);
-        itemsDAO.deleteFromCart(cartItems);
+        Items cartItems = (Items) itemsCartList.get(position);
+        itemsDAO.deleteFromItemsTable(cartItems);
         myCartListAdapter.removeAt(position);
         numberOfItemChangedListener.onNumberChanged();
         MyCartActivity myCartActivity = (MyCartActivity) getActivity();
         myCartActivity.addItemsNumber();
-        if(itemsCartList.size() == 0){
+        if (itemsCartList.size() == 0) {
             emtyCart.setVisibility(View.VISIBLE);
             totalPrice.setText("ORDER TOTAL: $" + Double.toString(0.0));
         }
@@ -121,7 +123,7 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
 
     @Override
     public void editClicked(View view, int position) {
-        Cart cartItems = (Cart) itemsCartList.get(position);
+        Items cartItems = (Items) itemsCartList.get(position);
 
         if (cartItems != null) {
             Bundle arguments = new Bundle();
@@ -138,7 +140,7 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
     public void onClick(View v) {
 
         // Check if cart is empty
-        if(itemsCartList.size() == 0){
+        if (itemsCartList.size() == 0) {
             dialogMessage("Oops!", "Your cart is empty, Start your order now.");
 
         } else {
@@ -155,7 +157,10 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
 
     }
 
-    public class GetItemsCartTask extends AsyncTask<Void, Void, ArrayList<Cart>> {
+    /**
+     * get items cart from items table asynchronously.
+     */
+    public class GetItemsCartTask extends AsyncTask<Void, Void, ArrayList<Items>> {
 
         private final WeakReference<Activity> activityWeakRef;
 
@@ -164,13 +169,13 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
         }
 
         @Override
-        protected ArrayList<Cart> doInBackground(Void... arg0) {
-            ArrayList<Cart> itemsList = itemsDAO.getCartItemsNotOrdered();
+        protected ArrayList<Items> doInBackground(Void... arg0) {
+            ArrayList<Items> itemsList = itemsDAO.getCartItemsNotOrdered();
             return itemsList;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Cart> cartList) {
+        protected void onPostExecute(ArrayList<Items> cartList) {
             if (activityWeakRef.get() != null
                     && !activityWeakRef.get().isFinishing()) {
                 Log.d("items", cartList.toString());
@@ -202,6 +207,9 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
         task.execute((Void) null);
     }
 
+    /**
+     * Count the total price of all items and display the number on screen.
+     */
     public void getTotalPrice() {
         Double sum = 0.0;
         for (int i = 0; i < itemsCartList.size(); i++) {
@@ -214,8 +222,14 @@ public class MyCartFragment extends Fragment implements MyCartListAdapter.Button
 
     }
 
-    // Custom dialog fragment using SimpleDialogFragment library
-    private void dialogMessage(String title, String message){
+
+    /**
+     * Custom dialog fragment using SimpleDialogFragment library
+     *
+     * @param title   title of the message.
+     * @param message the message you want to display.
+     */
+    private void dialogMessage(String title, String message) {
         SimpleDialogFragment.createBuilder(getActivity(), getFragmentManager())
                 .setTitle(title)
                 .setMessage(message)

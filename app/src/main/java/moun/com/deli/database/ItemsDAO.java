@@ -3,15 +3,11 @@ package moun.com.deli.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
-import moun.com.deli.model.Cart;
+import moun.com.deli.model.Items;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.model.Orders;
 
@@ -31,16 +27,16 @@ public class ItemsDAO extends ItemsDBDAO {
         super(context);
     }
 
-    public long saveToCartTable(Cart cart) {
+    public long saveToItemsTable(Items items) {
         ContentValues values = new ContentValues();
-        values.put(DataBaseHelper.NAME_COLUMN, cart.getItemName());
-        values.put(DataBaseHelper.DESCRIPTION_COLOMN, cart.getItemDescription());
-        values.put(DataBaseHelper.IMAGE_COLOMN, cart.getItemImage());
-        values.put(DataBaseHelper.PRICE_COLOMN, cart.getItemPrice());
-        values.put(DataBaseHelper.QUANTITY_COLOMN, cart.getItemQuantity());
-        values.put(DataBaseHelper.ORDER_ID, cart.getOrders().getId());
+        values.put(DataBaseHelper.NAME_COLUMN, items.getItemName());
+        values.put(DataBaseHelper.DESCRIPTION_COLOMN, items.getItemDescription());
+        values.put(DataBaseHelper.IMAGE_COLOMN, items.getItemImage());
+        values.put(DataBaseHelper.PRICE_COLOMN, items.getItemPrice());
+        values.put(DataBaseHelper.QUANTITY_COLOMN, items.getItemQuantity());
+        values.put(DataBaseHelper.ORDER_ID, items.getOrders().getId());
 
-        return database.insert(DataBaseHelper.CART_TABLE, null, values);
+        return database.insert(DataBaseHelper.ITEMS_TABLE, null, values);
     }
 
     public long saveToFavoriteTable(MenuItems menuItems) {
@@ -53,18 +49,18 @@ public class ItemsDAO extends ItemsDBDAO {
         return database.insert(DataBaseHelper.FAVORITE_TABLE, null, values);
     }
 
-    public long updateCartTable(Cart cart) {
+    public long updateItemsTable(Items items) {
         ContentValues values = new ContentValues();
-        values.put(DataBaseHelper.NAME_COLUMN, cart.getItemName());
-        values.put(DataBaseHelper.DESCRIPTION_COLOMN, cart.getItemDescription());
-        values.put(DataBaseHelper.IMAGE_COLOMN, cart.getItemImage());
-        values.put(DataBaseHelper.PRICE_COLOMN, cart.getItemPrice());
-        values.put(DataBaseHelper.QUANTITY_COLOMN, cart.getItemQuantity());
-        values.put(DataBaseHelper.ORDER_ID, cart.getOrders().getId());
+        values.put(DataBaseHelper.NAME_COLUMN, items.getItemName());
+        values.put(DataBaseHelper.DESCRIPTION_COLOMN, items.getItemDescription());
+        values.put(DataBaseHelper.IMAGE_COLOMN, items.getItemImage());
+        values.put(DataBaseHelper.PRICE_COLOMN, items.getItemPrice());
+        values.put(DataBaseHelper.QUANTITY_COLOMN, items.getItemQuantity());
+        values.put(DataBaseHelper.ORDER_ID, items.getOrders().getId());
 
-        long result = database.update(DataBaseHelper.CART_TABLE, values,
+        long result = database.update(DataBaseHelper.ITEMS_TABLE, values,
                 WHERE_ID_EQUALS,
-                new String[] { String.valueOf(cart.getId()) });
+                new String[] { String.valueOf(items.getId()) });
         Log.d("Update Result:", "=" + result);
         return result;
 
@@ -85,8 +81,8 @@ public class ItemsDAO extends ItemsDBDAO {
 
     }
 
-    public int deleteFromCart(Cart cart) {
-        return database.delete(DataBaseHelper.CART_TABLE, WHERE_ID_EQUALS,
+    public int deleteFromItemsTable(Items cart) {
+        return database.delete(DataBaseHelper.ITEMS_TABLE, WHERE_ID_EQUALS,
                 new String[] { cart.getId() + "" });
     }
 
@@ -98,10 +94,10 @@ public class ItemsDAO extends ItemsDBDAO {
     }
 
     //USING query() method
-    public ArrayList<Cart> getAllCartItems() {
-        ArrayList<Cart> cartItems = new ArrayList<Cart>();
+    public ArrayList<Items> getAllCartItems() {
+        ArrayList<Items> cartItems = new ArrayList<Items>();
 
-        Cursor cursor = database.query(DataBaseHelper.CART_TABLE,
+        Cursor cursor = database.query(DataBaseHelper.ITEMS_TABLE,
                 new String[] { DataBaseHelper.ID_COLUMN,
                         DataBaseHelper.NAME_COLUMN,
                         DataBaseHelper.DESCRIPTION_COLOMN,
@@ -113,7 +109,7 @@ public class ItemsDAO extends ItemsDBDAO {
 
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
-                Cart cart = new Cart();
+                Items cart = new Items();
                 cart.setId(cursor.getInt(0));
                 cart.setItemName(cursor.getString(1));
                 cart.setItemDescription(cursor.getString(2));
@@ -135,8 +131,8 @@ public class ItemsDAO extends ItemsDBDAO {
     }
 
     // Uses rawQuery() to query multiple tables
-    public ArrayList<Cart> getCartItemsNotOrdered() {
-        ArrayList<Cart> cartItems = new ArrayList<Cart>();
+    public ArrayList<Items> getCartItemsNotOrdered() {
+        ArrayList<Items> cartItems = new ArrayList<Items>();
 
         // Building query using INNER JOIN keyword
         String query = "SELECT " + ITEM_ID_WITH_PREFIX + ","
@@ -146,7 +142,7 @@ public class ItemsDAO extends ItemsDBDAO {
                 + DataBaseHelper.QUANTITY_COLOMN + ","
                 + DataBaseHelper.ORDER_ID + ","
                 + ORDER_NAME_WITH_PREFIX + " FROM "
-                + DataBaseHelper.CART_TABLE + " cart INNER JOIN "
+                + DataBaseHelper.ITEMS_TABLE + " cart INNER JOIN "
                 + DataBaseHelper.ORDERS_TABLE + " orders ON cart."
                 + DataBaseHelper.ORDER_ID + " = orders."
                 + DataBaseHelper.ID_COLUMN
@@ -156,7 +152,7 @@ public class ItemsDAO extends ItemsDBDAO {
         Log.d("query", query);
         Cursor cursor = database.rawQuery(query, new String[] { 0 + "" } );
         while (cursor.moveToNext()) {
-            Cart cart = new Cart();
+            Items cart = new Items();
             cart.setId(cursor.getInt(0));
             cart.setItemName(cursor.getString(1));
             cart.setItemDescription(cursor.getString(2));
@@ -178,16 +174,16 @@ public class ItemsDAO extends ItemsDBDAO {
     }
 
     //USING query() method
-    public ArrayList<Cart> getItemsOrderHistory(int id) {
-        ArrayList<Cart> cartItems = new ArrayList<Cart>();
+    public ArrayList<Items> getItemsOrderHistory(int id) {
+        ArrayList<Items> cartItems = new ArrayList<Items>();
 
-        String sql = "SELECT * FROM " + DataBaseHelper.CART_TABLE
+        String sql = "SELECT * FROM " + DataBaseHelper.ITEMS_TABLE
                 + " WHERE " + DataBaseHelper.ORDER_ID + " = ?";
 
         Cursor cursor = database.rawQuery(sql, new String[] { id + "" });
 
         while (cursor.moveToNext()) {
-            Cart cart = new Cart();
+            Items cart = new Items();
             cart.setId(cursor.getInt(0));
             cart.setItemName(cursor.getString(1));
             cart.setItemDescription(cursor.getString(2));
@@ -207,10 +203,6 @@ public class ItemsDAO extends ItemsDBDAO {
 
         return cartItems;
     }
-
-
-
-
 
     //USING query() method
     public ArrayList<MenuItems> getFavoriteItems() {
@@ -241,7 +233,7 @@ public class ItemsDAO extends ItemsDBDAO {
     public MenuItems getItemCart(long id) {
         MenuItems menuItems = null;
 
-        String sql = "SELECT * FROM " + DataBaseHelper.CART_TABLE
+        String sql = "SELECT * FROM " + DataBaseHelper.ITEMS_TABLE
                 + " WHERE " + DataBaseHelper.ID_COLUMN + " = ?";
 
         Cursor cursor = database.rawQuery(sql, new String[] { id + "" });

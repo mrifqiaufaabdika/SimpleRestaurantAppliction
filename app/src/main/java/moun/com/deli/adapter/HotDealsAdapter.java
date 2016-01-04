@@ -99,24 +99,18 @@ public class HotDealsAdapter extends RecyclerView.Adapter<HotDealsAdapter.ViewHo
                 public void onClick(View v) {
                     if (clickListener != null) {
                         clickListener.itemClicked(itemView, getAdapterPosition());
-
                     }
-
                 }
             });
-
         }
-
     }
 
 
     public void setClickListener(ClickListener clickListener){
         this.clickListener = clickListener;
-
     }
 
     public interface ClickListener{
         public void itemClicked(View view, int position);
-
     }
 }

@@ -1,7 +1,6 @@
 package moun.com.deli.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,19 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import moun.com.deli.HotDealsActivity;
 import moun.com.deli.R;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
  * Provide views to RecyclerView with data from MenuItems object.
- *
  */
 public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAdapter.ViewHolder> {
-
     private static final String LOG_TAG = HomeMenuCustomAdapter.class.getSimpleName();
     private LayoutInflater mLayoutInflater;
     private int mResourceId;
@@ -78,21 +73,16 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
             }
             image = (ImageView) itemView.findViewById(R.id.menu_image);
             // Define click listener for the ViewHolder's View.
-            itemView.setOnClickListener(new View.OnClickListener(){
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (clickListener != null) {
                         clickListener.itemClicked(itemView, getAdapterPosition());
                         Log.d(LOG_TAG, "Position " + getAdapterPosition() + " clicked.");
-
                     }
-
                 }
             });
-
         }
-
-
     }
 
     // Create new views (invoked by the layout manager)
@@ -110,7 +100,7 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-    //    Log.d(LOG_TAG, "Element " + position + " set.");
+        //    Log.d(LOG_TAG, "Element " + position + " set.");
         if (isHeader(position)) {
             return;
         }
@@ -135,14 +125,13 @@ public class HomeMenuCustomAdapter extends RecyclerView.Adapter<HomeMenuCustomAd
     }
 
 
-
-    public void setClickListener(ClickListener clickListener){
+    public void setClickListener(ClickListener clickListener) {
         this.clickListener = clickListener;
 
     }
 
     // An interface to Define click listener for the ViewHolder's View from any where.
-    public interface ClickListener{
+    public interface ClickListener {
         public void itemClicked(View view, int position);
 
     }

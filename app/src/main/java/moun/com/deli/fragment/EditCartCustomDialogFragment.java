@@ -21,7 +21,7 @@ import java.lang.ref.WeakReference;
 import moun.com.deli.MyCartActivity;
 import moun.com.deli.R;
 import moun.com.deli.database.ItemsDAO;
-import moun.com.deli.model.Cart;
+import moun.com.deli.model.Items;
 import moun.com.deli.util.AppUtils;
 
 /**
@@ -34,7 +34,7 @@ public class EditCartCustomDialogFragment extends DialogFragment {
     private TextView description;
     private TextView itemDescription;
     private TextView totalPrice;
-    private Cart cartItems;
+    private Items cartItems;
     private Spinner qtySpinner;
     private ItemsDAO itemDAO;
     private UpdateItemTask task;
@@ -51,7 +51,6 @@ public class EditCartCustomDialogFragment extends DialogFragment {
     public EditCartCustomDialogFragment() {
 
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -154,8 +153,6 @@ public class EditCartCustomDialogFragment extends DialogFragment {
         cartItems.setItemImage(cartItems.getItemImage());
         cartItems.setItemPrice(cartItems.getItemPrice());
         cartItems.setItemQuantity(Integer.parseInt(qtySpinner.getSelectedItem().toString()));
-
-
     }
 
     public class UpdateItemTask extends AsyncTask<Void, Void, Long> {
@@ -168,7 +165,7 @@ public class EditCartCustomDialogFragment extends DialogFragment {
 
         @Override
         protected Long doInBackground(Void... arg0) {
-            long result = itemDAO.updateCartTable(cartItems);
+            long result = itemDAO.updateItemsTable(cartItems);
             return result;
         }
 

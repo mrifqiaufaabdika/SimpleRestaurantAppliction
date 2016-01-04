@@ -29,10 +29,8 @@ import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
-/**
- * Created by Mounzer on 12/9/2015.
- */
-public class HotDealsDetailFragment extends Fragment implements Animation.AnimationListener{
+
+public class HotDealsDetailFragment extends Fragment implements Animation.AnimationListener {
 
     private static final String LOG_TAG = HotDealsDetailFragment.class.getSimpleName();
     public static final String ARG_ITEM_ID = "hot_deals_detail";
@@ -52,16 +50,15 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
     /**
      * Create a new instance of DetailFragment.
      *
-     *
      * @param menuItems All data of the items
-     * @param x The horizontal position of the grid item in pixel
-     * @param y The vertical position of the grid item in pixel
-     * @param width The width of the grid item in pixel
-     * @param height The height of the grid item in pixel
+     * @param x         The horizontal position of the grid item in pixel
+     * @param y         The vertical position of the grid item in pixel
+     * @param width     The width of the grid item in pixel
+     * @param height    The height of the grid item in pixel
      * @return a new instance of HotDealsDetailFragment
      */
     public static HotDealsDetailFragment newInstance(MenuItems menuItems,
-                                             int x, int y, int width, int height) {
+                                                     int x, int y, int width, int height) {
         HotDealsDetailFragment hotDealsDetailFragment = new HotDealsDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("selectedItem", menuItems);
@@ -81,8 +78,6 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
         super.onCreate(savedInstanceState);
         menuHotItems = (MenuItems) getArguments().getParcelable("selectedItem");
         itemDAO = new ItemsDAO(getActivity());
-
-
     }
 
     @Override
@@ -124,18 +119,12 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
      * @param view The parent of views to bind.
      */
     private void bind(View view) {
-     /**
-        Bundle args = getArguments();
-        if (args == null) {
-            return;
-        }
-       */
+
         ImageView dealImage = (ImageView) view.findViewById(R.id.hot_deaL_image);
         dealImage.setImageResource(menuHotItems.getItemImage());
         TextView dealTitletitle = (TextView) view.findViewById(R.id.hot_deal_title);
         dealTitletitle.setText(menuHotItems.getItemName());
         dealTitletitle.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
-
     }
 
     @Override
@@ -174,7 +163,7 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
         dealPrice.setText("$" + menuHotItems.getItemPrice());
         dealPrice.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
         ImageButton dealOrder = (ImageButton) getView().findViewById(R.id.hot_deal_order);
-        dealOrder.setOnClickListener(new View.OnClickListener(){
+        dealOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (menuHotItems != null) {
@@ -188,17 +177,17 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
             }
         });
         dealFavorite = (ImageButton) getView().findViewById(R.id.hot_deal_favorite);
-    //    heart = (ImageView) getView().findViewById(R.id.hot_deal_favorite);
-        if(itemDAO.getItemFavorite(menuHotItems.getItemName()) == null) {
+        //    heart = (ImageView) getView().findViewById(R.id.hot_deal_favorite);
+        if (itemDAO.getItemFavorite(menuHotItems.getItemName()) == null) {
             dealFavorite.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
         } else {
             dealFavorite.setImageResource(R.mipmap.ic_favorite_white_24dp);
         }
-        dealFavorite.setOnClickListener(new View.OnClickListener(){
+        dealFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (menuHotItems != null) {
-                    if(itemDAO.getItemFavorite(menuHotItems.getItemName()) == null) {
+                    if (itemDAO.getItemFavorite(menuHotItems.getItemName()) == null) {
                         menuItemsFavorite = new MenuItems();
                         menuItemsFavorite.setItemName(menuHotItems.getItemName());
                         menuItemsFavorite.setItemDescription(menuHotItems.getItemDescription());
@@ -216,7 +205,7 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
         });
 
         ImageButton dealShare = (ImageButton) getView().findViewById(R.id.hot_deal_share);
-        dealShare.setOnClickListener(new View.OnClickListener(){
+        dealShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -224,7 +213,7 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
                 String shareBody = getString(R.string.share_format,
                         menuHotItems.getItemName(),
                         menuHotItems.getItemDescription());
-            //    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                //    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
@@ -238,7 +227,9 @@ public class HotDealsDetailFragment extends Fragment implements Animation.Animat
     }
 
 
-
+    /**
+     * Save item to Favorite table asynchronously.
+     */
     public class AddItemTask extends AsyncTask<Void, Void, Long> {
 
         private final WeakReference<Activity> activityWeakRef;

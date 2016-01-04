@@ -9,7 +9,7 @@ import moun.com.deli.fragment.MenuDrinksFragment;
 import moun.com.deli.fragment.MenuPizzaFragment;
 import moun.com.deli.fragment.MenuSaladsFragment;
 import moun.com.deli.fragment.MenuSandwichFragment;
-import moun.com.deli.fragment.MenuSweetsFragment;
+import moun.com.deli.fragment.MenuDessertsFragment;
 
 /**
  * Class define a view pager adapter for the swipe tabs feature.
@@ -41,7 +41,7 @@ public class MenuPagerAdapter extends FragmentStatePagerAdapter {
                 MenuSaladsFragment tab4 = new MenuSaladsFragment();
                 return tab4;
             case 4:
-                MenuSweetsFragment tab5 = new MenuSweetsFragment();
+                MenuDessertsFragment tab5 = new MenuDessertsFragment();
                 return tab5;
             case 5:
                 MenuDrinksFragment tab6 = new MenuDrinksFragment();

@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import moun.com.deli.R;
 import moun.com.deli.adapter.MenuListAdapter;
 import moun.com.deli.database.ItemsDAO;
@@ -24,9 +23,10 @@ import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/3/2015.
+ * This Fragment used to handle the list of items under Sandwich category using
+ * {@link RecyclerView} with a {@link LinearLayoutManager}.
  */
-public class MenuSandwichFragment extends Fragment implements MenuListAdapter.ClickListener{
+public class MenuSandwichFragment extends Fragment implements MenuListAdapter.ClickListener {
 
     public static final String ARG_ITEM_ID = "menu_sandwich";
     private RecyclerView mRecyclerView;
@@ -52,27 +52,33 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
         View rootView = inflater.inflate(R.layout.fragment_menu_list_items, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.sandwich_recyclerView);
-    //    mRecyclerView.setHasFixedSize(true);
+        //    mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
 
         mRecyclerView.setLayoutManager(mLayoutManager);
-        // Used for orientation change
+        // Used for orientation change.
         if (savedInstanceState != null) {
-            // We will restore the state of data list when the activity is re-created
+            // We will restore the state of data list when the activity is re-created.
             listItems = savedInstanceState.getParcelableArrayList(ITEMS_STATE);
         } else {
+            // Initialize listItems.
             listItems = getSandwichMenuList();
         }
         menuListAdapter = new MenuListAdapter(getActivity(), listItems, inflater, R.layout.single_row_menu_list);
+        // Set MenuListAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(menuListAdapter);
         menuListAdapter.setClickListener(this);
 
         return rootView;
     }
 
-    // Before the activity is destroyed, onSaveInstanceState() gets called.
-    // The onSaveInstanceState() method saves the list of data.
+    /**
+     * Before the activity is destroyed, onSaveInstanceState() gets called.
+     * The onSaveInstanceState() method saves the list of data.
+     *
+     * @param outState bundle
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -83,7 +89,7 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
     public void itemClicked(View view, int position, boolean isLongClick) {
         MenuItems menuItems = getSandwichMenuList().get(position);
         if (isLongClick) {
-            if(itemDAO.getItemFavorite(menuItems.getItemName()) == null) {
+            if (itemDAO.getItemFavorite(menuItems.getItemName()) == null) {
                 menuItemsFavorite = new MenuItems();
                 menuItemsFavorite.setItemName(menuItems.getItemName());
                 menuItemsFavorite.setItemDescription(menuItems.getItemDescription());
@@ -91,6 +97,7 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
                 menuItemsFavorite.setItemPrice(menuItems.getItemPrice());
                 task = new AddItemTask(getActivity());
                 task.execute((Void) null);
+                // set heart_red drawable
                 ImageView heart = (ImageView) view.findViewById(R.id.heart);
                 heart.setImageResource(R.mipmap.ic_favorite_red_24dp);
             } else {
@@ -141,9 +148,14 @@ public class MenuSandwichFragment extends Fragment implements MenuListAdapter.Cl
         }
     }
 
-    // Generates data for RecyclerView's adapter, this data would usually come from a local content provider or
-    // remote server.
-    private ArrayList<MenuItems> getSandwichMenuList(){
+
+    /**
+     * Generates data for RecyclerView's adapter, this data would usually come from a local content provider
+     * or remote server.
+     *
+     * @return items list
+     */
+    private ArrayList<MenuItems> getSandwichMenuList() {
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
         menuItems.add(new MenuItems(getString(R.string.grilled_chicken), R.drawable.sandwich1, 8.25, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.krispy_haddock), R.drawable.sandwich2, 7.00, getString(R.string.short_lorem)));

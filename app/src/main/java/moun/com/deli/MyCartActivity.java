@@ -16,18 +16,18 @@ import java.util.ArrayList;
 
 import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.fragment.EditCartCustomDialogFragment;
-import moun.com.deli.fragment.MainFragment;
 import moun.com.deli.fragment.MyCartCheckoutFragment;
 import moun.com.deli.fragment.MyCartFragment;
-import moun.com.deli.model.Cart;
-import moun.com.deli.model.MenuItems;
+import moun.com.deli.model.Items;
 import moun.com.deli.util.AppUtils;
 
+
 /**
- * Created by Mounzer on 12/6/2015.
+ * An Activity handling two custom {@link android.support.v4.app.Fragment},
+ * MyCartFragment and MyCartCheckoutFragment.
  */
 public class MyCartActivity extends AppCompatActivity implements EditCartCustomDialogFragment.EditCartDialogFragmentListener,
-MyCartFragment.NumberOfItemChangedListener{
+        MyCartFragment.NumberOfItemChangedListener {
 
     private Toolbar mToolbar;
     private TextView mTitle;
@@ -54,6 +54,7 @@ MyCartFragment.NumberOfItemChangedListener{
         addItemsNumber();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
+        // Used for orientation change.
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("content")) {
                 String content = savedInstanceState.getString("content");
@@ -83,19 +84,32 @@ MyCartFragment.NumberOfItemChangedListener{
         }
     }
 
+    /**
+     * Before the activity is destroyed, onSaveInstanceState() gets called.
+     * The onSaveInstanceState() method saves the current fragment.
+     *
+     * @param outState bundle
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (contentFragment instanceof MyCartFragment) {
             outState.putString("content", MyCartFragment.ARG_ITEM_ID);
-        } else if (contentFragment instanceof MyCartCheckoutFragment){
+        } else if (contentFragment instanceof MyCartCheckoutFragment) {
             outState.putString("content", MyCartCheckoutFragment.ARG_ITEM_ID);
         }
         super.onSaveInstanceState(outState);
     }
 
+
+    /**
+     * Used to replace One Fragment with Another and add the transaction to the back.
+     *
+     * @param fragment the fragment.
+     * @param tag      the fragment tag.
+     */
     public void switchContent(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        while (fragmentManager.popBackStackImmediate());
+        while (fragmentManager.popBackStackImmediate()) ;
 
         if (fragment != null) {
             FragmentTransaction transaction = fragmentManager
@@ -115,13 +129,13 @@ MyCartFragment.NumberOfItemChangedListener{
         }
     }
 
-    public void addItemsNumber(){
+    public void addItemsNumber() {
         itemsDAO = new ItemsDAO(this);
-        ArrayList<Cart> itemsList = itemsDAO.getCartItemsNotOrdered();
+        ArrayList<Items> itemsList = itemsDAO.getCartItemsNotOrdered();
         String item = null;
-        if(itemsList.size() == 0 || itemsList.size() == 1){
+        if (itemsList.size() == 0 || itemsList.size() == 1) {
             item = "item";
-        } else if(itemsList.size() > 1){
+        } else if (itemsList.size() > 1) {
             item = "items";
         }
         numberOfItems.setText("YOU HAVE " + itemsList.size() + " " + item + " IN YOUR CART");

@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -18,7 +16,6 @@ import java.util.Locale;
 
 import moun.com.deli.R;
 import moun.com.deli.helper.DateHelper;
-import moun.com.deli.model.Cart;
 import moun.com.deli.model.Orders;
 import moun.com.deli.util.AppUtils;
 

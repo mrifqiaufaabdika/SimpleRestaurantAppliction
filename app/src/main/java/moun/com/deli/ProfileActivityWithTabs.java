@@ -12,19 +12,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import moun.com.deli.fragment.FavoritesFragment;
 import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.ProfilePagerAdapter;
 
 /**
- * Created by Mounzer on 12/9/2015.
+ * An Activity handling two custom {@link android.support.v4.app.Fragment},
+ * FavoritesFragment and OrdersHistoryFragment with {@link TabLayout} and {@link ViewPager}.
  */
-public class ProfileActivityWithTabs extends AppCompatActivity{
+public class ProfileActivityWithTabs extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private TextView mTitle;
-    private FavoritesFragment favoritesFragment;
-    private Fragment contentFragment;
 
 
     @Override
@@ -44,6 +42,7 @@ public class ProfileActivityWithTabs extends AppCompatActivity{
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.favorites_tab)));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.orders_tab));
 
+        // Custom tabs with text and icon.
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tabOne.setText(getString(R.string.favorites_tab));
         tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.ic_favorite_white_24dp, 0, 0);
@@ -60,7 +59,7 @@ public class ProfileActivityWithTabs extends AppCompatActivity{
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         int i = getIntent().getIntExtra("historyTab", 0);
-        if(i == 1){
+        if (i == 1) {
             viewPager.setCurrentItem(1);
         }
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

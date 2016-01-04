@@ -21,7 +21,7 @@ import java.lang.ref.WeakReference;
 import moun.com.deli.R;
 import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.database.OrdersDAO;
-import moun.com.deli.model.Cart;
+import moun.com.deli.model.Items;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.model.Orders;
 import moun.com.deli.util.AppUtils;
@@ -37,7 +37,7 @@ public class CustomDialogFragment extends DialogFragment {
     private TextView itemDescription;
     private TextView totalPrice;
     private MenuItems menuItems;
-    private Cart menuItemsCart;
+    private Items menuItemsCart;
     private Spinner qtySpinner;
     private ItemsDAO itemDAO;
     private OrdersDAO ordersDAO;
@@ -54,7 +54,9 @@ public class CustomDialogFragment extends DialogFragment {
     }
 
 
-    /** The system calls this only when creating the layout in a dialog. */
+    /**
+     * The system calls this only when creating the layout in a dialog.
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -81,7 +83,7 @@ public class CustomDialogFragment extends DialogFragment {
         qtySpinner = (Spinner) dialog.findViewById(R.id.spinner_qty);
         totalPrice = (TextView) dialog.findViewById(R.id.total_price);
         setItemsData();
-        qtySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        qtySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
@@ -94,16 +96,13 @@ public class CustomDialogFragment extends DialogFragment {
                 qtySpinner.setSelection(0);
             }
         });
-        if(ordersDAO.getOrder(0) == null) {
+        if (ordersDAO.getOrder(0) == null) {
             orders = new Orders();
             orders.setOrdered(false);
             orders.setDate_created(System.currentTimeMillis());
             orderTask = new AddOrderTask(getActivity());
             orderTask.execute((Void) null);
         }
-
-
-
 
         // Add to cart
         dialog.findViewById(R.id.order_button).setOnClickListener(new View.OnClickListener() {
@@ -135,23 +134,23 @@ public class CustomDialogFragment extends DialogFragment {
 
     }
 
-    private void setItemsData(){
-        if(menuItems != null){
+    private void setItemsData() {
+        if (menuItems != null) {
             itemTitle.setText(menuItems.getItemName());
             itemTitle.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
             description.setText(getString(R.string.description));
             description.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOLD));
             itemDescription.setText(menuItems.getItemDescription());
             itemDescription.setTypeface(AppUtils.getTypeface(getActivity(), AppUtils.FONT_BOOK));
-            Integer[] quantity = new Integer[] { 1, 2, 3, 4, 5, 6 };
+            Integer[] quantity = new Integer[]{1, 2, 3, 4, 5, 6};
             ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(getActivity(),
                     android.R.layout.simple_spinner_item, quantity);
             qtySpinner.setAdapter(adapter);
         }
     }
 
-    private void getItemsData(){
-        menuItemsCart = new Cart();
+    private void getItemsData() {
+        menuItemsCart = new Items();
         menuItemsCart.setItemName(menuItems.getItemName());
         menuItemsCart.setItemDescription(menuItems.getItemDescription());
         menuItemsCart.setItemImage(menuItems.getItemImage());
@@ -175,7 +174,7 @@ public class CustomDialogFragment extends DialogFragment {
 
         @Override
         protected Long doInBackground(Void... arg0) {
-            long result = itemDAO.saveToCartTable(menuItemsCart);
+            long result = itemDAO.saveToItemsTable(menuItemsCart);
             return result;
         }
 
@@ -185,7 +184,7 @@ public class CustomDialogFragment extends DialogFragment {
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1)
                     AppUtils.CustomToast(activityWeakRef.get(), "Oh yeah! we have added this item to your cart");
-                Log.d("ITEMS Cart: ", menuItemsCart.toString());
+                Log.d("ITEMS Items: ", menuItemsCart.toString());
             }
         }
     }

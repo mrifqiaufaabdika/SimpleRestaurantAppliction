@@ -31,18 +31,19 @@
             android:textSize="@dimen/bigTextTitle"
             android:layout_gravity="center"
             android:textColor="@color/colorTextPrimaryLight"
-            android:text="10" />
+            android:text="0" />
 
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toEndOf="@+id/orders_history_numb"
         android:layout_toRightOf="@+id/orders_history_numb"
         android:background="@color/gray"
         android:layout_marginLeft="5dp"
+        android:foreground="?android:attr/selectableItemBackground"
         android:orientation="vertical">
 
         <TextView
@@ -63,8 +64,10 @@
             android:textSize="24sp"
             android:layout_marginLeft="@dimen/margin"
             android:textColor="@color/colorTextPrimaryLight"
-            android:text="A MINUTE AGO" />
+            android:text="A MINUTE AGO"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="left|center_vertical" />
 
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

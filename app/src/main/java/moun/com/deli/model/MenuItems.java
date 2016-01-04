@@ -8,9 +8,7 @@ import java.util.List;
 
 import moun.com.deli.R;
 
-/**
- * Created by Mounzer on 12/1/2015.
- */
+
 public class MenuItems implements Parcelable {
 
     private int id;
@@ -20,7 +18,7 @@ public class MenuItems implements Parcelable {
     private String itemDescription;
     private int itemQuantity;
 
-    public MenuItems(){
+    public MenuItems() {
         super();
     }
 
@@ -37,7 +35,7 @@ public class MenuItems implements Parcelable {
         this.itemDescription = itemDescription;
     }
 
-    public MenuItems(Parcel parcel){
+    public MenuItems(Parcel parcel) {
         super();
         this.id = parcel.readInt();
         this.itemName = parcel.readString();

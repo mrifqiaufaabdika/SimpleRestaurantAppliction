@@ -1,8 +1,6 @@
 package moun.com.deli.model;
 
-/**
- * Created by Mounzer on 12/14/2015.
- */
+
 public class User {
 
     private int id;
@@ -12,7 +10,7 @@ public class User {
     private String phone;
     private String password;
 
-    public User(){
+    public User() {
 
     }
 

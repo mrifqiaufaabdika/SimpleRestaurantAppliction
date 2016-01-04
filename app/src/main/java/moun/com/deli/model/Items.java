@@ -3,10 +3,8 @@ package moun.com.deli.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Mounzer on 12/21/2015.
- */
-public class Cart implements Parcelable {
+
+public class Items implements Parcelable {
     private int id;
     private int itemImage;
     private String itemName;
@@ -15,24 +13,24 @@ public class Cart implements Parcelable {
     private int itemQuantity;
     private Orders orders;
 
-    public Cart(){
+    public Items() {
         super();
     }
 
 
-    public Cart(String itemName, int itemImage) {
+    public Items(String itemName, int itemImage) {
         this.itemName = itemName;
         this.itemImage = itemImage;
     }
 
-    public Cart(String itemName, int itemImage, double itemPrice, String itemDescription) {
+    public Items(String itemName, int itemImage, double itemPrice, String itemDescription) {
         this.itemName = itemName;
         this.itemImage = itemImage;
         this.itemPrice = itemPrice;
         this.itemDescription = itemDescription;
     }
 
-    public Cart(Parcel parcel){
+    public Items(Parcel parcel) {
         super();
         this.id = parcel.readInt();
         this.itemName = parcel.readString();
@@ -118,7 +116,7 @@ public class Cart implements Parcelable {
 
     @Override
     public String toString() {
-        return "Cart{" +
+        return "Items{" +
                 "id=" + id +
                 ", itemImage=" + itemImage +
                 ", itemName='" + itemName + '\'' +
@@ -129,13 +127,13 @@ public class Cart implements Parcelable {
                 '}';
     }
 
-    public static final Creator<Cart> CREATOR = new Creator<Cart>() {
-        public Cart createFromParcel(Parcel in) {
-            return new Cart(in);
+    public static final Creator<Items> CREATOR = new Creator<Items>() {
+        public Items createFromParcel(Parcel in) {
+            return new Items(in);
         }
 
-        public Cart[] newArray(int size) {
-            return new Cart[size];
+        public Items[] newArray(int size) {
+            return new Items[size];
         }
     };
 }

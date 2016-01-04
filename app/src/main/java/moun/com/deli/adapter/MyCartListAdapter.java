@@ -12,16 +12,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import moun.com.deli.R;
-import moun.com.deli.model.Cart;
+import moun.com.deli.model.Items;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Provide view to Cart RecyclerView with data from Cart object.
+ * Provide view to Items RecyclerView with data from Items object.
  */
 public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.ViewHolder>{
     private static final String LOG_TAG = MyCartListAdapter.class.getSimpleName();
     private LayoutInflater mLayoutInflater;
-    ArrayList<Cart> itemsList;
+    ArrayList<Items> itemsList;
     private ButtonClickListener clickListener;
 
     /**
@@ -33,11 +33,10 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
 
     }
 
-    public void setItemsList(ArrayList<Cart> itemsList) {
+    public void setItemsList(ArrayList<Items> itemsList) {
         this.itemsList = itemsList;
         //    notifyDataSetChanged();
         notifyItemInserted(itemsList.size());
-
     }
 
     /**
@@ -63,7 +62,7 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
-        Cart cartItems = itemsList.get(position);
+        Items cartItems = itemsList.get(position);
         viewHolder.itemTitle.setText(cartItems.getItemName());
         viewHolder.itemQuantity.setText("Quantity: " + cartItems.getItemQuantity());
         viewHolder.itemTotal.setText("Total: $" + cartItems.getItemPrice() * cartItems.getItemQuantity());
@@ -90,8 +89,6 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
         public ImageButton itemEdite;
         public ImageView itemImage;
 
-
-
         public ViewHolder(View itemView) {
             super(itemView);
             itemTitle = (TextView) itemView.findViewById(R.id.cart_item_title);
@@ -103,9 +100,6 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
             itemDelete = (ImageButton) itemView.findViewById(R.id.cart_delete_btn);
             itemEdite = (ImageButton) itemView.findViewById(R.id.cart_edit_btn);
             itemImage = (ImageView) itemView.findViewById(R.id.cart_item_image);
-
-
-
 
             itemDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -125,7 +119,6 @@ public class MyCartListAdapter extends RecyclerView.Adapter<MyCartListAdapter.Vi
                     }
                 }
             });
-
         }
 
     }

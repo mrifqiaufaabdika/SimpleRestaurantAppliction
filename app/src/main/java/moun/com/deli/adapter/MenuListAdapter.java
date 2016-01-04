@@ -72,7 +72,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
                         clickListener.itemClicked(v, getAdapterPosition(), false);
                         Log.d(LOG_TAG, "Element " + getAdapterPosition() + " clicked.");
                     }
-
                 }
             });
 
@@ -87,8 +86,6 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.ViewHo
                 }
             });
         }
-
-
     }
 
     // Create new view (invoked by the layout manager)

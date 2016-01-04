@@ -3,13 +3,10 @@ package moun.com.deli;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,12 +15,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import moun.com.deli.database.UserDAO;
 import moun.com.deli.fragment.MainFragment;
@@ -32,13 +27,15 @@ import moun.com.deli.fragment.MenuDrinksFragment;
 import moun.com.deli.fragment.MenuPizzaFragment;
 import moun.com.deli.fragment.MenuSaladsFragment;
 import moun.com.deli.fragment.MenuSandwichFragment;
-import moun.com.deli.fragment.MenuSweetsFragment;
-import moun.com.deli.fragment.MyCartFragment;
+import moun.com.deli.fragment.MenuDessertsFragment;
 import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.SessionManager;
 
 /**
- * This is the activity that serves as the main entry point to your app's user interface.
+ * An Activity that serves as the main entry point to your app's user interface.
+ * <p/>
+ * For devices with displays with a width of 600dp or greater, the Multi-pane view is visible,
+ * on other devices the single-pane view is visible.
  */
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
@@ -105,7 +102,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Check that the activity is using the layout version with
         // the content_detail_fragment FrameLayout
         if (fragmentItemDetail != null) {
-            /* The application is in the dual-pane mode, clicking on an item on the left pane will simply display the content on the right pane. */
+            /* The application is in the dual-pane mode, clicking on an item on the left pane will
+            simply display the content on the right pane. */
             isTwoPane = true;
             // Create a new Fragment to be placed on the right pane.
             // and create MenuSandwichFragment and place it by default.
@@ -131,8 +129,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     *  retrieve the value from shared preferences file to define if the user
-     *  saw the drawer open for the first time or not.
+     * retrieve the value from shared preferences file to define if the user
+     * saw the drawer open for the first time or not.
      */
     private boolean didUserSeeDrawer() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -171,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @param mSelectedId the drawer list item id's
      */
     private void navigate(int mSelectedId) {
-    //    mDrawer.getMenu().getItem(mSelectedId).setCheckable(false);
+        //    mDrawer.getMenu().getItem(mSelectedId).setCheckable(false);
 
         if (mSelectedId == R.id.breakfast) {
             // Close the drawer.
@@ -395,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 MenuSaladsFragment menuSaladsFragment = new MenuSaladsFragment();
                 switchContent(menuSaladsFragment);
             } else if (position == 5) {
-                MenuSweetsFragment menuSweetsFragment = new MenuSweetsFragment();
+                MenuDessertsFragment menuSweetsFragment = new MenuDessertsFragment();
                 switchContent(menuSweetsFragment);
             } else {
                 MenuDrinksFragment menuDrinksFragment = new MenuDrinksFragment();
@@ -413,6 +411,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     /**
      * Using This method to replace One Fragment with Another.
+     *
      * @param fragment the fragment.
      */
     public void switchContent(Fragment fragment) {

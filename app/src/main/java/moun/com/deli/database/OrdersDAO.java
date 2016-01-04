@@ -5,17 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
-import moun.com.deli.model.MenuItems;
 import moun.com.deli.model.Orders;
 
 /**
- * Created by Mounzer on 12/21/2015.
+ * This Class using SQLiteDatabase object provides methods for SQLite CRUD
+ * (Create, Read, Update, Delete) operations.
  */
 public class OrdersDAO extends ItemsDBDAO {
 

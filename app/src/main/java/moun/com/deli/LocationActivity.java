@@ -1,21 +1,22 @@
 package moun.com.deli;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
+
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,14 +28,11 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/16/2015.
+ * An Activity handling the Google maps and locations integration with your app.
  */
 public class LocationActivity extends AppCompatActivity implements
         GoogleMap.OnMarkerClickListener,
@@ -62,11 +60,11 @@ public class LocationActivity extends AppCompatActivity implements
     private Marker mLastSelectedMarker;
 
     // Declaring Map Types
-    private final int[] MAP_TYPES = { GoogleMap.MAP_TYPE_SATELLITE,
+    private final int[] MAP_TYPES = {GoogleMap.MAP_TYPE_SATELLITE,
             GoogleMap.MAP_TYPE_NORMAL,
             GoogleMap.MAP_TYPE_HYBRID,
             GoogleMap.MAP_TYPE_TERRAIN,
-            GoogleMap.MAP_TYPE_NONE };
+            GoogleMap.MAP_TYPE_NONE};
 
     private int curMapTypeIndex = 1;
 
@@ -101,14 +99,27 @@ public class LocationActivity extends AppCompatActivity implements
         map.setContentDescription("Deli Restaurant Locations");
 
         // Set some properties for the map
-        mMap.setMapType( MAP_TYPES[curMapTypeIndex] );
-        mMap.setTrafficEnabled( true );
+        mMap.setMapType(MAP_TYPES[curMapTypeIndex]);
+        mMap.setTrafficEnabled(true);
         // setMyLocationEnabled adds a button to the top right corner of the MapFragment
         // that automatically moves the camera to your user's location when pressed
-        mMap.setMyLocationEnabled( true );
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
         // setZoomControlsEnabled adds + and - buttons in the lower right corner,
         // allowing the user to change the map zoom level without having to use gestures
-        mMap.getUiSettings().setZoomControlsEnabled( true );
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
         // Pan to see all markers in view.
         // Cannot zoom to bounds until the map has a size.
@@ -137,7 +148,6 @@ public class LocationActivity extends AppCompatActivity implements
     }
 
 
-
     private void addMarkersToMap() {
         mainBranch = mMap.addMarker(new MarkerOptions()
                 .position(MAIN_BRANCH)
@@ -164,8 +174,6 @@ public class LocationActivity extends AppCompatActivity implements
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker)));
 
     }
-
-
 
 
     @Override
@@ -206,10 +214,6 @@ public class LocationActivity extends AppCompatActivity implements
         super.onBackPressed();
         overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
     }
-
-
-
-
 
 
 }

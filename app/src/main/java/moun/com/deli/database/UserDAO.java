@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import moun.com.deli.model.MenuItems;
 import moun.com.deli.model.User;
 
 /**

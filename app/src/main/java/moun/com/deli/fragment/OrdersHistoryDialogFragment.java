@@ -22,16 +22,15 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import moun.com.deli.R;
-import moun.com.deli.adapter.FavoritesListAdapter;
 import moun.com.deli.adapter.ItemsOrderHistoryAdapter;
 import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.database.OrdersDAO;
-import moun.com.deli.model.Cart;
+import moun.com.deli.model.Items;
 import moun.com.deli.model.Orders;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Custom dialog fragment
+ * Custom dialog fragment that handle the list of items
  */
 public class OrdersHistoryDialogFragment extends DialogFragment {
     public static final String ARG_ITEM_ID = "custom_dialog_fragment";
@@ -44,7 +43,7 @@ public class OrdersHistoryDialogFragment extends DialogFragment {
     private ItemsDAO itemsDAO;
     private Orders orders;
     private GetOrdersHistoryTask task;
-    private ArrayList<Cart> itemsOrderList;
+    private ArrayList<Items> itemsOrderList;
 
     private static final SimpleDateFormat formatter = new SimpleDateFormat(
             "yyyy-MM-dd", Locale.ENGLISH);
@@ -114,7 +113,7 @@ public class OrdersHistoryDialogFragment extends DialogFragment {
 
     }
 
-    public class GetOrdersHistoryTask extends AsyncTask<Void, Void, ArrayList<Cart>> {
+    public class GetOrdersHistoryTask extends AsyncTask<Void, Void, ArrayList<Items>> {
 
         private final WeakReference<Activity> activityWeakRef;
 
@@ -123,13 +122,13 @@ public class OrdersHistoryDialogFragment extends DialogFragment {
         }
 
         @Override
-        protected ArrayList<Cart> doInBackground(Void... arg0) {
-            ArrayList<Cart> historyList = itemsDAO.getItemsOrderHistory(orders.getId());
+        protected ArrayList<Items> doInBackground(Void... arg0) {
+            ArrayList<Items> historyList = itemsDAO.getItemsOrderHistory(orders.getId());
             return historyList;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Cart> historyList) {
+        protected void onPostExecute(ArrayList<Items> historyList) {
             if (activityWeakRef.get() != null
                     && !activityWeakRef.get().isFinishing()) {
                 Log.d("orders", historyList.toString());

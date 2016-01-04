@@ -1,13 +1,10 @@
 package moun.com.deli;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,9 +16,7 @@ import moun.com.deli.fragment.ResetPasswordDialogFragment;
 import moun.com.deli.util.AppUtils;
 import moun.com.deli.util.SessionManager;
 
-/**
- * Created by Mounzer on 12/11/2015.
- */
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = LoginActivity.class.getSimpleName();
@@ -51,18 +46,17 @@ public class LoginActivity extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
 
 
-
     }
 
     // Login button Click Event
-    public void LoginClick(View view){
+    public void LoginClick(View view) {
         boolean isEmptyUsername = isEmpty(mInputUsername);
         boolean isEmptyPassword = isEmpty(mInputPassword);
         // Check for empty data in the form
-        if(isEmptyUsername) {
+        if (isEmptyUsername) {
             mInputUsername.setError("Enter your username");
             mInputPassword.setError(null);
-        } else if(isEmptyPassword) {
+        } else if (isEmptyPassword) {
             mInputPassword.setError("Enter your password");
             mInputUsername.setError(null);
         } else {
@@ -70,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             mInputPassword.setError(null);
             final String username = mInputUsername.getText().toString().trim();
             final String password = mInputPassword.getText().toString().trim();
-            if(userDAO.searchForUser(username) == null){
+            if (userDAO.searchForUser(username) == null) {
                 dialogMessage("Couldn't Sign In!", "Please check your username and password and try again.");
             } else {
                 // user successfully logged in
@@ -93,13 +87,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Link to reset password dialog fragment
-    public void ResetPassword(View view){
+    public void ResetPassword(View view) {
         ResetPasswordDialogFragment.show(loginActivity);
 
     }
 
     // Link to Register Screen
-    public void RegisteronClick(View view){
+    public void RegisteronClick(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right_in, R.anim.left_out);
@@ -114,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Custom dialog fragment using SimpleDialogFragment library
-    private void dialogMessage(String title, String message){
+    private void dialogMessage(String title, String message) {
         SimpleDialogFragment.createBuilder(this, getSupportFragmentManager())
                 .setTitle(title)
                 .setMessage(message)

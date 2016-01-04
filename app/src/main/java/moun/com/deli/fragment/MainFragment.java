@@ -1,7 +1,7 @@
 package moun.com.deli.fragment;
 
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,7 +28,7 @@ import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * This class used to handle the list of items with header on the top.
+ * This Fragment used to handle the list of items with header on the top.
  */
 public class MainFragment extends Fragment implements HomeMenuCustomAdapter.ClickListener {
 
@@ -55,19 +55,19 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
         public void onItemSelected(int position);
     }
 
+
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
-        if (activity instanceof OnItemSelectedListener) {
-            listener = (OnItemSelectedListener) activity;
+        if (context instanceof OnItemSelectedListener) {
+            listener = (OnItemSelectedListener) context;
         } else {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement OnItemSelectedListener");
         }
     }
-
 
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
@@ -137,10 +137,7 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
         } else {
             // Send the event to the main activity
             listener.onItemSelected(position);
-
-
         }
-
     }
 
     @Override
@@ -177,7 +174,6 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
                     mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
                     homeMenuCustomAdapter.setClickListener(this);
                     item.setIcon(R.mipmap.ic_view_list_white_24dp);
-
                 }
 
                 return true;
@@ -227,10 +223,13 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
         mRecyclerView.scrollToPosition(scrollPosition);
     }
 
-    // Generates data for RecyclerView's adapter, this data would usually come from a local content provider or
-    // remote server.
+    /**
+     * Generates data for RecyclerView's adapter, this data would usually come from a local content provider
+     * or remote server.
+     *
+     * @return menu items list
+     */
     private ArrayList<MenuItems> getMenuList() {
-
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
         menuItems.add(new MenuItems(getString(R.string.sandwich), R.drawable.items2));
         menuItems.add(new MenuItems(getString(R.string.burgers), R.drawable.items3));
@@ -238,8 +237,6 @@ public class MainFragment extends Fragment implements HomeMenuCustomAdapter.Clic
         menuItems.add(new MenuItems(getString(R.string.salads), R.drawable.items5));
         menuItems.add(new MenuItems(getString(R.string.sweets), R.drawable.items7));
         menuItems.add(new MenuItems(getString(R.string.drinks), R.drawable.items6));
-
-
         return menuItems;
     }
 }

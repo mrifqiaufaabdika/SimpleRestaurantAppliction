@@ -16,16 +16,14 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import moun.com.deli.R;
-import moun.com.deli.adapter.FavoritesListAdapter;
 import moun.com.deli.adapter.OrdersHistoryAdapter;
-import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.database.OrdersDAO;
-import moun.com.deli.model.MenuItems;
 import moun.com.deli.model.Orders;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/23/2015.
+ * This Fragment used to handle the list of history orders fetched from SQLite database
+ * (orders table) using {@link RecyclerView} with a {@link LinearLayoutManager}.
  */
 public class OrdersHistoryFragment extends Fragment implements OrdersHistoryAdapter.ClickListener{
     private static final String LOG_TAG = OrdersHistoryFragment.class.getSimpleName();
@@ -42,7 +40,6 @@ public class OrdersHistoryFragment extends Fragment implements OrdersHistoryAdap
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ordersDAO = new OrdersDAO(getActivity());
-
     }
 
     @Override
@@ -77,7 +74,6 @@ public class OrdersHistoryFragment extends Fragment implements OrdersHistoryAdap
             ordersHistoryDialogFragment.show(getFragmentManager(),
                     OrdersHistoryDialogFragment.ARG_ITEM_ID);
         }
-
     }
 
     public class GetOrdersHistoryTask extends AsyncTask<Void, Void, ArrayList<Orders>> {

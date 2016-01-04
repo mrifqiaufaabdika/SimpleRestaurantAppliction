@@ -5,23 +5,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import moun.com.deli.R;
-import moun.com.deli.model.Cart;
+import moun.com.deli.model.Items;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Provide view to Items RecyclerView with data from Cart object.
+ * Provide view to Items RecyclerView with data from Items object.
  */
 public class ItemsOrderHistoryAdapter extends RecyclerView.Adapter<ItemsOrderHistoryAdapter.ViewHolder> {
     private static final String LOG_TAG = ItemsOrderHistoryAdapter.class.getSimpleName();
     private LayoutInflater mLayoutInflater;
-    ArrayList<Cart> itemsList;
+    ArrayList<Items> itemsList;
 
     /**
      * Create a new instance of {@link ItemsOrderHistoryAdapter}.
@@ -32,7 +31,7 @@ public class ItemsOrderHistoryAdapter extends RecyclerView.Adapter<ItemsOrderHis
 
     }
 
-    public void setItemsList(ArrayList<Cart> itemsList) {
+    public void setItemsList(ArrayList<Items> itemsList) {
         this.itemsList = itemsList;
         //    notifyDataSetChanged();
         notifyItemInserted(itemsList.size());
@@ -51,8 +50,8 @@ public class ItemsOrderHistoryAdapter extends RecyclerView.Adapter<ItemsOrderHis
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
-        Cart cartItems = itemsList.get(position);
-        // Get element from Cart object at this position and replace the contents of the view
+        Items cartItems = itemsList.get(position);
+        // Get element from Items object at this position and replace the contents of the view
         // with that element
         viewHolder.itemTitle.setText(cartItems.getItemName());
         viewHolder.itemQuantity.setText("Quantity: " + cartItems.getItemQuantity());
@@ -78,8 +77,6 @@ public class ItemsOrderHistoryAdapter extends RecyclerView.Adapter<ItemsOrderHis
         public TextView itemTotal;
         public ImageView itemImage;
 
-
-
         public ViewHolder(View itemView) {
             super(itemView);
             itemTitle = (TextView) itemView.findViewById(R.id.history_item_title);
@@ -89,9 +86,6 @@ public class ItemsOrderHistoryAdapter extends RecyclerView.Adapter<ItemsOrderHis
             itemTotal = (TextView) itemView.findViewById(R.id.history_item_total);
             this.itemTotal.setTypeface(AppUtils.getTypeface(itemView.getContext(), AppUtils.FONT_BOOK));
             itemImage = (ImageView) itemView.findViewById(R.id.history_item_image);
-
-
-
         }
 
     }

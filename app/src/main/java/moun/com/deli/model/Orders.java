@@ -5,9 +5,7 @@ import android.os.Parcelable;
 
 import java.util.Date;
 
-/**
- * Created by Mounzer on 12/21/2015.
- */
+
 public class Orders implements Parcelable {
     private int id;
     private boolean ordered;
@@ -22,7 +20,6 @@ public class Orders implements Parcelable {
         this.id = id;
         this.date_created = date_created;
     }
-
 
 
     private Orders(Parcel in) {

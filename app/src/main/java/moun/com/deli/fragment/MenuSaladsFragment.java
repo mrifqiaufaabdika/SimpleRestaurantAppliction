@@ -23,10 +23,12 @@ import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
+
 /**
- * Created by Mounzer on 12/3/2015.
+ * This Fragment used to handle the list of items under Sandwich category using
+ * {@link RecyclerView} with a {@link LinearLayoutManager}.
  */
-public class MenuSaladsFragment extends Fragment implements MenuListAdapter.ClickListener{
+public class MenuSaladsFragment extends Fragment implements MenuListAdapter.ClickListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -53,22 +55,29 @@ public class MenuSaladsFragment extends Fragment implements MenuListAdapter.Clic
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        // Used for orientation change.
         if (savedInstanceState != null) {
             // We will restore the state of data list when the activity is re-created
             listItems = savedInstanceState.getParcelableArrayList(ITEMS_STATE);
         } else {
+            // Initialize listItems.
             listItems = getSaladMenuList();
 
         }
         menuListAdapter = new MenuListAdapter(getActivity(), listItems, inflater, R.layout.single_row_menu_list);
+        // Set MenuListAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(menuListAdapter);
         menuListAdapter.setClickListener(this);
 
         return rootView;
     }
 
-    // Before the activity is destroyed, onSaveInstanceState() gets called.
-    // The onSaveInstanceState() method saves the list of data.
+    /**
+     * Before the activity is destroyed, onSaveInstanceState() gets called.
+     * The onSaveInstanceState() method saves the list of data.
+     *
+     * @param outState bundle
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -79,7 +88,7 @@ public class MenuSaladsFragment extends Fragment implements MenuListAdapter.Clic
     public void itemClicked(View view, int position, boolean isLongClick) {
         MenuItems menuItems = getSaladMenuList().get(position);
         if (isLongClick) {
-            if(itemDAO.getItemFavorite(menuItems.getItemName()) == null) {
+            if (itemDAO.getItemFavorite(menuItems.getItemName()) == null) {
                 menuItemsFavorite = new MenuItems();
                 menuItemsFavorite.setItemName(menuItems.getItemName());
                 menuItemsFavorite.setItemDescription(menuItems.getItemDescription());
@@ -87,6 +96,7 @@ public class MenuSaladsFragment extends Fragment implements MenuListAdapter.Clic
                 menuItemsFavorite.setItemPrice(menuItems.getItemPrice());
                 task = new AddItemTask(getActivity());
                 task.execute((Void) null);
+                // set heart_red drawable
                 ImageView heart = (ImageView) view.findViewById(R.id.heart);
                 heart.setImageResource(R.mipmap.ic_favorite_red_24dp);
             } else {
@@ -97,6 +107,8 @@ public class MenuSaladsFragment extends Fragment implements MenuListAdapter.Clic
             if (menuItems != null) {
                 Bundle arguments = new Bundle();
                 arguments.putParcelable("selectedItem", menuItems);
+                // Create an instance of the dialog fragment and give it an argument for the selected article
+                // and show it
                 CustomDialogFragment customDialogFragment = new CustomDialogFragment();
                 customDialogFragment.setArguments(arguments);
                 customDialogFragment.show(getFragmentManager(),
@@ -107,6 +119,9 @@ public class MenuSaladsFragment extends Fragment implements MenuListAdapter.Clic
 
     }
 
+    /**
+     * Save the item to Favorite table asynchronously.
+     */
     public class AddItemTask extends AsyncTask<Void, Void, Long> {
 
         private final WeakReference<Activity> activityWeakRef;
@@ -127,13 +142,18 @@ public class MenuSaladsFragment extends Fragment implements MenuListAdapter.Clic
                     && !activityWeakRef.get().isFinishing()) {
                 if (result != -1)
                     AppUtils.CustomToast(getActivity(), getString(R.string.added_to_favorites));
-                Log.d("READ ITEM DATA FROM DB: ", menuItemsFavorite.toString());
+                Log.d("ITEM: ", menuItemsFavorite.toString());
             }
         }
     }
 
-    private ArrayList<MenuItems> getSaladMenuList(){
-
+    /**
+     * Generates data for RecyclerView's adapter, this data would usually come from a local content provider
+     * or remote server.
+     *
+     * @return items list
+     */
+    private ArrayList<MenuItems> getSaladMenuList() {
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
         menuItems.add(new MenuItems(getString(R.string.uptown), R.drawable.salad1, 9.00, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.mediterranean), R.drawable.salad2, 11.25, getString(R.string.short_lorem)));
@@ -141,7 +161,6 @@ public class MenuSaladsFragment extends Fragment implements MenuListAdapter.Clic
         menuItems.add(new MenuItems(getString(R.string.chicken), R.drawable.salad4, 13.75, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.wreck), R.drawable.salad5, 8.25, getString(R.string.short_lorem)));
         menuItems.add(new MenuItems(getString(R.string.chickpea), R.drawable.salad6, 11.00, getString(R.string.short_lorem)));
-
 
         return menuItems;
     }

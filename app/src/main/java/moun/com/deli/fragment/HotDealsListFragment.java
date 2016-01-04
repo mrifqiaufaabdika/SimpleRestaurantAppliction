@@ -1,6 +1,6 @@
 package moun.com.deli.fragment;
 
-import android.graphics.Color;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,18 +15,17 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import moun.com.deli.R;
 import moun.com.deli.adapter.HotDealsAdapter;
-import moun.com.deli.database.ItemsDAO;
 import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/9/2015.
+ * This Fragment used to handle the list of hot deal items
+ * using {@link RecyclerView} with a {@link GridLayoutManager} with header on top.
  */
-public class HotDealsListFragment extends Fragment implements HotDealsAdapter.ClickListener{
+public class HotDealsListFragment extends Fragment implements HotDealsAdapter.ClickListener {
 
     private static final String LOG_TAG = HotDealsListFragment.class.getSimpleName();
     public static final String ARG_ITEM_ID = "hot_deals_list";
@@ -49,8 +48,6 @@ public class HotDealsListFragment extends Fragment implements HotDealsAdapter.Cl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-
     }
 
 
@@ -128,8 +125,13 @@ public class HotDealsListFragment extends Fragment implements HotDealsAdapter.Cl
                 enter ? android.R.anim.fade_in : android.R.anim.fade_out);
     }
 
-    private ArrayList<MenuItems> getHotDealsList(){
-
+    /**
+     * Generates data for RecyclerView's adapter, this data would usually come from a local content provider
+     * or remote server.
+     *
+     * @return items list
+     */
+    private ArrayList<MenuItems> getHotDealsList() {
         ArrayList<MenuItems> menuItems = new ArrayList<MenuItems>();
         menuItems.add(new MenuItems(getString(R.string.deal_1), R.drawable.deal1, 9.50, getString(R.string.deal_description)));
         menuItems.add(new MenuItems(getString(R.string.deal_2), R.drawable.deal2, 18.00, getString(R.string.deal_description)));

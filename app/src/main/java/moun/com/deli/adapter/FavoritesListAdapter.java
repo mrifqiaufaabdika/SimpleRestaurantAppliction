@@ -25,7 +25,6 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesListAdap
 
     /**
      * Create a new instance of {@link FavoritesListAdapter}.
-     *
      * @param context host Activity.
      */
     public FavoritesListAdapter(Context context) {
@@ -34,7 +33,6 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesListAdap
 
     /**
      * This method to set data from itemList.
-     *
      * @param itemsList The list of data from MenuItems object.
      */
     public void setItemsList(ArrayList<MenuItems> itemsList) {
@@ -44,7 +42,6 @@ public class FavoritesListAdapter extends RecyclerView.Adapter<FavoritesListAdap
 
     /**
      * Remove items from the list adapter and notify changes.
-     *
      * @param position the position of item removed.
      */
     public void removeAt(int position) {

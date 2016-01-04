@@ -22,9 +22,10 @@ import moun.com.deli.model.MenuItems;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/9/2015.
+ * This Fragment used to handle the list of favorite items fetched from SQLite database
+ * (favorite table) using {@link RecyclerView} with a {@link LinearLayoutManager}.
  */
-public class FavoritesFragment extends Fragment implements FavoritesListAdapter.ClickListener{
+public class FavoritesFragment extends Fragment implements FavoritesListAdapter.ClickListener {
 
     private static final String LOG_TAG = FavoritesFragment.class.getSimpleName();
     public static final String ARG_ITEM_ID = "favorite_list";
@@ -59,7 +60,6 @@ public class FavoritesFragment extends Fragment implements FavoritesListAdapter.
         task = new GetItemsCartTask(getActivity());
         task.execute((Void) null);
 
-
         return rootView;
 
     }
@@ -75,7 +75,6 @@ public class FavoritesFragment extends Fragment implements FavoritesListAdapter.
             customDialogFragment.show(getFragmentManager(),
                     CustomDialogFragment.ARG_ITEM_ID);
         }
-
     }
 
     @Override
@@ -84,13 +83,14 @@ public class FavoritesFragment extends Fragment implements FavoritesListAdapter.
         itemsDAO.deleteFromFavorites(menuItems);
         favoritesListAdapter.removeAt(position);
 
-        if(itemsFavoritesList.size() == 0){
+        if (itemsFavoritesList.size() == 0) {
             emtyFavorites.setVisibility(View.VISIBLE);
-
         }
-
     }
 
+    /**
+     * Get favorite items from Favorite table asynchronously.
+     */
     public class GetItemsCartTask extends AsyncTask<Void, Void, ArrayList<MenuItems>> {
 
         private final WeakReference<Activity> activityWeakRef;

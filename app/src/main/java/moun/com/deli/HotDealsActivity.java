@@ -13,12 +13,11 @@ import android.widget.TextView;
 
 import moun.com.deli.fragment.HotDealsDetailFragment;
 import moun.com.deli.fragment.HotDealsListFragment;
-import moun.com.deli.fragment.MyCartCheckoutFragment;
-import moun.com.deli.fragment.MyCartFragment;
 import moun.com.deli.util.AppUtils;
 
 /**
- * Created by Mounzer on 12/9/2015.
+ * An Activity handling two custom {@link android.support.v4.app.Fragment},
+ * HotDealsListFragment and HotDealsDetailFragment.
  */
 public class HotDealsActivity extends AppCompatActivity {
 
@@ -40,6 +39,7 @@ public class HotDealsActivity extends AppCompatActivity {
         mTitle.setTypeface(AppUtils.getTypeface(this, AppUtils.FONT_BOLD));
 
         FragmentManager fragmentManager = getSupportFragmentManager();
+        // Used for orientation change.
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("content")) {
                 String content = savedInstanceState.getString("content");
@@ -59,9 +59,7 @@ public class HotDealsActivity extends AppCompatActivity {
                                 .findFragmentByTag(HotDealsDetailFragment.ARG_ITEM_ID);
                     }
                 }
-
             }
-
 
         } else {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -72,11 +70,17 @@ public class HotDealsActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Before the activity is destroyed, onSaveInstanceState() gets called.
+     * The onSaveInstanceState() method saves the current fragment.
+     *
+     * @param outState bundle
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (contentFragment instanceof HotDealsListFragment) {
             outState.putString("content", HotDealsListFragment.ARG_ITEM_ID);
-        } else if (contentFragment instanceof HotDealsDetailFragment){
+        } else if (contentFragment instanceof HotDealsDetailFragment) {
             outState.putString("content", HotDealsDetailFragment.ARG_ITEM_ID);
         }
         super.onSaveInstanceState(outState);
@@ -87,10 +91,7 @@ public class HotDealsActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_hot_deals, menu);
 
-
-
         return true;
-
     }
 
     @Override
@@ -99,16 +100,11 @@ public class HotDealsActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         switch (id) {
-
             case R.id.menu_cart:
                 Intent intent = new Intent(this, MyCartActivity.class);
                 startActivity(intent);
                 return true;
-
-
-
         }
 
         return super.onOptionsItemSelected(item);
