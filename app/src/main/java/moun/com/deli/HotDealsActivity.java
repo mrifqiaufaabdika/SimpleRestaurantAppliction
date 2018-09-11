@@ -25,6 +25,7 @@ public class HotDealsActivity extends AppCompatActivity {
     private TextView mTitle;
     private Fragment contentFragment;
     private HotDealsListFragment hotDealsListFragment;
+    String a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
